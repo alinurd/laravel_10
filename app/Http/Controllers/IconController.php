@@ -16,8 +16,21 @@ class IconController extends _Controller
     }
     public function index()
     {
-        $data=$this->_SETCORE();
+
+        $list = [
+            ['field' => 'pid','filter'=>true],
+            ['field' => 'categori','filter'=>true],
+            ['field' => 'data','filter'=>true]
+        ];
+
+        $data=$this->_SETCORE(['pid', 'categori', 'data']);
+        $data['list'] = array_merge(
+        $this->_SETDATALIST(['list' => $list]),
+    );  
+        $data['field'] = $this->getCombo();
+
         return view('pages.index', $data);
+
     }
 
     /**
