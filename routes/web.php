@@ -11,6 +11,10 @@ use App\Http\Controllers\MenuGroupController;
 use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\IconController;
+use App\Http\Controllers\ComboController;
+
+
+
 use Illuminate\Support\Facades\Route;
 
 
@@ -48,4 +52,5 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
 
     Route::resource('pelatihan', PelatihanController::class)->only('index');
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy');
+    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy');
 });

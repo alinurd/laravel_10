@@ -10,6 +10,8 @@ return [
     'save' => 'Save',
     'censel' => 'Censel',
     'print' => 'Print',
+    'empty' => 'No data available',
+    'emptyDisplay' => 'No data to display',
 ];
 
 

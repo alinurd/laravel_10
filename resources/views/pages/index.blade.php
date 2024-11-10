@@ -46,7 +46,7 @@
                 @forelse ($list as $l)
                     <td>{{ $f[$l['field']] }}</td>
                 @empty
-                    <td colspan="{{ count($list) }}" class="text-center">No data available</td>
+                    <td colspan="{{ count($list) }}" class="text-center">{{__('global.empt')}}</td>
                 @endforelse
                 <td>
                     <div class="dropdown">
@@ -56,12 +56,12 @@
                         <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                             <li>
                                 <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-form-edit-{{ $f['id'] }}">
-                                    Edit
+                                {{__('global.edit')}}
                                 </a>
                             </li>
                             <li>
                                 <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('form-delete-{{ $f['id'] }}').submit()">
-                                    Delete
+                                {{__('global.del')}}
                                 </a>
                             </li>
                         </ul>
@@ -70,7 +70,7 @@
             </tr>
         @empty
             <tr>
-                <td colspan="{{ count($list) + 1 }}" class="text-center">No data to display</td>
+                <td colspan="{{ count($list) + 1 }}" class="text-center">{{__('global.emptyDisplay')}}</td>
             </tr>
         @endforelse
     </tbody>
