@@ -37,22 +37,22 @@ Route::permanentRedirect('/', '/login');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('dashboard', DashboardController::class)->only('index');
-    Route::resource('user', UserManagementController::class)->only('index', 'store', 'update', 'destroy');
+    Route::resource('user', UserManagementController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
     Route::prefix('user')->group(function () {
         Route::resource('profile', UserProfileController::class)->only('index');
     });
     Route::resource('setting', SettingController::class)->only('index', 'update');
 
-    Route::resource('route', RouteController::class)->only('index', 'store', 'update', 'destroy');
-    Route::resource('role', RoleController::class)->only('index', 'store', 'update', 'destroy');
-    Route::resource('permission', PermissionController::class)->only('index', 'store', 'update', 'destroy');
+    Route::resource('route', RouteController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
+    Route::resource('role', RoleController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
+    Route::resource('permission', PermissionController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
 
-    Route::resource('menu', MenuGroupController::class)->only('index', 'store', 'update', 'destroy');
-    Route::resource('menu.item', MenuItemController::class)->only('index', 'store', 'update', 'destroy');
+    Route::resource('menu', MenuGroupController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
+    Route::resource('menu.item', MenuItemController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
 
     Route::resource('pelatihan', PelatihanController::class)->only('index');
-    Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy');
-    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create');
+    Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
+    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'print');
     
     // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
  

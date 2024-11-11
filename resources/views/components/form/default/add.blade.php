@@ -32,7 +32,7 @@
             {{ $l['field'] }}
             @if($l['required'])
             <span class="text-danger">(*</span>
-            @endif
+            @endif  
           </label>
 
           @if($l['type'] === 'select')
