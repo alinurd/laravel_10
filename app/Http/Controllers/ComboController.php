@@ -64,7 +64,7 @@ class ComboController extends _Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request);
     }
 
     /**
