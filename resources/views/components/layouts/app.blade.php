@@ -178,11 +178,14 @@
 <script>
  
   $(document).ready(function() {
-    $('.select2').select2({
-        placeholder: 'Select an option',
-        width: 'resolve'
+    
+$('.select2').select2({
+        tags: true,
+        placeholder: "- Select -",
+        allowClear: true,
+        width: '100%' 
     });
-
+    
     $('#data-tables').DataTable({
       info: true,
       ordering: true,
@@ -245,13 +248,43 @@
         .nodes()
         .each((el) => el.classList.add('highlight'));
     })
+
+    document.querySelectorAll('.column_filter').forEach((el) => {
+    let tr = el.closest('tr');
+    let columnField = tr.getAttribute('data-column'); // Mengambil nilai 'field' dari data-column
+    
+    el.addEventListener(el.type === 'text' ? 'keyup' : 'change', () => {
+        filterColumn(table, columnField); // Filter berdasarkan field
+    });
+});
+
+function filterColumn(table, field) {
+    // Ambil elemen input filter dan cek apakah elemen-elemen tersebut ada
+    let filter = document.querySelector('#col' + field + '_filter');
+    let regex = document.querySelector('#col' + field + '_regex');
+    let smart = document.querySelector('#col' + field + '_smart');
+
+    // Pastikan filter ada sebelum mencoba menggunakannya
+    if (filter) {
+        let filterValue = filter.value;
+        let regexChecked = regex ? regex.checked : false;
+        let smartChecked = smart ? smart.checked : false;
+
+        // Terapkan filter pada kolom berdasarkan field
+        table.column(field).search(filterValue, regexChecked, smartChecked).draw();
+    }
+}
+
+
   });
 </script>
 <style>
   .highlight {
     background-color: #d3d3d3;
-    /* Warna highlight */
   }
+  .select2-container {
+    z-index: 1055; 
+}
 </style>
 
 </html>

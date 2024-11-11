@@ -4,8 +4,7 @@
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
 
 @section('breadcrumb')
-<x-dashboard.breadcrumb title="{{ $page }}" page="{{$title}}" active="{{ __('global.ket_' . $mode) }}
-" route="" />
+<x-dashboard.breadcrumb title="{{ $page }}" page="{{$title}}" active="{{ __('global.ket_' . $mode) }} " route="" />
 @endsection
 @section('content')
 
@@ -20,7 +19,6 @@
     <div class="card-header border-bottom-dashed align-items-center d-flex">
         <div class="row w-100">
             <div class="d-flex gap-2">
-                <!-- "{{ route('menu.store') }}" currentRoute -->
                 <a href=" {{ route($currentRoute.'.create') }} " class="btn btn-primary btn-md">
                     <i class="ri-add-line"></i>
                     {{ __('global.add_new') }}
@@ -33,8 +31,8 @@
                     <i class="ri-delete-bin-line"></i>
                     {{ __('global.del') }}
                 </button>
-                <button type="button" class="btn btn-success btn-md" data-bs-toggle="modal" data-bs-target="#modal-form-filter">
-                <i class="ri-filter-3-line"></i>
+                <button type="button" class="btn btn-success btn-md" data-bs-toggle="modal" data-bs-target="#filter">
+                    <i class="ri-filter-3-line"></i>
                     {{ __('global.filter') }}
                 </button>
             </div>
@@ -45,25 +43,9 @@
     <!-- end cardheader -->
     <!-- Hoverable Rows -->
     <div class="table-responsive m-3">
-        <!-- <table cellpadding="3" cellspacing="0" border="0" style="width: 67%; margin: 0 auto 2em auto;">
-                <thead>
-                    <tr>
-                        <th>Target</th>
-                        <th>Search text</th>
-                        <th>Treat as regex</th>
-                        <th>Use smart search</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr id="filter_global">
-                        <td>Global search</td>
-                        <td align="center"><input type="text" class="global_filter" id="global_filter"></td>
-                        <td align="center"><input type="checkbox" class="global_filter" id="global_regex"></td>
-                        <td align="center"><input type="checkbox" class="global_filter" id="global_smart" checked="checked"></td>
-                    </tr> 
-                </tbody>
-            </table> -->
+    @include('components.form.default.filter')
         @if($mode !='add' && $mode !='edit')
+         
         <table class="display" id="data-tables">
             <thead>
                 <tr>
@@ -144,6 +126,7 @@
                 </tr>
             </tfoot>
         </table>
+        
         @endif
     </div>
 

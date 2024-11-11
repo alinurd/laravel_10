@@ -62,11 +62,7 @@
         @empty
         <span>No data available</span>
         @endforelse
-
-
-
       </div>
     </div>
-
   </div>
 </form>

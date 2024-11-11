@@ -46,7 +46,7 @@ class IconController extends _Controller
             [
                 'field' => 'data',
                 'type' => 'text',
-                'filter' => true,
+                'filter' => false,
                 'position' => false,
                 'show' => true,
                 'required' => true,
@@ -57,7 +57,7 @@ class IconController extends _Controller
                 'type' => 'select',
                 'filter' => true,
                 'position' => 'center',
-                'show' => false,
+                'show' => true,
                 'required' => false,
                 'where' => null,
                 'option' => $option,

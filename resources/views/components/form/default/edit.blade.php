@@ -1,7 +1,7 @@
 <form action="{{ route($currentRoute . '.update', [$currentRoute => $id]) }}" method="POST">
   @csrf
   @method('PUT')
-   <div class="card card-height-100 ">
+  <div class="card card-height-100 ">
     <!-- cardheader -->
     <div class="card-header border-bottom-dashed align-items-center d-flex">
       <div class="row w-100">
@@ -11,8 +11,8 @@
             {{ __('global.save') }}
           </button>
           <a href="{{ route($currentRoute.'.create') }}" class="btn btn-primary btn-md">
-          <i class="ri-add-line"></i>
-          {{ __('global.addNew') }}
+            <i class="ri-add-line"></i>
+            {{ __('global.addNew') }}
           </a>
           <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-md">
             <i class="ri-arrow-left-line"></i>
@@ -40,15 +40,15 @@
             @if($l['multiple']) multiple @endif
             aria-describedby="{{ $l['field'] }}Help">
             @if(!$l['multiple'])
-    <option value="0" selected>{{ __('global.select') }}</option>
-@endif
+            <option value="0" selected>{{ __('global.select') }}</option>
+            @endif
 
-@foreach($l['option'] as $opt)
-    <option value="{{ $opt['id'] }}" 
-        @if(isset($field[$l['field']]) && $opt['id'] == $field[$l['field']]) selected @endif>
-        {{ $opt['value'] }}
-    </option>
-@endforeach
+            @foreach($l['option'] as $opt)
+            <option value="{{ $opt['id'] }}"
+              @if(isset($field[$l['field']]) && $opt['id']==$field[$l['field']]) selected @endif>
+              {{ $opt['value'] }}
+            </option>
+            @endforeach
 
 
           </select>
@@ -76,6 +76,5 @@
 
       </div>
     </div>
-
   </div>
 </form>

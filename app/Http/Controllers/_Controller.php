@@ -59,15 +59,14 @@ class _Controller extends BaseController
          $newData = [];
          foreach ($d['list'] as $item) {
              if (isset($item)) {
-                if($item['filter']==true){
-                }
                  $newData[] = [
                     'label'  => strtoupper($this->_getLang($base['currentRoute'],'fld_'.$item['field'])?:'fld'.$item['field']),
                     'field' => strtolower($item['field']),
                     'position' => strtolower($item['position']), 
-                    'show' => $item['show'],
-                    'required' => $item['required'],
-                    'type' => $item['type'],
+                    'show' => isset($item['show']) ? $item['show'] : false,
+                    'required' => isset($item['required']) ? $item['required'] : false,
+                    'filter' => isset($item['filter']) ? $item['filter'] : false,
+                    'type' => isset($item['type']) ? $item['type'] : false,
                     'option' => isset($item['option']) ? $item['option'] : [],
                     'multiple' => isset($item['multiple']) && $item['multiple'] == true,
                     'rules' => isset($item['rules']) ? $item['rules'] : [],
