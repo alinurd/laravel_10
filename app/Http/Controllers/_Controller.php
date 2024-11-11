@@ -20,7 +20,7 @@ class _Controller extends BaseController
     
     public function _getLang($m, $l)
     {
-        return $m && $l ? __($m . '.' . $l) : __('global.notdefinis');
+        return __($m . '.' . $l);
     }
     
     public function _base($mdl="")
@@ -52,10 +52,10 @@ class _Controller extends BaseController
         ];
     }
     
-    public function _SETDATALIST($d = [])
+    public function _SETDATALIST($d = [], $mdl)
     {
         // dd($d);
-        $base = $this->_base();  
+        $base = $this->_base($mdl);  
          $newData = [];
          foreach ($d['list'] as $item) {
              if (isset($item)) {

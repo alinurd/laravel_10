@@ -21,7 +21,7 @@ class ComboController extends _Controller
             ['field' => 'key1', 'filter' => true, 'position' => 'center', 'show' => false],
         ];
         
-        $this->setFrom=$this->_SETDATALIST(['list' => $this->list]);
+        $this->setFrom=$this->_SETDATALIST(['list' => $this->list], $this->modulName);
         
         $this->_SETCORE= $this->_SETCORE($this->modulName);
         
