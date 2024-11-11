@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
+use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 class ComboController extends _Controller
@@ -11,13 +12,14 @@ class ComboController extends _Controller
     protected $_SETCORE = '';
     protected $list = '';
     protected $setFrom = '';
+    protected $modelMaster = '';
     public function __construct()
     {
         $this->modulName = "combo";
-
+        $this->modelMaster = "App\Models\Combo";
         $option = [
-            ['id' => 'contoh key 1'],
-            ['id' => 'contoh key ssssssssss'],
+            ['id' => 1, 'value' => 'contoh key 1'],
+            ['id' => 2, 'value' => 'ssssssssss1'],
         ];
         
         $this->list = [
@@ -37,6 +39,7 @@ class ComboController extends _Controller
         $this->_SETCORE= $this->_SETCORE($this->modulName);
         
     }
+    
     public function index()
     {
 
@@ -46,10 +49,6 @@ class ComboController extends _Controller
         return view('pages.index', $data);
 
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
     public function create()
     {
         $data=$this->_SETCORE;
@@ -59,10 +58,14 @@ class ComboController extends _Controller
         return view('pages.index', $data);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+     public function store(Request $request,  CRUDService $CRUDService)
+    {
+        return $CRUDService->create($request, $this->modelMaster , $this->setFrom)
+            ? back()->with('success', 'Menu item has been created successfully!')
+            : back()->with('failed', 'Menu item was not created successfully!');
+    }
+
+    public function storess(Request $request)
     {
         dd($request);
     }

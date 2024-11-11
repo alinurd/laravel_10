@@ -41,7 +41,7 @@
             aria-describedby="{{ $l['field'] }}Help">
             <option value="0" selected>{{ __('global.select') }}</option>
             @foreach($l['option'] as $opt)
-            <option value="{{ $opt['id'] }}">{{ $opt['id'] }}</option>
+            <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
             @endforeach
           </select>
           @else
