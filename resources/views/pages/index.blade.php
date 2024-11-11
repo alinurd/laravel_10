@@ -6,7 +6,7 @@
 
 @section('content')
 
-<div class="card card-height-100 table-responsive">
+<div class="card card-height-100 ">
     <!-- cardheader -->
     <div class="card-header border-bottom-dashed align-items-center d-flex">
          <div class="flex-shrink-0">
@@ -26,29 +26,30 @@
     </div>
     <!-- end cardheader -->
     <!-- Hoverable Rows -->
-    <table class="table table-hover table-nowrap mb-0">
+    <div class="table-responsive m-3">
+    <table class="display" id="data-tables">
     <thead>
         <tr>
-            <th scope="col">{{__('global.no')}}</th>
+            <th scope="col"class="text-center" >{{__('global.no')}}</th>
             
             @forelse ($list as $l)
                 <th scope="col">{{ $l['label'] }}</th>
             @empty
                 <th colspan="3" class="text-center">No data available</th>
             @endforelse
-            <th scope="col" class="col-1">{{__('global.action')}}</th>
+            <th scope="col" class="col-1" class="text-center">{{__('global.action')}}</th>
         </tr>
     </thead>
     <tbody>
         @forelse ($field as $f)
             <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
+                <th scope="row" class="text-center">{{ $loop->iteration }}</th>
                 @forelse ($list as $l)
                     <td>{{ $f[$l['field']] }}</td>
                 @empty
                     <td colspan="{{ count($list) }}" class="text-center">{{__('global.empt')}}</td>
                 @endforelse
-                <td>
+                <td class="text-center">
                     <div class="dropdown">
                         <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="ri-more-2-fill"></i>
@@ -75,6 +76,7 @@
         @endforelse
     </tbody>
 </table>
+    </div>
 
     <div class="card-footer py-4">
         <nav aria-label="..." class="pagination justify-content-end">
@@ -82,3 +84,6 @@
     </div>
 </div>
 @endsection
+
+
+

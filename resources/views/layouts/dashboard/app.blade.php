@@ -13,7 +13,8 @@
 
   <!-- custom CSS-->
   @stack('plugin-css')
-
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
   <!-- Layout config Js -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <!-- Bootstrap CSS -->
@@ -116,10 +117,19 @@
 
   <!-- App js -->
   <script src="{{ asset('assets/js/app.js') }}"></script>
-
   <!-- custom JS-->
   @stack('script')
 
-</body>
+  <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 
+
+</body>
+<script>
+
+	
+$(document).ready( function () {
+    $('#data-tables').DataTable();
+} );
+</script>
 </html>
