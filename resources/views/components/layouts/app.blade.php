@@ -185,7 +185,7 @@ $('.select2').select2({
         allowClear: true,
         width: '100%' 
     });
-    
+
     $('#data-tables').DataTable({
       info: true,
       ordering: true,
@@ -255,6 +255,10 @@ $('.select2').select2({
     
     el.addEventListener(el.type === 'text' ? 'keyup' : 'change', () => {
         filterColumn(table, columnField); // Filter berdasarkan field
+    });
+
+    $('.filter').click(function() {
+        console.log("jalan");
     });
 });
 
