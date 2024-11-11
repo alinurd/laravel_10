@@ -104,7 +104,8 @@
                             </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li>
-                                        <a class="text-info dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-form-edit-{{ $f['id'] }}">
+                                        
+                                        <a class="text-info dropdown-item" href="{{ route($currentRoute . '.edit', ['icon' => $f->id]) }}">
                                         <i class="ri-edit-line text-info"></i> {{__('global.edit')}}
                                         </a>
                                     </li>

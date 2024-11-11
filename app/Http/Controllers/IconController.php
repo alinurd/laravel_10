@@ -23,6 +23,7 @@ class IconController extends _Controller
         ];
         
         $this->list = [
+            ['field' => 'id', 'type' => 'text', 'filter' => false, 'position' => false, 'show' => false, 'required' => true],
             ['field' => 'nama', 'type' => 'text', 'filter' => false, 'position' => false, 'show' => true, 'required' => true],
             ['field' => 'data', 'type' => 'text', 'filter' => true, 'position' => false, 'show' => true, 'required' => true],
              [
@@ -69,16 +70,7 @@ class IconController extends _Controller
             return back();
         }
     }
-    
 
-    public function storess(Request $request)
-    {
-        dd($request);
-    }
-
-    /**
-     * Display the specified resource.
-     */
     public function show(string $id)
     {
         //
@@ -89,7 +81,11 @@ class IconController extends _Controller
      */
     public function edit(string $id)
     {
-        //
+        $data=$this->_SETCORE;
+        $data['list'] = array_merge($this->setFrom);  
+        $data['field'] = $this->getCombo($this->modelMaster, $this->list);
+        $data['mode'] ='edit';
+        return view('pages.index', $data);
     }
 
     /**

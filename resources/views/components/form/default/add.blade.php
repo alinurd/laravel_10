@@ -8,11 +8,7 @@
           <button type="submit" class="btn btn-secondary btn-md">
             <i class="ri-save-line"></i>
             {{ __('global.save') }}
-          </button>
-          <button type="reset" class="btn btn-danger btn-md">
-            <i class="ri-reset-left-line"></i>
-            {{ __('global.censel') }}
-          </button>
+          </button> 
           <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-md">
             <i class="ri-arrow-left-line"></i>
             {{ __('global.back') }}
@@ -23,6 +19,8 @@
     <div class="card-footer ">
       <div class="table-responsive m-3">
         @forelse ($list as $l)
+        @if($l['show'])
+
         <div class="mb-3">
           <label for="{{ $l['field'] }}" class="form-contro form-label">
             {{ $l['field'] }}
@@ -60,6 +58,7 @@
             <i>{{ __($currentRoute . '.hlp_' . $l['field']) }}</i>
           </div>
         </div>
+        @endif
         @empty
         <span>No data available</span>
         @endforelse
