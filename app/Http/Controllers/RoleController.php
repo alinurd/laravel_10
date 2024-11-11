@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
+use App\Models\MenuGroup;
 
 class RoleController extends Controller
 {
@@ -26,8 +27,8 @@ class RoleController extends Controller
             ->orderBy('name')
             ->paginate(10);
         $permissions = Permission::orderBy('name')->get();
-
-        return view('role.index', compact('roles', 'permissions'));
+        $menuGroup = MenuGroup::with('menuItems')->get();
+         return view('role.index', compact('roles', 'permissions', 'menuGroup'));
     }
 
     /**
