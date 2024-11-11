@@ -49,7 +49,7 @@ class IconController extends _Controller
         // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
          return view('pages.index', $data);
     }
-    
+
     public function create()
     {
         $data=$this->_SETCORE;
@@ -95,21 +95,15 @@ class IconController extends _Controller
      */
     public function update(Request $request, string $id, CRUDService $CRUDService)
     {
-         $result = $CRUDService->update($id,$request, $this->modelMaster, $this->setFrom, $this->modulName);
-    
-        if ($result) {
-            session()->flash('success', 'Menu item has been created successfully!');
-            return redirect()->route($this->modulName . '.index');
-        } else {
-            session()->flash('failed', 'Menu item was not created successfully!');
-            return back();
-        }    }
+         return $CRUDService->update($id,$request, $this->modelMaster, $this->setFrom, $this->modulName);
+    }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(string $id , CRUDService $CRUDService)
     {
-        //
+        return $CRUDService->delete($id, $this->modelMaster,$this->modulName);
+
     }
 }

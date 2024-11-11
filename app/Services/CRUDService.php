@@ -39,5 +39,16 @@ class CRUDService
       $record->update($data);
       return redirect()->route($mdl . '.index')->with('success', 'Data updated successfully!');
   }
+
+  public function delete($id, $tblMaster, $mdl)
+  {
+       $record = $tblMaster::find($id);
+       if (!$record) {
+          return back()->with('failed', 'Data not found');
+      }
+      
+      $record->delete();
+      return redirect()->route($mdl . '.index')->with('success', 'Data deleted successfully!');
+  }
   
 }
