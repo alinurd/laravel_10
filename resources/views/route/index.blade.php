@@ -1,4 +1,4 @@
-@extends('layouts.dashboard.app')
+@extends('components.layouts.app')
 
 @section('title', 'Route Management')
 

@@ -9,23 +9,28 @@ class ComboController extends _Controller
 {
     protected $modulName = '';
     protected $_SETCORE = '';
+    protected $list = '';
+    protected $setFrom = '';
     public function __construct()
     {
         $this->modulName = "combo";
-        $this->_SETCORE= $this->_SETCORE();
+        $this->list = [
+            ['field' => 'pid', 'filter' => false, 'position' => false, 'show' => true],
+            ['field' => 'categori', 'filter' => true, 'position' => false, 'show' => true],
+            ['field' => 'data', 'filter' => true, 'position' => 'center', 'show' => true],
+            ['field' => 'key1', 'filter' => true, 'position' => 'center', 'show' => false],
+        ];
+        
+        $this->setFrom=$this->_SETDATALIST(['list' => $this->list]);
+        
+        $this->_SETCORE= $this->_SETCORE($this->modulName);
+        
     }
     public function index()
     {
 
-        $list = [
-            ['field' => 'pid','filter'=>false,'position'=>false, 'show'=>true],
-            ['field' => 'categori','filter'=>true,'position'=>false, 'show'=>true],
-            ['field' => 'data','filter'=>true,'position'=>'center', 'show'=>true],
-            ['field' => 'key1','filter'=>true,'position'=>'center', 'show'=>false],
-        ];
-
-        $data=$this->_SETCORE(['pid', 'categori', 'data']);
-        $data['list'] = array_merge($this->_SETDATALIST(['list' => $list]));  
+        $data=$this->_SETCORE;
+        $data['list'] = array_merge($this->setFrom);  
         $data['field'] = $this->getCombo();
         return view('pages.index', $data);
 
@@ -36,7 +41,11 @@ class ComboController extends _Controller
      */
     public function create()
     {
-        //
+        $data=$this->_SETCORE;
+        $data['list'] = array_merge($this->setFrom);  
+        $data['field'] = $this->getCombo();
+        $data['mode'] ='add';
+        return view('pages.index', $data);
     }
 
     /**

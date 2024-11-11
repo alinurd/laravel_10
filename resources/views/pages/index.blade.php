@@ -2,18 +2,21 @@
 @section('title', $title)
 @section('mode', $mode = $mode ?? 'list')
 @section('breadcrumb')
-<x-dashboard.breadcrumb title="{{ $page }}" page="{{$menuParent}}" active="{{$title}}" route="" />
+<x-dashboard.breadcrumb title="{{ $page }}" page="{{$title}}" active="{{ __('global.ket_' . $mode) }}
+" route="" />
 @endsection
 @section('content')
     <div class="card card-height-100 ">
         <!-- cardheader -->
         <div class="card-header border-bottom-dashed align-items-center d-flex">
         <div class="row w-100">
-                <div class="d-flex gap-2">
-                    <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add-permission">
+                <div class="d-flex gap-2">  
+                <!-- "{{ route('menu.store') }}" currentRoute -->
+                    <a href=" {{ route('combo.create') }} " class="btn btn-primary btn-sm">
                         <i class="ri-add-line"></i>
+                        
                         {{ __('global.add_new') }}
-                    </button>
+                    </a>
                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-print">
                         <i class="ri-printer-line"></i>
                         {{ __('global.print') }}

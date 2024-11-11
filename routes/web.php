@@ -52,5 +52,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
 
     Route::resource('pelatihan', PelatihanController::class)->only('index');
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy');
-    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy');
+    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create');
+    // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
+ 
 });

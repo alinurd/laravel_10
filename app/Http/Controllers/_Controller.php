@@ -23,21 +23,23 @@ class _Controller extends BaseController
         return $m && $l ? __($m . '.' . $l) : __('global.notdefinis');
     }
     
-    public function _base()
+    public function _base($mdl="")
     {
+        
         $currentRoute = Route::current();
         $alias = $currentRoute->getName();
-        $menuItem = MenuItem::where('route', $alias)->first();    
+        $menuItem = MenuItem::where('route', $alias)->first();   
+      
         return [
-            'currentRoute' => $currentRoute->uri,
+            'currentRoute' => $mdl ?? $currentRoute->uri,            
             'route' => $currentRoute->getActionName(),
             'menuParent' => $menuItem ? $menuItem->menuGroup->name : null,
         ];
     }
     
-    public function _SETCORE()
+    public function _SETCORE($mdl)
     {
-        $base = $this->_base();  
+        $base = $this->_base($mdl);  
       
 
         return [
@@ -46,6 +48,7 @@ class _Controller extends BaseController
             'menuParent' => $base['menuParent'],
             'route' => $base['route'],
             'list' => $base['route'],
+            'currentRoute' => $base['currentRoute'],
         ];
     }
     
