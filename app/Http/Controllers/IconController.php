@@ -28,6 +28,7 @@ class IconController extends _Controller
              [
                 'field' => 'status', 'type' => 'select', 'filter' => true, 'position' => 'center', 'show' => true, 'required' => false,  'where' => null,
                 'option' => $option,
+                'multiple' => true,
             ],
         ];
 
