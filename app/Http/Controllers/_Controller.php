@@ -60,7 +60,7 @@ class _Controller extends BaseController
          foreach ($d['list'] as $item) {
              if (isset($item)) {
                  $newData[] = [
-                    'label'  => strtoupper($this->_getLang($base['currentRoute'],'fld_'.$item['field'])?:'fld'.$item['field']),
+                    'label' => ucfirst(strtolower($this->_getLang($base['currentRoute'], 'fld_'.$item['field']) ?: 'fld'.$item['field'])),
                     'field' => strtolower($item['field']),
                     'position' => strtolower($item['position']), 
                     'show' => isset($item['show']) ? $item['show'] : false,

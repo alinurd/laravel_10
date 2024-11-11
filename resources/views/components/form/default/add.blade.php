@@ -23,7 +23,7 @@
 
         <div class="mb-3">
           <label for="{{ $l['field'] }}" class="form-contro form-label">
-            {{ $l['field'] }}
+            {{ $l['label'] }}
             @if($l['required'])
             <span class="text-danger">(*</span>
             @endif
