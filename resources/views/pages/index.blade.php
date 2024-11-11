@@ -34,7 +34,7 @@
                     {{ __('global.del') }}
                 </button>
                 <button type="button" class="btn btn-success btn-md" data-bs-toggle="modal" data-bs-target="#modal-form-filter">
-                    <i class="ri-filter-3-line"></i>
+                <i class="ri-filter-3-line"></i>
                     {{ __('global.filter') }}
                 </button>
             </div>

@@ -27,7 +27,7 @@ class IconController extends _Controller
         $this->list = [
             [
                 'field' => 'id',
-                'type' => 'text',
+                'type' => 'hidden',
                 'filter' => false,
                 'position' => false,
                 'show' => false,
@@ -57,7 +57,7 @@ class IconController extends _Controller
                 'type' => 'select',
                 'filter' => true,
                 'position' => 'center',
-                'show' => true,
+                'show' => false,
                 'required' => false,
                 'where' => null,
                 'option' => $option,
@@ -118,8 +118,11 @@ class IconController extends _Controller
      {
          $rules = [];
          foreach ($this->setFrom as $field) {
-             $fieldName = $field['field'];
-             $rules[$fieldName] = $field['rules'];
+            if($field['show']){
+                $fieldName = $field['field'];
+                $rules[$fieldName] = $field['rules'];
+            }
+             
          }     
          $request->setRules($rules);
         return $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
@@ -131,8 +134,10 @@ class IconController extends _Controller
     {
         $rules = [];
          foreach ($this->setFrom as $field) {
-             $fieldName = $field['field'];
-             $rules[$fieldName] = $field['rules'];
+            if($field['show']){
+                $fieldName = $field['field'];
+                $rules[$fieldName] = $field['rules'];
+            }
          }     
          $request->setRules($rules);
         return $CRUDService->update($id, $request, $this->modelMaster, $this->setFrom, $this->modulName);

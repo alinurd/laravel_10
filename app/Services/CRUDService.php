@@ -13,7 +13,7 @@ class CRUDService
        $data = [];
   
        foreach ($dataForm as $fieldData) {
-           if (isset($fieldData['field'])) {
+           if (isset($fieldData['field']) && $fieldData['show'] ) {
               $data[$fieldData['field']] = $request->input($fieldData['field'], null);
           }
       }
@@ -32,8 +32,8 @@ class CRUDService
       }
       $data = [];
        foreach ($dataForm as $fieldData) {
-          if (isset($fieldData['field'])) {
-              $data[$fieldData['field']] = $request->input($fieldData['field'], null);
+        if (isset($fieldData['field']) && $fieldData['show'] ) {
+          $data[$fieldData['field']] = $request->input($fieldData['field'], null);
           }
       }
       $record->update($data);
