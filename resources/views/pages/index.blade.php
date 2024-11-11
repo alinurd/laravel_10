@@ -100,17 +100,17 @@
                         <td class="text-center">
                             <div class="dropdown">
                                 <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="ri-more-2-fill"></i>
-                                </a>
+                                <i class="ri-list-check"></i>
+                            </a>
                                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                     <li>
-                                        <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-form-edit-{{ $f['id'] }}">
-                                            {{__('global.edit')}}
+                                        <a class="text-info dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-form-edit-{{ $f['id'] }}">
+                                        <i class="ri-edit-line text-info"></i> {{__('global.edit')}}
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('form-delete-{{ $f['id'] }}').submit()">
-                                            {{__('global.del')}}
+                                        <a class="text-danger dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('form-delete-{{ $f['id'] }}').submit()">
+                                        <i class="ri-delete-bin-2-line text-danger"></i> {{__('global.del')}}
                                         </a>
                                     </li>
                                 </ul>
