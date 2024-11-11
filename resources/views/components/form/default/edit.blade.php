@@ -1,6 +1,7 @@
-<form action="{{ route($currentRoute . '.store') }}" method="POST">
+<form action="{{ route($currentRoute . '.update', [$currentRoute => $id]) }}" method="POST">
   @csrf
-  <div class="card card-height-100 ">
+  @method('PUT')
+   <div class="card card-height-100 ">
     <!-- cardheader -->
     <div class="card-header border-bottom-dashed align-items-center d-flex">
       <div class="row w-100">

@@ -49,6 +49,7 @@ class IconController extends _Controller
         // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
          return view('pages.index', $data);
     }
+    
     public function create()
     {
         $data=$this->_SETCORE;
@@ -60,7 +61,7 @@ class IconController extends _Controller
 
     public function store(Request $request, CRUDService $CRUDService)
     {
-        $result = $CRUDService->create($request, $this->modelMaster, $this->setFrom);
+        $result = $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
     
         if ($result) {
             session()->flash('success', 'Menu item has been created successfully!');
@@ -83,6 +84,7 @@ class IconController extends _Controller
     {
         $data=$this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);  
+        $data['id'] =$id;
         $data['field'] =$this->modelMaster::find($id);
          $data['mode'] ='edit';
         return view('pages.index', $data);
@@ -91,10 +93,17 @@ class IconController extends _Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $id, CRUDService $CRUDService)
     {
-        //
-    }
+         $result = $CRUDService->update($id,$request, $this->modelMaster, $this->setFrom, $this->modulName);
+    
+        if ($result) {
+            session()->flash('success', 'Menu item has been created successfully!');
+            return redirect()->route($this->modulName . '.index');
+        } else {
+            session()->flash('failed', 'Menu item was not created successfully!');
+            return back();
+        }    }
 
     /**
      * Remove the specified resource from storage.

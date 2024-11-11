@@ -8,7 +8,7 @@ use App\Models\Combo;
 
 class CRUDService
 {
-  public function create(Request $request, $tblMaster, $dataForm)
+  public function create(Request $request, $tblMaster, $dataForm, $mdl)
   {
        $data = [];
   
@@ -17,19 +17,27 @@ class CRUDService
               $data[$fieldData['field']] = $request->input($fieldData['field'], null);
           }
       }
-  
-       return $tblMaster::create($data);
+      $tblMaster::create($data);
+
+        return redirect()->route($mdl . '.index')->with('success', 'Data Created successfully!');
+
   }
   
 
-  public function update(Request $request, MenuGroup $menuGroup, MenuItem $menuItem): MenuItem|bool
+  public function update($id, Request $request, $tblMaster, $dataForm, $mdl)
   {
-    return $menuItem->update(array_merge(
-      $request->validated(),
-      array(
-        'menu_group_id' => $menuGroup->id,
-        'status' => !blank($request->status) ? true : false
-      )
-    ));
+       $record = $tblMaster::find($id);
+       if (!$record) {
+          return back()->with('failed', 'Data not found');
+      }
+      $data = [];
+       foreach ($dataForm as $fieldData) {
+          if (isset($fieldData['field'])) {
+              $data[$fieldData['field']] = $request->input($fieldData['field'], null);
+          }
+      }
+      $record->update($data);
+      return redirect()->route($mdl . '.index')->with('success', 'Data updated successfully!');
   }
+  
 }

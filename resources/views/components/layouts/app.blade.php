@@ -101,7 +101,7 @@
   </div>
  
   <!-- END layout-wrapper -->
-     @if(isset($sessionOK))
+  @if (session('success'))
     <!-- Modal Popup -->
     <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -111,7 +111,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ isset($sessionOK) }}
+                    {{ session('success')}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>

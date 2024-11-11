@@ -92,16 +92,5 @@ class _Controller extends BaseController
         $p = $p->get();
         
          return $p;
-    }
-    public function getComboById($id, $model='', $con=[])
-    {
-
-        $find = $model::find($id);
-
-         
-        $p = $model->get();
-        
-         return $p;
-    }
-    
+    }    
 }
