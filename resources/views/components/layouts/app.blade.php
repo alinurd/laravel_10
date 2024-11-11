@@ -57,10 +57,16 @@
           </div>
           <!-- end page title -->
           <x-form.notivication.alert />
+        
+          
+          @if($mode == 'add')
+        @include('components.form.default.add')
+    @elseif($mode == 'edit')
+        @include('components.form.default.edit')
+    @else
+    @yield('content')
 
-          @yield('form')
-          @yield('content')
-
+    @endif
         </div>
         <!-- container-fluid -->
       </div>

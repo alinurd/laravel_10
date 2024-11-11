@@ -27,7 +27,7 @@ class ComboController extends _Controller
         $data=$this->_SETCORE(['pid', 'categori', 'data']);
         $data['list'] = array_merge($this->_SETDATALIST(['list' => $list]));  
         $data['field'] = $this->getCombo();
-         return view('pages.index', $data);
+        return view('pages.index', $data);
 
     }
 
