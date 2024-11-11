@@ -41,12 +41,13 @@ class ComboController extends _Controller
     }
     
     public function index()
-    {
-
+    { 
         $data=$this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);  
         $data['field'] = $this->getCombo();
-        return view('pages.index', $data);
+        $data['sessionOK'] = session('success');
+        // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
+         return view('pages.index', $data);
 
     }
     public function create()
@@ -58,12 +59,19 @@ class ComboController extends _Controller
         return view('pages.index', $data);
     }
 
-     public function store(Request $request,  CRUDService $CRUDService)
+    public function store(Request $request, CRUDService $CRUDService)
     {
-        return $CRUDService->create($request, $this->modelMaster , $this->setFrom)
-            ? back()->with('success', 'Menu item has been created successfully!')
-            : back()->with('failed', 'Menu item was not created successfully!');
+        $result = $CRUDService->create($request, $this->modelMaster, $this->setFrom);
+    
+        if ($result) {
+            session()->flash('success', 'Menu item has been created successfully!');
+            return redirect()->route($this->modulName . '.index');
+        } else {
+            session()->flash('failed', 'Menu item was not created successfully!');
+            return back();
+        }
     }
+    
 
     public function storess(Request $request)
     {

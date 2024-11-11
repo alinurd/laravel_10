@@ -99,7 +99,40 @@
     <!-- end main content-->
 
   </div>
+ 
   <!-- END layout-wrapper -->
+     @if(isset($sessionOK))
+    <!-- Modal Popup -->
+    <div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="successModalLabel">Sukses</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ isset($sessionOK) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tampilkan modal saat halaman dimuat
+        window.onload = function() {
+            var successModal = new bootstrap.Modal(document.getElementById('successModal'));
+            successModal.show();
+
+            // Tutup modal setelah 3 detik
+            setTimeout(function() {
+                successModal.hide();
+            }, 3000); // 3000ms = 3 detik
+        };
+    </script>
+@endif
 
 
 

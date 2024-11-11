@@ -1,11 +1,20 @@
 @extends('components.layouts.app')
 @section('title', $title)
 @section('mode', $mode = $mode ?? 'list')
-@section('breadcrumb')
+@section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
+
+ @section('breadcrumb')
 <x-dashboard.breadcrumb title="{{ $page }}" page="{{$title}}" active="{{ __('global.ket_' . $mode) }}
 " route="" />
 @endsection
 @section('content')
+ 
+@if(isset($ses['failed']))
+    <div class="alert alert-danger">
+        {{ $ses['failed'] }}
+    </div>
+@endif
+
     <div class="card card-height-100 ">
         <!-- cardheader -->
         <div class="card-header border-bottom-dashed align-items-center d-flex">
