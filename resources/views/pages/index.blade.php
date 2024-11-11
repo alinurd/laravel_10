@@ -40,6 +40,18 @@
             <th scope="col" class="col-1" class="text-center">{{__('global.action')}}</th>
         </tr>
     </thead>
+    <tfoot>
+        <tr>
+            <th scope="col"class="text-center">{{__('global.no')}}</th>
+            
+            @forelse ($list as $l)
+                <th scope="col">{{ $l['label'] }}</th>
+            @empty
+                <th colspan="3" class="text-center">No data available</th>
+            @endforelse
+            <th scope="col" class="col-1" class="text-center">{{__('global.action')}}</th>
+        </tr>
+    </tfoot>
     <tbody>
         @forelse ($field as $f)
             <tr>

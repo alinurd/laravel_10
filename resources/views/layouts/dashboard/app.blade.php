@@ -119,17 +119,84 @@
   <script src="{{ asset('assets/js/app.js') }}"></script>
   <!-- custom JS-->
   @stack('script')
-  
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/js/uikit.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
-<script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+  <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
 
 
 </body>
 <script>
+  $(document).ready(function() {
+    $('#data-tables').DataTable({
+      info: true,
+      ordering: true,
+      paging: true,
+      footer: true,
 
-	
-$(document).ready( function () {
-    $('#data-tables').DataTable();
-} );
+      layout: {
+        topStart: {
+          pageLength: {
+            menu: [
+              [10, 25, 50, -1],
+              [10, 25, 50, 'All']
+            ]
+          }
+        },
+        topEnd: {
+          search: {
+            placeholder: 'search..'
+          }
+        },
+        bottomEnd: {
+          paging: {
+            buttons: 5
+          }
+        },
+
+      },
+
+      //   initComplete: function () {
+      //     this.api()
+      //         .columns()
+      //         .every(function () {
+      //             let column = this;
+      //             let title = column.footer().textContent;
+      //             let input = document.createElement('input');
+      //             input.placeholder = title;
+      //             column.footer().replaceChildren(input);
+      //             input.addEventListener('keyup', () => {
+      //                 if (column.search() !== this.value) {
+      //                     column.search(input.value).draw();
+      //                 }
+      //             });
+      //         });
+      // }
+
+    })
+
+    const table = new DataTable('#data-tables');
+
+    table.on('mouseenter', 'td', function() {
+      let colIdx = table.cell(this).index().column;
+
+      table
+        .cells()
+        .nodes()
+        .each((el) => el.classList.remove('highlight'));
+
+      table
+        .column(colIdx)
+        .nodes()
+        .each((el) => el.classList.add('highlight'));
+    })
+  });
 </script>
+<style>
+  .highlight {
+    background-color: #d3d3d3;
+    /* Warna highlight */
+  }
+</style>
+
 </html>
