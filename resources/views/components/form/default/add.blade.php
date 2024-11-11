@@ -1,15 +1,15 @@
 <form action="{{ route($currentRoute . '.store') }}" method="POST">
-@csrf
+  @csrf
   <div class="card card-height-100 ">
     <!-- cardheader -->
     <div class="card-header border-bottom-dashed align-items-center d-flex">
       <div class="row w-100">
         <div class="d-flex gap-2">
-          <button type="submit" class="btn btn-secondary btn-md" >
+          <button type="submit" class="btn btn-secondary btn-md">
             <i class="ri-save-line"></i>
             {{ __('global.save') }}
-          </button> 
-          <button type="reset" class="btn btn-danger btn-md" >
+          </button>
+          <button type="reset" class="btn btn-danger btn-md">
             <i class="ri-reset-left-line"></i>
             {{ __('global.censel') }}
           </button>
@@ -28,32 +28,32 @@
             {{ $l['field'] }}
             @if($l['required'])
             <span class="text-danger">(*</span>
-            @endif  
+            @endif
           </label>
-<br>@if($l['type'] === 'select')
-    <select class="form-control select2" style="width: 100%" 
-            id="{{ $l['field'] }}" 
+          <br>@if($l['type'] === 'select')
+          <select class="form-control select2" style="width: 100%"
+            id="{{ $l['field'] }}"
             name="{{ $l['field'] }}@if($l['multiple'])[]@endif"
             @if($l['required']) required @endif
             @if($l['multiple']) multiple @endif
             aria-describedby="{{ $l['field'] }}Help">
-            
-        @if(!$l['multiple'])
-            <option value="0" selected>{{ __('global.select') }}</option>
-        @endif
 
-        @foreach($l['option'] as $opt)
+            @if(!$l['multiple'])
+            <option value="0" selected>{{ __('global.select') }}</option>
+            @endif
+
+            @foreach($l['option'] as $opt)
             <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
-        @endforeach
-    </select>
-@else
-    <input type="{{ $l['type'] }}" 
-           name="{{ $l['field'] }}" 
-           class="form-control"
-           id="{{ $l['field'] }}" 
-           @if($l['required']) required @endif
-           aria-describedby="{{ $l['field'] }}Help">
-@endif
+            @endforeach
+          </select>
+          @else
+          <input type="{{ $l['type'] }}"
+            name="{{ $l['field'] }}"
+            class="form-control"
+            id="{{ $l['field'] }}"
+            @if($l['required']) required @endif
+            aria-describedby="{{ $l['field'] }}Help">
+          @endif
 
 
           <div id="{{ $l['field'] }}Help" class="form-text text-warning">
