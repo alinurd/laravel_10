@@ -63,7 +63,9 @@
                     </th>
 
                     @forelse ($list as $l)
-                    <th scope="col" class="text-center">{{ $l['label'] }}</th>
+                    @if($l['show']==true)
+                    <th scope="col" style="text-align: {{$l['position']}}">{{ $l['label'] }}</th>
+                    @endif
                     @empty
                     <th colspan="3" class="text-center">No data available</th>
                     @endforelse
@@ -78,7 +80,9 @@
                         {{ $loop->iteration }}
                     </th>
                      @forelse ($list as $l)
+                     @if($l['show']==true)
                     <td style="text-align: {{$l['position']}}">{{ $f[$l['field']] }}</td>
+                    @endif
                     @empty
                     <td colspan="{{ count($list) }}" class="text-center">{{__('global.empt')}}</td>
                     @endforelse
@@ -115,7 +119,9 @@
                         {{__('global.no')}}
                     </th>
                     @forelse ($list as $l)
-                    <th scope="col">{{ $l['label'] }}</th>
+                    @if($l['show']==true)
+                    <th scope="col" style="text-align: {{$l['position']}}">{{ $l['label'] }}</th>
+                    @endif
                     @empty
                     <th colspan="3" class="text-center">No data available</th>
                     @endforelse

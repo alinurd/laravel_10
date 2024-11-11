@@ -61,7 +61,8 @@ class _Controller extends BaseController
                  $newData[] = [
                     'label'  => strtoupper($this->_getLang($base['currentRoute'],'fld_'.$item['field'])?:'fld'.$item['field']),
                     'field' => strtolower($item['field']),
-                    'position' => strtolower($item['position']) 
+                    'position' => strtolower($item['position']), 
+                    'show' => $item['show'],
                 ];
             }
         }
