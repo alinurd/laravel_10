@@ -30,7 +30,7 @@
     <table class="display" id="data-tables">
     <thead>
         <tr>
-            <th scope="col"class="text-center" >{{__('global.no')}}</th>
+            <th scope="col"class="text-center" width="5px" >{{__('global.no')}}</th>
             
             @forelse ($list as $l)
                 <th scope="col">{{ $l['label'] }}</th>
