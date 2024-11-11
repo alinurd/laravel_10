@@ -9,10 +9,10 @@
             <i class="ri-save-line"></i>
             {{ __('global.save') }}
           </button>
-          <button type="reset" class="btn btn-primary btn-md">
+          <a href="{{ route($currentRoute.'.create') }}" class="btn btn-primary btn-md">
           <i class="ri-add-line"></i>
           {{ __('global.addNew') }}
-          </button>
+          </a>
           <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-md">
             <i class="ri-arrow-left-line"></i>
             {{ __('global.back') }}
@@ -38,20 +38,25 @@
             @if($l['required']) required @endif
             @if($l['multiple']) multiple @endif
             aria-describedby="{{ $l['field'] }}Help">
-
             @if(!$l['multiple'])
-            <option value="0" selected>{{ __('global.select') }}</option>
-            @endif
+    <option value="0" selected>{{ __('global.select') }}</option>
+@endif
 
-            @foreach($l['option'] as $opt)
-            <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
-            @endforeach
+@foreach($l['option'] as $opt)
+    <option value="{{ $opt['id'] }}" 
+        @if(isset($field[$l['field']]) && $opt['id'] == $field[$l['field']]) selected @endif>
+        {{ $opt['value'] }}
+    </option>
+@endforeach
+
+
           </select>
           @else
           <input type="{{ $l['type'] }}"
             name="{{ $l['field'] }}"
             class="form-control"
             id="{{ $l['field'] }}"
+            value="{{ $field[$l['field']] }}"
             @if($l['required']) required @endif
             aria-describedby="{{ $l['field'] }}Help">
           @endif

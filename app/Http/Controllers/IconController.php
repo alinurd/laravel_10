@@ -83,8 +83,8 @@ class IconController extends _Controller
     {
         $data=$this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);  
-        $data['field'] = $this->getCombo($this->modelMaster, $this->list);
-        $data['mode'] ='edit';
+        $data['field'] =$this->modelMaster::find($id);
+         $data['mode'] ='edit';
         return view('pages.index', $data);
     }
 
