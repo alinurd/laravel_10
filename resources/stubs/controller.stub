@@ -24,47 +24,9 @@ class {{ControllerName}} extends _Controller
             ['id' => 2, 'value' => 'Non Acive'],
         ];
 
-        $this->list = [
-            [
-                'field' => 'id',
-                'type' => 'hidden',
-                'filter' => false,
-                'position' => false,
-                'show' => false,
-                'required' => true,
-                'rules' => ['required', 'string']
-            ],
-            [
-                'field' => 'nama',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => ['required', 'string']
-            ],
-            [
-                'field' => 'data',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => ['required', 'string']
-            ],
-            [
-                'field' => 'status',
-                'type' => 'select',
-                'filter' => true,
-                'position' => 'center',
-                'show' => true,
-                'required' => false,
-                'where' => null,
-                'option' => $option,
-                'multiple' => false,
-            ],
+       $this->list = [
+            {{list}}
         ];
-
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
 
