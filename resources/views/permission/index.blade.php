@@ -1,11 +1,11 @@
-@extends('layouts.dashboard.app')
+@extends('components.layouts.app')
 
 @section('title', 'Permission Management')
 
 @section('breadcrumb')
 <x-dashboard.breadcrumb title="Permission Management" page="Permission Management" active="Permission" route="{{ route('permission.index') }}" />
 @endsection
-
+ 
 @section('content')
 <div class="card card-height-100 table-responsive">
     <!-- cardheader -->

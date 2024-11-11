@@ -1,23 +1,31 @@
-<!-- Modals add menu -->
-<div id="modal-form-add-role" class="modal fade" tabindex="-1" aria-labelledby="modal-form-add-role-label" aria-hidden="true" style="display: none;">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-        <div class="card ">
+<form action="{{ route($currentRoute . '.store') }}" method="POST">
+  @csrf
+  <div class="card card-height-100 ">
     <!-- cardheader -->
-    <div id="filter" class="card-header border-bottom-dashed align-items-center d-flex">
-         <div class="d-flex gap-2">
-          Filter Data
-       </div>
+    <div class="card-header border-bottom-dashed align-items-center d-flex">
+      <div class="row w-100">
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-secondary btn-md">
+            <i class="ri-save-line"></i>
+            {{ __('global.save') }}
+          </button> 
+          <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-md">
+            <i class="ri-arrow-left-line"></i>
+            {{ __('global.back') }}
+          </a>
+        </div>
+      </div>
     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
         @forelse ($list as $l)
-        @if($l['filter'])
+        @if($l['show'])
 
         <div class="mb-3">
           <label for="{{ $l['field'] }}" class="form-contro form-label">
-            {{ $l['field'] }}
-            @if($l['required']) 
+            {{ $l['label'] }}
+            @if($l['required'])
+            <span class="text-danger">(*</span>
             @endif
           </label>
           <br>@if($l['type'] === 'select')
@@ -44,6 +52,11 @@
             @if($l['required']) required @endif
             aria-describedby="{{ $l['field'] }}Help">
           @endif
+
+
+          <div id="{{ $l['field'] }}Help" class="form-text text-warning">
+            <i>{{ __($currentRoute . '.hlp_' . $l['field']) }}</i>
+          </div>
         </div>
         @endif
         @empty
@@ -52,6 +65,4 @@
       </div>
     </div>
   </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
+</form>
