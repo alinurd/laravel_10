@@ -7,6 +7,8 @@ return [
     'fld_pid' => 'PID',
     'fld_categori' => 'Categori',
     'fld_data' => 'Data',
+
+    'hlp_pid' => 'Well never share your email with anyone else. ',
 ];
 
 

@@ -15,10 +15,10 @@ class ComboController extends _Controller
     {
         $this->modulName = "combo";
         $this->list = [
-            ['field' => 'pid', 'filter' => false, 'position' => false, 'show' => true],
-            ['field' => 'categori', 'filter' => true, 'position' => false, 'show' => true],
-            ['field' => 'data', 'filter' => true, 'position' => 'center', 'show' => true],
-            ['field' => 'key1', 'filter' => true, 'position' => 'center', 'show' => false],
+            ['field' => 'pid', 'type'=>'text', 'filter' => false, 'position' => false, 'show' => true, 'required' => true],
+            ['field' => 'categori', 'type'=>'text','filter' => true, 'position' => false, 'show' => true, 'required' => true],
+            ['field' => 'data', 'type'=>'text','filter' => true, 'position' => 'center', 'show' => true, 'required' => true],
+            ['field' => 'key1','type'=>'number', 'filter' => true, 'position' => 'center', 'show' => false, 'required' => false],
         ];
         
         $this->setFrom=$this->_SETDATALIST(['list' => $this->list], $this->modulName);

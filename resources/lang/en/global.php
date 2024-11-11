@@ -20,6 +20,7 @@ return [
     'ket_add'=>'Add New',
     'ket_list'=>'List Data',
     'ket_edit'=>'Edit Data',
+    'hlp_required'=>'mandatory',
 ];
 
 

@@ -66,6 +66,8 @@ class _Controller extends BaseController
                     'field' => strtolower($item['field']),
                     'position' => strtolower($item['position']), 
                     'show' => $item['show'],
+                    'required' => $item['required'],
+                    'type' => $item['type'],
                 ];
             }
         }
