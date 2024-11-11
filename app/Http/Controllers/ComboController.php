@@ -20,7 +20,8 @@ class ComboController extends _Controller
         $list = [
             ['field' => 'pid','filter'=>false,'position'=>false, 'show'=>true],
             ['field' => 'categori','filter'=>true,'position'=>false, 'show'=>true],
-            ['field' => 'data','filter'=>true,'position'=>'center', 'show'=>true]
+            ['field' => 'data','filter'=>true,'position'=>'center', 'show'=>true],
+            ['field' => 'key1','filter'=>true,'position'=>'center', 'show'=>false],
         ];
 
         $data=$this->_SETCORE(['pid', 'categori', 'data']);

@@ -58,6 +58,7 @@
           <!-- end page title -->
           <x-form.notivication.alert />
 
+          @yield('form')
           @yield('content')
 
         </div>
