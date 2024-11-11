@@ -68,6 +68,7 @@ class _Controller extends BaseController
                     'show' => $item['show'],
                     'required' => $item['required'],
                     'type' => $item['type'],
+                    'option' => isset($item['option']) ? $item['option'] : [],
                 ];
             }
         }

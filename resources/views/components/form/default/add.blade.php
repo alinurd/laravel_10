@@ -27,23 +27,37 @@
          <form>
   @forelse ($list as $l)
     <div class="mb-3">
-      <label for="exampleInputEmail1" class="form-label">
-        {{ $l['label'] }}
+      <label for="{{ $l['field'] }}" class="form-label">
+        {{ $l['field'] }}
         @if($l['required'])
-          <span class="text-danger">(* </span>
+          <span class="text-danger">(*</span>
         @endif
       </label>
-      <input type="{{ $l['type'] }}" class="form-control" 
-             @if($l['required']) required @endif 
-             id="exampleInputEmail1" aria-describedby="{{ $l['field'] }}Help">
+
+      @if($l['type'] === 'select')
+        <select class="form-control select2" id="{{ $l['field'] }}" 
+                @if($l['required']) required @endif 
+                aria-describedby="{{ $l['field'] }}Help">
+                <option value="0" selected>{{ __('global.select') }}</option>
+          @foreach($l['option'] as $opt)
+            <option value="{{ $opt['id'] }}">{{ $opt['id'] }}</option>
+          @endforeach
+        </select>
+      @else
+        <input type="{{ $l['type'] }}" class="form-control" 
+               @if($l['required']) required @endif 
+               id="{{ $l['field'] }}" aria-describedby="{{ $l['field'] }}Help">
+      @endif
+
       <div id="{{ $l['field'] }}Help" class="form-text text-warning">
-        <i>{{ __($currentRoute.'.hlp_'.$l['field']) }}</i>
+        <i>{{ __($currentRoute . '.hlp_' . $l['field']) }}</i>
       </div>
     </div>
   @empty
     <span>No data available</span>
   @endforelse
 </form>
+
 
          </div>
        </div>

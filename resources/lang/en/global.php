@@ -12,6 +12,7 @@ return [
     'filter' => 'Filter',
     'print' => 'Print',
     'save' => 'Save',
+    'select' => '- Select -',
     'saveBack' => 'Save & Back',
     'back' => 'Back to list',
     'censel' => 'Censel',

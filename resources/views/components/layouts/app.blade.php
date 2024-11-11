@@ -13,8 +13,7 @@
 
   <!-- custom CSS-->
   @stack('plugin-css')
-  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
-  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+ 
   <!-- Layout config Js -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
   <!-- Bootstrap CSS -->
@@ -26,6 +25,11 @@
   <!-- custom CSS-->
   <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
   @stack('css')
+
+  <!-- cdn -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 
 </head>
 
@@ -129,15 +133,20 @@
   <script src="{{ asset('assets/js/app.js') }}"></script>
   <!-- custom JS-->
   @stack('script')
-
+  <!-- cdn-->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.2/js/uikit.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
   <script src="https://cdn.datatables.net/2.1.8/js/dataTables.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
 </body>
+
 <script>
+ 
   $(document).ready(function() {
+    $('.select2').select2();
+
     $('#data-tables').DataTable({
       info: true,
       ordering: true,

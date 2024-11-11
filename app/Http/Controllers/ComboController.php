@@ -14,12 +14,23 @@ class ComboController extends _Controller
     public function __construct()
     {
         $this->modulName = "combo";
-        $this->list = [
-            ['field' => 'pid', 'type'=>'text', 'filter' => false, 'position' => false, 'show' => true, 'required' => true],
-            ['field' => 'categori', 'type'=>'text','filter' => true, 'position' => false, 'show' => true, 'required' => true],
-            ['field' => 'data', 'type'=>'text','filter' => true, 'position' => 'center', 'show' => true, 'required' => true],
-            ['field' => 'key1','type'=>'number', 'filter' => true, 'position' => 'center', 'show' => false, 'required' => false],
+
+        $option = [
+            ['id' => 'contoh key 1'],
+            ['id' => 'contoh key ssssssssss'],
         ];
+        
+        $this->list = [
+            ['field' => 'pid', 'type' => 'text', 'filter' => false, 'position' => false, 'show' => true, 'required' => true],
+            ['field' => 'categori', 'type' => 'text', 'filter' => true, 'position' => false, 'show' => true, 'required' => true],
+            ['field' => 'data', 'type' => 'text', 'filter' => true, 'position' => 'center', 'show' => true, 'required' => true],
+            ['field' => 'key1', 'type' => 'number', 'filter' => true, 'position' => 'center', 'show' => false, 'required' => false],
+            [
+                'field' => 'key2', 'type' => 'select', 'filter' => true, 'position' => 'center', 'show' => false, 'required' => false,
+                'option' => $option,
+            ],
+        ];
+
         
         $this->setFrom=$this->_SETDATALIST(['list' => $this->list], $this->modulName);
         
