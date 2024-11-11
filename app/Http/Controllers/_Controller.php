@@ -70,6 +70,7 @@ class _Controller extends BaseController
                     'type' => $item['type'],
                     'option' => isset($item['option']) ? $item['option'] : [],
                     'multiple' => isset($item['multiple']) && $item['multiple'] == true,
+                    'rules' => isset($item['rules']) ? $item['rules'] : [],
                 ];
             }
         }
