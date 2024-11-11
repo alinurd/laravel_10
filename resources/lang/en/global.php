@@ -9,6 +9,7 @@ return [
     'del' => 'Delete',
     'save' => 'Save',
     'censel' => 'Censel',
+    'filter' => 'Filter',
     'print' => 'Print',
     'empty' => 'No data available',
     'emptyDisplay' => 'No data to display',

@@ -18,18 +18,15 @@ class ComboController extends _Controller
     {
 
         $list = [
-            ['field' => 'pid','filter'=>true],
-            ['field' => 'categori','filter'=>true],
-            ['field' => 'data','filter'=>true]
+            ['field' => 'pid','filter'=>false,'position'=>false],
+            ['field' => 'categori','filter'=>true,'position'=>false],
+            ['field' => 'data','filter'=>true,'position'=>'center']
         ];
 
         $data=$this->_SETCORE(['pid', 'categori', 'data']);
-        $data['list'] = array_merge(
-        $this->_SETDATALIST(['list' => $list]),
-    );  
+        $data['list'] = array_merge($this->_SETDATALIST(['list' => $list]));  
         $data['field'] = $this->getCombo();
-
-        return view('pages.index', $data);
+         return view('pages.index', $data);
 
     }
 
