@@ -26,7 +26,7 @@ class IconController extends _Controller
             ['field' => 'nama', 'type' => 'text', 'filter' => false, 'position' => false, 'show' => true, 'required' => true],
             ['field' => 'data', 'type' => 'text', 'filter' => true, 'position' => false, 'show' => true, 'required' => true],
              [
-                'field' => 'status', 'type' => 'select', 'filter' => true, 'position' => 'center', 'show' => false, 'required' => false,
+                'field' => 'status', 'type' => 'select', 'filter' => true, 'position' => 'center', 'show' => true, 'required' => false,  'where' => null,
                 'option' => $option,
             ],
         ];
@@ -42,17 +42,16 @@ class IconController extends _Controller
     { 
         $data=$this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);  
-        $data['field'] = $this->getCombo();
+        $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['sessionOK'] = session('success');
         // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
          return view('pages.index', $data);
-
     }
     public function create()
     {
         $data=$this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);  
-        $data['field'] = $this->getCombo();
+        $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] ='add';
         return view('pages.index', $data);
     }

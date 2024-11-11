@@ -77,10 +77,20 @@ class _Controller extends BaseController
         return $newData;
     }
     
-    public function getCombo()
+    public function getCombo($model='', $con=[])
     {
-        $p= Combo::all();
-        return $p;
+        $p = $model::query();
+
+        if ($con) {
+            foreach ($con as $item) {
+                if (isset($item['where']) && !empty($item['where'])) {
+                     $p = $p->where($item['field'], '=', $item['where']);
+                }
+            }
+        }
+        $p = $p->get();
+        
+         return $p;
     }
     
 }

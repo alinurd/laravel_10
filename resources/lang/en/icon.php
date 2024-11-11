@@ -4,7 +4,8 @@
 return [
     'page' => 'Management Icons',
     'title' => 'Icons',
-    'fld_pid' => 'PID',
+    'fld_nama' => 'Nama',
+    'fld_status' => 'Status',
     'fld_categori' => 'Categori',
     'fld_data' => 'Data',
 ];

@@ -83,6 +83,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @if(count($field)>0)
                     @forelse ($field as $f)
                     <tr>
                         <th scope="row" class="">
@@ -117,9 +118,8 @@
                         </td>
                     </tr>
                     @empty
-                    <tr>
-                        <td colspan="{{ count($list) + 1 }}" class="text-center">{{__('global.emptyDisplay')}}</td>
-                    </tr>
+                    @endif
+                  
                     @endforelse
                 </tbody>
                 <tfoot>
@@ -133,8 +133,7 @@
                         <th scope="col" style="text-align: {{$l['position']}}">{{ $l['label'] }}</th>
                         @endif
                         @empty
-                        <th colspan="3" class="text-center">No data available</th>
-                        @endforelse
+                         @endforelse
                         <th scope="col" class="col-1" class="text-center">{{__('global.action')}}</th>
                     </tr>
                 </tfoot>
