@@ -15,10 +15,10 @@
                         <i class="ri-filter-3-line"></i>
                         {{ __('global.censel') }}
                     </button>
-                    <button type="button" class="btn btn-dark btn-sm " data-bs-toggle="modal" data-bs-target="#modal-form-delete">
-                        <i class="ri-delete-bin-line"></i>
+                    <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-sm">
+                        <i class="ri-add-line"></i>
                         {{ __('global.back') }}
-                    </button>
+                    </a>
                 </div>
             </div>
         </div>

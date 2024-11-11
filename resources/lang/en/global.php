@@ -17,7 +17,9 @@ return [
     'censel' => 'Censel',
     'empty' => 'No data available',
     'emptyDisplay' => 'No data to display',
-    'ket_add'=>'Add New'
+    'ket_add'=>'Add New',
+    'ket_list'=>'List Data',
+    'ket_edit'=>'Edit Data',
 ];
 
 

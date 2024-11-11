@@ -12,9 +12,8 @@
         <div class="row w-100">
                 <div class="d-flex gap-2">  
                 <!-- "{{ route('menu.store') }}" currentRoute -->
-                    <a href=" {{ route('combo.create') }} " class="btn btn-primary btn-sm">
+                    <a href=" {{ route($currentRoute.'.create') }} " class="btn btn-primary btn-sm">
                         <i class="ri-add-line"></i>
-                        
                         {{ __('global.add_new') }}
                     </a>
                     <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-print">
