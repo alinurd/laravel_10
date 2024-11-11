@@ -1,4 +1,4 @@
-@extends('components.layouts.app')
+@extends('components.layouts.default')
 
 @section('title', 'Role Management')
 

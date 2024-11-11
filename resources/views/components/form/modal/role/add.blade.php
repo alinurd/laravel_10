@@ -2,56 +2,49 @@
 <div id="modal-form-add-role" class="modal fade" tabindex="-1" aria-labelledby="modal-form-add-role-label" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-        <div class="card ">
-    <!-- cardheader -->
-    <div id="filter" class="card-header border-bottom-dashed align-items-center d-flex">
-         <div class="d-flex gap-2">
-          Filter Data
-       </div>
-    </div>
-    <div class="card-footer ">
-      <div class="table-responsive m-3">
-        @forelse ($list as $l)
-        @if($l['filter'])
+            <form action="{{ route('role.store') }}" method="post">
+                @csrf
 
-        <div class="mb-3">
-          <label for="{{ $l['field'] }}" class="form-contro form-label">
-            {{ $l['field'] }}
-            @if($l['required']) 
-            @endif
-          </label>
-          <br>@if($l['type'] === 'select')
-          <select class="form-control select2" style="width: 100%"
-            id="{{ $l['field'] }}"
-            name="{{ $l['field'] }}@if($l['multiple'])[]@endif"
-            @if($l['required']) required @endif
-            @if($l['multiple']) multiple @endif
-            aria-describedby="{{ $l['field'] }}Help">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modal-form-add-role-label">Add Role</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"> </button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" placeholder="Role Name" name="name">
+                        <x-form.validation.error name="name" />
+                    </div>
 
-            @if(!$l['multiple'])
-            <option value="0" selected>{{ __('global.select') }}</option>
-            @endif
+                    <div class="mb-3">
+                        <label for="guard_name" class="form-label">Guard</label>
+                        <input type="text" class="form-control" id="guard_name" placeholder="Guard Name" name="guard_name">
+                        <x-form.validation.error name="guard_name" />
+                    </div>
 
-            @foreach($l['option'] as $opt)
-            <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
-            @endforeach
-          </select>
-          @else
-          <input type="{{ $l['type'] }}"
-            name="{{ $l['field'] }}"
-            class="form-control"
-            id="{{ $l['field'] }}"
-            @if($l['required']) required @endif
-            aria-describedby="{{ $l['field'] }}Help">
-          @endif
-        </div>
-        @endif
-        @empty
-        <span>No data available</span>
-        @endforelse
-      </div>
-    </div>
-  </div>
+                    <div class="mb-3">
+                        <label for="permissions[]" class="form-label">Permission Name</label>
+                        <select class="form-control" id="permissions[]" name="permissions[]" data-choices data-choices-removeItem multiple>
+                            @foreach ($permissions as $permission)
+                            <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                            @endforeach
+                        </select>
+                        <x-form.validation.error name="permissions" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <textarea type="text" class="form-control" id="description" placeholder="Role description" name="description"></textarea>
+                        <x-form.validation.error name="description" />
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary ">Save</button>
+                </div>
+            </form>
+
         </div><!-- /.modal-content -->
     </div><!-- /.modal-dialog -->
 </div><!-- /.modal -->
