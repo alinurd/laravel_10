@@ -1,4 +1,4 @@
-@extends('layouts.auth.app')
+@extends('components.layouts.auth.app')
 
 @section('title', 'Sign In')
 
