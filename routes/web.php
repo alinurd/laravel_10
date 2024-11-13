@@ -12,6 +12,7 @@ use App\Http\Controllers\MenuItemController;
 use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\ComboController;
+use App\Http\Controllers\GroupController;
 
 
 
@@ -36,6 +37,8 @@ use Illuminate\Support\Facades\Route;
 Route::permanentRedirect('/', '/login');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('group', GroupController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+
     Route::resource('dashboard', DashboardController::class)->only('index');
     Route::resource('user', UserManagementController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print');
     Route::prefix('user')->group(function () {
