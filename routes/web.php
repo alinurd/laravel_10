@@ -29,10 +29,10 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('unauthorizetoaccess', function () {
+    return view('errors.index');
+})->name('unauthorizetoaccess');
 
-// Route::get('/home', function () {
-//     return view('welcome');
-// });
 
 Route::permanentRedirect('/', '/login');
 
