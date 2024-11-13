@@ -30,9 +30,13 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::get('unauthorizetoaccess', function () {
-    return view('errors.index');
-})->name('unauthorizetoaccess');
+Route::group(['prefix' => 'err'], function () {
+    Route::get('unauthorizetoaccess', function () {
+        return view('err.404');
+    })->name('unauthorizetoaccess');
+});
+
+
 
 
 Route::permanentRedirect('/', '/login');

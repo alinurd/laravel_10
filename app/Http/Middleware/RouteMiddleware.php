@@ -11,50 +11,53 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class RouteMiddleware
-{
-    /**
-     * Handle an incoming request.
-     *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
-     */
+{ 
     public function handle(Request $request, Closure $next): Response
-    {
-        // Ambil data route yang diminta
-        // $routes = Route::firstWhere('route', $request->route()?->getName());
-        // $routeName = $request->route()?->getName();
-    
-        // // Ambil data user yang sedang login
-        // $user = Auth::user();
-    
-        // // Ambil group terkait dengan user
-        // $groupUser = GroupUsers::where('user_id', $user->id)->first();
-    
-        // // Ambil permission untuk group_user
-        // $permissions = $groupUser->getPermission;
-    
-        // dd($routes);
-        // // Cek jika route ada dan memiliki permission_name yang sesuai
-        // if (blank($routes) || !$routes->status || !$request->user()->can($routes->permission_name)) {
-        //     return "ikjwsdi";
-        // }
-    
-        // // Logika untuk memastikan user memiliki 'manage' permission untuk route yang diminta
-        // $hasPermission = false;
-        // foreach ($permissions as $permission) {
-        //     // Jika permission type adalah 'manage' dan route cocok
-        //     if ($permission->permission_type === 'manage' && $permission->menu_item_route === $routeName) {
-        //         $hasPermission = true;
-        //         break;
-        //     }
-        // }
-    
-        // // Jika tidak ada permission yang sesuai, arahkan ke halaman home
-        // if (!$hasPermission) {
-        //     return 'ujdhowuhwuohd';
-        // }
-    
-        // Jika user memiliki permission, lanjutkan request
-        return $next($request);
+    { 
+        $routeName = $request->route()?->getName();
+         $routeParts = explode('.', $routeName);
+         
+        $user = Auth::user(); 
+         
+        $groupUser = GroupUsers::where('user_id', $user->id)->first();
+         
+        if (count($routeParts) > 1) { 
+            $modul = $routeParts[0];
+            $type = $routeParts[1];
+            
+            $menuItem = \DB::table('menu_items')->where('modul', $modul)->first();
+            if ($menuItem) {
+                
+                $permissions = \DB::table('view_group_permissions')
+                ->where('menu_item_id', $menuItem->id)
+                ->where('group_id', $groupUser->group_id)  
+                ->get(); 
+                
+                if ($permissions->isNotEmpty()) {
+                    if($type=='index'){
+                        $type='manage';
+                    }
+                     $filteredPermissions=false;
+                    foreach($permissions as $p){
+ 
+                        if($p->permission_type==$type){
+                            $filteredPermissions=true;
+                        }
+                    }  
+
+                    if ($filteredPermissions==true) {
+                        return $next($request);
+                    } else {
+                        return redirect(RouteServiceProvider::AUTHACCESS)->with('failed', 'Anda tidak memiliki akses untuk modul ini!');
+                    }
+                } else {
+                    return redirect(RouteServiceProvider::AUTHACCESS)->with('failed', 'Anda tidak memiliki izin untuk menu ini!');
+                }
+            } else {
+                return redirect(RouteServiceProvider::AUTHACCESS)->with('failed', 'Modul tidak ditemukan!');
+            }
+        }
+        return redirect(RouteServiceProvider::AUTHACCESS)->with('failed', 'Route tidak valid!');
     }
-    
+
 }
