@@ -15,6 +15,11 @@
                         <input type="text" class="form-control" id="name" placeholder="Menu Name" name="name">
                         <x-form.validation.error name="name" />
                     </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Modules</label>
+                        <input type="text" class="form-control" id="modul" placeholder="Menu modul" name="modul">
+                        <x-form.validation.error name="modul" />
+                    </div>
 
                     <div class="mb-3">
                         <label for="icon" class="form-label">Icon</label>

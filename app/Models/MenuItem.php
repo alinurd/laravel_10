@@ -10,7 +10,7 @@ class MenuItem extends Model
 {
     use Uuid, HasFactory;
 
-    protected $fillable = ['name', 'icon', 'route', 'status', 'permission_name', 'menu_group_id', 'posision'];
+    protected $fillable = ['name', 'modul', 'icon', 'route', 'status', 'permission_name', 'menu_group_id', 'posision'];
 
     protected $casts = ['status' => 'boolean'];
 
