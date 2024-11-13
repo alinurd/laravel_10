@@ -18,7 +18,7 @@ class GroupController extends _Controller
     public function __construct()
     {
         $this->modulName = "group";
-        $this->modelMaster = "App\Models\Icon";
+        $this->modelMaster = "App\Models\ViewGroupPermissions";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -26,17 +26,29 @@ class GroupController extends _Controller
 
        $this->list = [
             
+        [
+            'field' => 'group_name',
+            'type' => 'text',
+            'filter' => false,
+            'position' => false,
+            'show' => true,
+            'required' => true,
+            'rules' => array (
+            0 => 'required',
+            1 => 'string',
+            )
+        ],
             [
-                'field' => 'nama',
+                'field' => 'menu_parent',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'data',

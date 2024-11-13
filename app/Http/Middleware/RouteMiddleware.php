@@ -27,7 +27,7 @@ class RouteMiddleware
                 if ($menuItem) {
                     $permissions = \DB::table('view_group_permissions')
                     ->where('menu_item_id', $menuItem->id)
-                    ->where('group_id', $groupUser->group_id)  
+                    ->where('id', $groupUser->group_id)  
                     ->get(); 
                     if ($permissions->isNotEmpty()) {
                         if($type=='index'){

@@ -13,7 +13,7 @@ class GroupUsers extends Model
     // Relasi ke ViewGroupPermissions berdasarkan group_id
     public function getPermission()
     {
-        return $this->hasMany(ViewGroupPermissions::class, 'group_id', 'group_id');
+        return $this->hasMany(ViewGroupPermissions::class, 'id', 'group_id');
     }
 
     // Relasi ke MenuGroup sebagai Parent berdasarkan menu_group_id di ViewGroupPermissions
