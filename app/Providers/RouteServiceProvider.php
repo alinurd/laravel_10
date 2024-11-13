@@ -18,7 +18,8 @@ class RouteServiceProvider extends ServiceProvider
      * @var string
      */
     public const HOME = '/dashboard';
-    public const AUTHACCESS = 'err/unauthorizetoaccess';
+    public const NOACCESS = '/noaccess';
+    public const NOTFOUND = '/notfound';
 
     /**
      * Define your route model bindings, pattern filters, and other route configuration.
