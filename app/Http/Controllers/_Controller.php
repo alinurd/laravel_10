@@ -87,14 +87,13 @@ class _Controller extends BaseController
     $groupUserCounts = $groupUsers->getCountByUser();
     $p = []; 
     foreach ($groupUserCounts as $groupUser) {
-         $p[] = [
-            'id' => $groupUser['group_id'],
-            'group_name' => $groupUser['group_id'],
-            'user_count' => $groupUser['user_count']
-        ];
+        $p[] = [
+          'id' => $groupUser->group_id,
+          'group_name' => $groupUser->group_name,
+          'user_count' => $groupUser->user_count
+      ]; 
     }
     
-     
     return $p;
 }
 
