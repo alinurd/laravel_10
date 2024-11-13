@@ -7,12 +7,25 @@ use Illuminate\Database\Eloquent\Model;
 class GroupUsers extends Model
 {
     use HasFactory;
+    
     protected $table = "group_users";
 
-    // Relasi ke view_group_permissions
+    // Relasi ke ViewGroupPermissions berdasarkan group_id
     public function getPermission()
     {
-        // Menghubungkan melalui group_id
         return $this->hasMany(ViewGroupPermissions::class, 'group_id', 'group_id');
     }
+
+    // Relasi ke MenuGroup sebagai Parent berdasarkan menu_group_id di ViewGroupPermissions
+    public function getMenuParent()
+    {
+        return $this->hasOne(MenuGroup::class, 'id', 'menu_group_id');
+    }
+
+    // Relasi ke MenuGroup sebagai Items berdasarkan menu_item_id di ViewGroupPermissions
+    public function getMenuItems()
+    {
+        return $this->hasOne(MenuGroup::class, 'id', 'menu_item_id');
+    }
 }
+

@@ -32,23 +32,18 @@
             <div id="two-column-menu">
             </div>
             <ul class="navbar-nav" id="navbar-nav">
-                @foreach ($menus as $menu)
-                @can($menu->permission_name)
-                <li class="menu-title"><span data-key="t-menu">{{ $menu->name }}</span></li>
-
-                @foreach ($menu->items as $item)
-                @can($item->permission_name)
-                <li class="nav-item">
-                    <a class="nav-link menu-link{{ request()->routeIs($item->route) ? ' active' : '' }}" href="{{ route($item->route) }}">
-                        <i class="{{ $item->icon }}"></i> <span data-key="t-landing">{{ ucwords($item->name)  }}</span>
+            <li class="menu-title"><span data-key="t-menu">Dashboard</span></li>
+            <li class="nav-item">
+                    <a class="nav-link menu-link{{ request()->routeIs('dashboard.index') ? ' active' : '' }}" href="{{ route('dashboard.index') }}">
+                        <i class="ri-home-line"></i> <span data-key="t-landing">Home</span>
                     </a>
-                </li>
-                @endcan
-                <!-- end can item -->
-                @endforeach
-                <!-- end foreach items -->
-                @endcan
-                <!-- end can menu -->
+                @foreach ($menuWithPermission as $menu)
+                 <li class="menu-title"><span data-key="t-menu">{{ $menu->menu_parent }}</span></li>
+                 <li class="nav-item">
+                    <a class="nav-link menu-link{{ request()->routeIs($menu->menu_item_route) ? ' active' : '' }}" href="{{ route($menu->menu_item_route) }}">
+                        <i class="{{ $menu->menu_item_icon }}"></i> <span data-key="t-landing">{{ ucwords($menu->menu_item_name)  }}</span>
+                    </a>
+                </li> 
                 @endforeach
             </ul>
         </div>

@@ -2,10 +2,13 @@
 
 namespace App\View\Components\dashboard;
 
+use App\Models\GroupUsers;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 use App\Models\MenuGroup;
+use App\Models\ViewGroupPermissions;
+use Illuminate\Support\Facades\Auth;
 
 class Sidebar extends Component
 {
@@ -22,13 +25,14 @@ class Sidebar extends Component
      */
     public function render(): View|Closure|string
     {
-        $menus = MenuGroup::query()
-            ->with('items', function ($query) {
-                return $query->where('status', true)->orderBy('posision');
-            })
-            ->where('status', true)
-            ->orderBy('posision')
-            ->get();
-        return view('components.dashboard.sidebar', compact('menus'));
+        $user = Auth::user();
+        $groupUser = GroupUsers::where('user_id', $user->id)
+        ->with('getPermission.getMenuParent', 'getPermission.getMenuItems')
+        ->first();
+        $menuWithPermission= ViewGroupPermissions::where('group_id', $groupUser->group_id)->where('permission_type','manage')->get();
+     
+        return view('components.dashboard.sidebar', compact('menuWithPermission'));
     }
+    
+    
 }

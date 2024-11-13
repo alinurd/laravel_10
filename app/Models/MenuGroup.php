@@ -23,4 +23,17 @@ class MenuGroup extends Model
     {
         return $this->hasMany(MenuItem::class, 'menu_group_id', 'id');
     }
+
+    public function getAccessMenuItems()
+    {
+        return $this->hasMany(ViewGroupPermissions::class, 'menu_item_id', 'id');
+    }
+ 
+    public function getAccessMenuGroup()
+    {
+      
+
+        return $this->hasMany(ViewGroupPermissions::class, 'menu_group_id', 'id');
+    }
+
 }

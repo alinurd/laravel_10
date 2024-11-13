@@ -46,4 +46,12 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+
+    public function groupUser()
+{
+    return $this->hasOne(GroupUsers::class, 'user_id', 'id'); // atau hasMany jika perlu
+}
+
+
 }
