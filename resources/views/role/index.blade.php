@@ -7,73 +7,77 @@
 @endsection
 
 @section('content')
-<div class="card card-height-100 table-responsive">
-    <!-- cardheader -->
-    <div class="card-header border-bottom-dashed align-items-center d-flex">
-        <h4 class="card-title mb-0 flex-grow-1">Role</h4>
-        <div class="flex-shrink-0">
-            <button type="button" class="btn btn-soft-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add-role">
-                <i class="ri-add-line"></i>
-                Add
-            </button>
+<form action="{{ route('role.store') }}" method="post">
+@csrf
+    <div class="card card-height-100 table-responsive">
+        <!-- cardheader -->
+        <div class="card-header border-bottom-dashed align-items-center d-flex">
+            <div class="flex-shrink-0">
+                <button type="submit" class="btn btn-primary btn-md">
+                    <i class="ri-add-line"></i>
+                    Simpan
+                </button>
+            </div>
+        </div>
+        <!-- end cardheader -->
+        <!-- Hoverable Rows -->
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="name" class="form-label">Name</label>
+                <input type="hidden" class="form-control" id="guard_name" value="web" placeholder="Guard Name" name="guard_name">
+                <input type="text" class="form-control" id="name" placeholder="Role Name" name="name">
+                <x-form.validation.error name="name" />
+            </div>
+            <div class="mb-3">
+                <label for="description" class="form-label">Description</label>
+                <textarea type="text" class="form-control" id="description" placeholder="Role description" name="description"></textarea>
+                <x-form.validation.error name="description" />
+            </div>
+            <div class="mb-3">
+                <label for="permissions[]" class="form-label">Permission Name</label>
+                <select class="form-control" id="permissions[]" name="permissions[]" data-choices data-choices-removeItem multiple>
+                    @foreach ($permissions as $permission)
+                    <option value="{{ $permission->name }}">{{ $permission->name }}</option>
+                    @endforeach
+                </select>
+                <x-form.validation.error name="permissions" />
+            </div>
+
+            <table class="table table-hover table-nowrap">
+                <thead>
+                    <tr>
+
+                        <th>Menu</th>
+                        <th>Manage</th>
+                        <th>Create</th>
+                        <th>Delete</th>
+                        <th>Update</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($menuGroup as $g)
+                    <tr>
+                        <td><strong>{{ $g->name }}</strong></td>
+                        <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach ($g->menuItems as $i)
+                    <tr>
+                        <td style="padding-left: 30px;"><strong>{{ $i->name }}</strong></td>
+                        <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $i->id }}]" id="manage_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage  {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="create[{{ $g->id }}][{{ $i->id }}]" id="create_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="create data {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][{{ $i->id }}]" id="delete_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="delete data {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="update[{{ $g->id }}][{{ $i->id }}]" id="update_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="update data {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="view[{{ $g->id }}][{{ $i->id }}]" id="view_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="view data {{ $i->name }}"></td>
+                    </tr>
+                    @endforeach
+                    @endforeach
+                </tbody>
+            </table>
         </div>
     </div>
-    <!-- end cardheader -->
-    <!-- Hoverable Rows -->
-    <table class="table table-hover table-nowrap mb-0">
-        <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Guard</th>
-                <th scope="col">Description</th>
-                <th scope="col" class="col-1"></th>
-            </tr>
-        </thead>
-        <tbody>
-            @forelse ($roles as $role)
-            <tr>
-                <th scope="row">{{ $loop->iteration }}</th>
-                <td>{{ $role->name }}</td>
-                <td>{{ $role->guard_name }}</td>
-                <td>{{ $role->description }}</td>
-                <td>
-                    <div class="dropdown">
-                        <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="ri-more-2-fill"></i>
-                        </a>
-
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                            <li>
-                                <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modal-form-edit-role-{{ $role->id }}">
-                                    Edit
-                                </a>
-                            </li>
-                            <li>
-                                <a class="dropdown-item" href="#" onclick="event.preventDefault(); document.getElementById('modal-form-delete-role-{{ $role->id }}').submit()">
-                                    Delete
-                                </a>
-                            </li>
-                        </ul>
-
-                        @include('components.form.modal.role.edit')
-                        @include('components.form.modal.role.delete')
-                    </div>
-                </td>
-            </tr>
-            @empty
-            <tr>
-                <th colspan="5" class="text-center">No data to display</th>
-            </tr>
-            @endforelse
-        </tbody>
-    </table>
-    <div class="card-footer py-4">
-        <nav aria-label="..." class="pagination justify-content-end">
-            {{ $roles->links() }}
-        </nav>
-    </div>
-</div>
-
-@include('components.form.modal.role.add')
+</form>
 @endsection

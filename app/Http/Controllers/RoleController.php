@@ -7,6 +7,8 @@ use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\StoreRoleRequest;
 use App\Models\MenuGroup;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
@@ -42,12 +44,42 @@ class RoleController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRoleRequest $request)
+    public function store(Request $request)
     {
-        return Role::create($request->validated())
-            ?->givePermissionTo(!blank($request->permissions) ? $request->permissions : array())
-            ? back()->with('success', 'Role has been created successfully!')
-            : back()->with('failed', 'Role was not created successfully!');
+        DB::beginTransaction();
+        try {
+            // Simpan data group (role)
+            $groupId = Str::uuid();
+            DB::table('groups')->insert([
+                'id' => $groupId,
+                'guard_name' => $request->input('guard_name'),
+                'name' => $request->input('name'),
+                'description' => $request->input('description'),
+            ]);
+    
+            // Simpan data permissions untuk setiap tipe permission
+            $permissions = ['manage', 'create', 'update', 'delete', 'view'];
+            foreach ($permissions as $permissionType) {
+                if ($request->has($permissionType)) {
+                    foreach ($request->input($permissionType) as $menuGroupId => $items) {
+                        foreach ($items as $menuItemId => $value) {
+                            DB::table('group_permissions')->insert([
+                                'id' => Str::uuid(),
+                                'group_id' => $groupId,
+                                'permission_type' => $permissionType,
+                                'menu_item_id' => $menuItemId,
+                            ]);
+                        }
+                    }
+                }
+            }
+    
+            DB::commit();
+            return redirect()->route('role.index')->with('success', 'Role berhasil disimpan.');
+        } catch (\Exception $e) {
+            DB::rollback();
+            return redirect()->back()->withErrors('Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 
     /**
