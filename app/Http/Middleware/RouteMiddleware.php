@@ -48,14 +48,15 @@ class RouteMiddleware
                         return redirect(RouteServiceProvider::NOACCESS)->with('failed', 'Anda tidak memiliki izin untuk menu ini!');
                     }
                 } else {
-                    return redirect(RouteServiceProvider::NOTFOUND)->with('failed', 'Modul tidak ditemukan!');
+                    return $next($request);
+                    // return redirect(RouteServiceProvider::NOTFOUND)->with('failed', 'Modul tidak ditemukan!');
                 }
             }
          }else{
-            return redirect(RouteServiceProvider::HOME)->with('failed', 'Silahkan Login!');
-         }
-       
-        return redirect(RouteServiceProvider::NOTFOUND)->with('failed', 'Route tidak valid!');
-    }
+            return $next($request);
+        }
+        return $next($request);
+
+     }
 
 }
