@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\MenuItem;
 use App\Models\Combo;
+use App\Models\GroupUsers;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
@@ -78,6 +79,27 @@ class _Controller extends BaseController
         return $newData;
     }
     
+
+    
+    public function getDataGroup($model = '', $con = [])
+{
+    $groupUsers = new GroupUsers(); 
+    $groupUserCounts = $groupUsers->getCountByUser();
+    $p = []; 
+    foreach ($groupUserCounts as $groupUser) {
+         $p[] = [
+            'id' => $groupUser['group_id'],
+            'group_name' => $groupUser['group_id'],
+            'user_count' => $groupUser['user_count']
+        ];
+    }
+    
+     
+    return $p;
+}
+
+
+
     public function getCombo($model='', $con=[])
     {
         $p = $model::query();

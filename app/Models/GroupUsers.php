@@ -11,6 +11,15 @@ class GroupUsers extends Model
     protected $table = "group_users";
 
     // Relasi ke ViewGroupPermissions berdasarkan group_id
+    public function getCountByUser()
+    {
+        return $this->select('group_id')
+                    ->selectRaw('COUNT(user_id) as user_count')
+                    ->groupBy('group_id')
+                    ->get();
+    }
+    
+
     public function getPermission()
     {
         return $this->hasMany(ViewGroupPermissions::class, 'id', 'group_id');

@@ -67,7 +67,9 @@
             <tbody>
                 @if(count($field)>0)
                 @forelse ($field as $f)
-                
+                @php
+                $id=$f['id'];
+                @endphp
                 <tr>
                     <th scope="row" class="">
                         <input type="checkbox" class="m-2" name="check[]" id="{{__('global.no')}}">&nbsp;
@@ -87,13 +89,13 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li>
-                                    <a class="text-info dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
+                                    <a class="text-info dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $id]) }}">
                                         <i class="ri-edit-line text-info"></i> {{__('global.edit')}}
                                     </a>
                                 </li>
                                 <li>
                                     <a class="text-danger dropdown-item">
-                                        <form action="{{ route($currentRoute . '.destroy', [$currentRoute => $f->id]) }}" method="POST" style="display:inline;">
+                                        <form action="{{ route($currentRoute . '.destroy', [$currentRoute => $id]) }}" method="POST" style="display:inline;">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="text-danger dropdown-item" style="background:none;border:none;padding:0;">

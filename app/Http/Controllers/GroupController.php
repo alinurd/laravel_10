@@ -18,7 +18,7 @@ class GroupController extends _Controller
     public function __construct()
     {
         $this->modulName = "group";
-        $this->modelMaster = "App\Models\ViewGroupPermissions";
+        $this->modelMaster = "App\Models\GroupUsers";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -27,10 +27,22 @@ class GroupController extends _Controller
        $this->list = [
             
         [
+            'field' => 'id',
+            'type' => 'text',
+            'filter' => false,
+            'position' => 'center',
+            'show' => false,
+            'required' => true,
+            'rules' => array (
+            0 => 'required',
+            1 => 'string',
+            )
+        ],
+        [
             'field' => 'group_name',
             'type' => 'text',
             'filter' => false,
-            'position' => false,
+            'position' => 'center',
             'show' => true,
             'required' => true,
             'rules' => array (
@@ -38,29 +50,18 @@ class GroupController extends _Controller
             1 => 'string',
             )
         ],
+            
             [
-                'field' => 'menu_parent',
+                'field' => 'user_count',
                 'type' => 'text',
                 'filter' => false,
-                'position' => false,
+                'position' => 'center',
                 'show' => true,
                 'required' => true,
                 'rules' => array (
                 0 => 'required',
                 1 => 'string',
                 )
-            ],
-            [
-                'field' => 'data',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
             ]
         ];
 
@@ -73,17 +74,18 @@ class GroupController extends _Controller
     {
         $data = $this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);
-        $data['field'] = $this->getCombo($this->modelMaster, $this->list);
-        $data['sessionOK'] = session('success');
+        $data['field'] = $this->getDataGroup($this->modelMaster, $this->list);
+        // dd($data['field']);
+         $data['sessionOK'] = session('success');
         // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
-        return view('pages.index', $data);
+        return view('pages.system.group_index', $data);
     }
 
     public function create()
     {
         $data = $this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);
-        $data['field'] = $this->getCombo($this->modelMaster, $this->list);
+        $data['field'] = $this->getDataGroup($this->modelMaster, $this->list);
         $data['mode'] = 'add';
         return view('pages.index', $data);
     }
