@@ -13,6 +13,7 @@ use App\Http\Controllers\PelatihanController;
 use App\Http\Controllers\IconController;
 use App\Http\Controllers\ComboController;
 use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupPermissionController;
 
 
 
@@ -37,6 +38,8 @@ Route::get('unauthorizetoaccess', function () {
 Route::permanentRedirect('/', '/login');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('grouppermission', GroupPermissionController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+
     Route::resource('group', GroupController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
     Route::resource('dashboard', DashboardController::class)->only('index');
