@@ -1,6 +1,7 @@
 @extends('components.layouts.app')
 @section('title', $title)
 @section('mode', $mode = $mode ?? 'list')
+@section('stm',true)
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
 
 @section('breadcrumb')

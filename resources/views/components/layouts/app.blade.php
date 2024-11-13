@@ -61,12 +61,20 @@
           </div>
           <!-- end page title -->
           <x-form.notivication.alert />
-
+          
           @if(isset($mode))
             @if($mode == 'add')
-                @include('components.form.default.add')
+            @if(isset($stm))
+            @include('components.form.stm.add')
+            @else
+            @include('components.form.default.add')
+            @endif
             @elseif($mode == 'edit')
+            @if(isset($stm))
+            @include('components.form.stm.stm')
+            @else
                @include('components.form.default.edit')
+               @endif
             @else
                @yield('content')
             @endif

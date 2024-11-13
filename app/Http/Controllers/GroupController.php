@@ -87,7 +87,7 @@ class GroupController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getDataGroup($this->modelMaster, $this->list);
         $data['mode'] = 'add';
-        return view('pages.index', $data);
+        return view('pages.system.group_index', $data);
     }
 
 
