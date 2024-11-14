@@ -199,21 +199,36 @@ class GroupController extends _Controller
                  'name' => $request->input('group_name'),
               ]);
      
-             $permissions = ['manage', 'create', 'update', 'delete', 'view'];
-             foreach ($permissions as $permissionType) {
-                 if ($request->has($permissionType)) {
-                     foreach ($request->input($permissionType) as $menuGroupId => $items) {
-                         foreach ($items as $menuItemId => $value) {
-                             DB::table('group_permissions')->insert([
-                                 'id' => Str::uuid(),
-                                 'group_id' => $groupId,
-                                 'permission_type' => $permissionType,
-                                 'menu_item_id' => $menuItemId,
-                             ]);
-                         }
-                     }
-                 }
-             }
+              $permissions = ['manage', 'create', 'store', 'view', 'edit', 'update', 'delete', 'destroy'];
+
+              foreach ($permissions as $permissionType) {
+                  
+                  $checkPermissionTypes = [$permissionType]; 
+              
+                  if ($permissionType == 'create' || $permissionType == 'store') {
+                      $checkPermissionTypes = ['create', 'store'];
+                  } elseif ($permissionType == 'edit' || $permissionType == 'update') {
+                      $checkPermissionTypes = ['edit', 'update'];
+                  } elseif ($permissionType == 'delete' || $permissionType == 'destroy') {
+                      $checkPermissionTypes = ['delete', 'destroy'];
+                  }
+              
+                   if ($request->has($permissionType)) {   
+                      foreach ($request->input($permissionType) as $menuGroupId => $items) {
+                          foreach ($items as $menuItemId => $value) {
+                              foreach ($checkPermissionTypes as $type) { 
+                                  DB::table('group_permissions')->insert([
+                                      'id' => Str::uuid(),
+                                      'group_id' => $groupId,
+                                      'permission_type' => $type, 
+                                      'menu_item_id' => $menuItemId,
+                                  ]);
+                              }
+                          }
+                      }
+                  }
+              }
+              
     
              DB::commit();
              return redirect()->route('group.index')->with('success', 'Role berhasil disimpan.');
