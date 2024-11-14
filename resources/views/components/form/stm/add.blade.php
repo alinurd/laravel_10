@@ -62,7 +62,42 @@
         @empty
         <span>No data available</span>
         @endforelse
+        <table class="table table-hover table-nowrap">
+                <thead>
+                    <tr>
+
+                        <th>Menu</th>
+                        <th>Manage</th>
+                        <th>Create</th>
+                        <th>Delete</th>
+                        <th>Update</th>
+                        <th>View</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($menuGroup as $g)
+                    <tr>
+                        <td><strong>{{ $g->name }}</strong></td>
+                        <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}"></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    @foreach ($g->menuItems as $i)
+                    <tr>
+                        <td style="padding-left: 30px;"><strong>{{ $i->name }}</strong></td>
+                        <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $i->id }}]" id="manage_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage  {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="create[{{ $g->id }}][{{ $i->id }}]" id="create_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="create data {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][{{ $i->id }}]" id="delete_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="delete data {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="update[{{ $g->id }}][{{ $i->id }}]" id="update_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="update data {{ $i->name }}"></td>
+                        <td><input type="checkbox" class="form-switch" name="view[{{ $g->id }}][{{ $i->id }}]" id="view_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="view data {{ $i->name }}"></td>
+                    </tr>
+                    @endforeach
+                    @endforeach
+                </tbody>
+            </table>
       </div>
+      
     </div>
   </div>
 </form>

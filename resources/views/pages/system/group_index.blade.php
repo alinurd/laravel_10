@@ -2,6 +2,7 @@
 @section('title', $title)
 @section('mode', $mode = $mode ?? 'list')
 @section('stm',true)
+@section('menuGroup',$menuGroup)
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
 
 @section('breadcrumb')
@@ -44,7 +45,7 @@
     <!-- end cardheader -->
     <!-- Hoverable Rows -->
     <div class="table-responsive m-3">
-    @include('components.form.default.filter')
+    @include('components.form.stm.filter')
         @if($mode !='add' && $mode !='edit')
          
         <table class="display" id="data-tables">

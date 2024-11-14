@@ -48,7 +48,6 @@ class RoleController extends Controller
     {
         DB::beginTransaction();
         try {
-            // Simpan data group (role)
             $groupId = Str::uuid();
             DB::table('groups')->insert([
                 'id' => $groupId,
@@ -57,7 +56,6 @@ class RoleController extends Controller
                 'description' => $request->input('description'),
             ]);
     
-            // Simpan data permissions untuk setiap tipe permission
             $permissions = ['manage', 'create', 'update', 'delete', 'view'];
             foreach ($permissions as $permissionType) {
                 if ($request->has($permissionType)) {
