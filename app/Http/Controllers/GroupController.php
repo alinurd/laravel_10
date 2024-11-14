@@ -241,22 +241,58 @@ class GroupController extends _Controller
 
 
 
-    public function update(CRUDRequest $request, string $id, CRUDService $CRUDService)
-    {
-        $rules = [];
-        foreach ($this->setFrom as $field) {
-            if ($field['show']) {
-                $fieldName = $field['field'];
-                $rules[$fieldName] = $field['rules'];
-            }
-        }
-        $request->setRules($rules);
-        return $CRUDService->update($id, $request, $this->modelMaster, $this->setFrom, $this->modulName);
-    }
+     public function update(Request $request, string $id)
+     {
+         DB::beginTransaction();
+         try {
+             
+             DB::table('groups')
+                 ->where('id', $id)
+                 ->update([
+                     'name' => $request->input('group_name'),
+                     'guard_name' => 'web',
+                 ]);
+     
+             DB::table('group_permissions')->where('group_id', $id)->delete();
 
-    /**
-     * Remove the specified resource from storage.
-     */
+             $permissions = ['manage', 'create', 'store', 'view', 'edit', 'update', 'delete', 'destroy'];
+    
+             foreach ($permissions as $permissionType) {
+                 $checkPermissionTypes = [$permissionType]; 
+     
+                 if ($permissionType == 'create' || $permissionType == 'store') {
+                     $checkPermissionTypes = ['create', 'store'];
+                 } elseif ($permissionType == 'edit' || $permissionType == 'update') {
+                     $checkPermissionTypes = ['edit', 'update'];
+                 } elseif ($permissionType == 'delete' || $permissionType == 'destroy') {
+                     $checkPermissionTypes = ['delete', 'destroy'];
+                 }
+     
+                 if ($request->has($permissionType)) {   
+                     foreach ($request->input($permissionType) as $menuGroupId => $items) {
+                         foreach ($items as $menuItemId => $value) {
+                             foreach ($checkPermissionTypes as $type) { 
+                                 DB::table('group_permissions')->insert([
+                                     'id' => Str::uuid(),
+                                     'group_id' => $id,
+                                     'permission_type' => $type,
+                                     'menu_item_id' => $menuItemId,
+                                 ]);
+                             }
+                         }
+                     }
+                 }
+             }
+     
+             DB::commit();
+             return redirect()->route('group.index')->with('success', 'Role berhasil diperbarui.');
+         } catch (\Exception $e) {
+             DB::rollback();
+             return redirect()->back()->withErrors('Terjadi kesalahan: ' . $e->getMessage());
+         }
+     }
+     
+ 
     public function destroy(string $id, CRUDService $CRUDService)
     {
         return $CRUDService->delete($id, $this->groups, $this->modulName);
