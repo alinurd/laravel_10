@@ -23,54 +23,67 @@
     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
-        @forelse ($list as $l)
-        @if($l['show'])
+      @php
+    $uniqueGroupPermission = collect($groupPermission)->unique('group_name');
+@endphp
+
+@forelse ($uniqueGroupPermission as $gp)
+    @if($gp['group_name'])
         <div class="mb-3">
-          <label for="{{ $l['field'] }}" class="form-contro form-label">
-            {{ $l['label'] }}
-            @if($l['required'])
-            <span class="text-danger">(*</span>
-            @endif
-          </label>
-          <br>@if($l['type'] === 'select')
-          <select class="form-control select2" style="width: 100%"
-            id="{{ $l['field'] }}"
-            name="{{ $l['field'] }}@if($l['multiple'])[]@endif"
-            @if($l['required']) required @endif
-            @if($l['multiple']) multiple @endif
-            aria-describedby="{{ $l['field'] }}Help">
-            @if(!$l['multiple'])
-            <option value="0" selected>{{ __('global.select') }}</option>
-            @endif
-
-            @foreach($l['option'] as $opt)
-            <option value="{{ $opt['id'] }}"
-              @if(isset($field[$l['field']]) && $opt['id']==$field[$l['field']]) selected @endif>
-              {{ $opt['value'] }}
-            </option>
-            @endforeach
-
-
-          </select>
-          @else
-          <input type="{{ $l['type'] }}"
-            name="{{ $l['field'] }}"
-            class="form-control"
-            id="{{ $l['field'] }}"
-            value="{{ $field[$l['field']] }}"
-            @if($l['required']) required @endif
-            aria-describedby="{{ $l['field'] }}Help">
-          @endif
-
-
-          <div id="{{ $l['field'] }}Help" class="form-text text-warning">
-            <i>{{ __($currentRoute . '.hlp_' . $l['field']) }}</i>
-          </div>
+            <input type="text" name="group_name" class="form-control" id="group_name" value="{{ $gp['group_name'] }}">
         </div>
-        @endif
-        @empty
-        <span>No data available</span>
-        @endforelse
+    @endif
+@empty
+    <span>No data available</span>
+@endforelse
+
+<table class="table table-hover table-nowrap">
+    <thead>
+        <tr>
+            <th>Menu</th>
+            <th>Manage</th>
+            <th>Create</th>
+            <th>Delete</th>
+            <th>Update</th>
+            <th>View</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($menuGroup as $g)
+            @php
+                // Ubah $groupPermission ke Collection
+                $permissions = collect($groupPermission)->where('menu_group_id', $g->id);
+            @endphp
+
+            <tr>
+                <td><strong>{{ $g->name }}</strong></td>
+                <td>
+                    <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}" 
+                           @if($permissions->contains('permission_types.manage', true)) checked @endif>
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+
+            @foreach ($g->menuItems as $i)
+                @php
+                    $itemPermissions = $permissions->where('menu_item_id', $i->id)->first();
+                @endphp
+
+                <tr>
+                    <td style="padding-left: 30px;"><strong>{{ $i->name }}</strong></td>
+
+                    <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $i->id }}]" id="manage_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['manage']) checked @endif></td>
+                    <td><input type="checkbox" class="form-switch" name="create[{{ $g->id }}][{{ $i->id }}]" id="create_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Create {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['create']) checked @endif></td>
+                    <td><input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][{{ $i->id }}]" id="delete_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['delete']) checked @endif></td>
+                    <td><input type="checkbox" class="form-switch" name="update[{{ $g->id }}][{{ $i->id }}]" id="update_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['update']) checked @endif></td>
+                    <td><input type="checkbox" class="form-switch" name="view[{{ $g->id }}][{{ $i->id }}]" id="view_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="View {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['view']) checked @endif></td>
+                </tr>
+            @endforeach
+        @endforeach
+    </tbody>
+</table>
 
 
 

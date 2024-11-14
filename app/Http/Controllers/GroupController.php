@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CRUDRequest;
 use App\Models\MenuGroup;
 use App\Models\MenuItem;
+use App\Models\ViewGroupPermissions;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -61,7 +62,7 @@ class GroupController extends _Controller
                 'type' => 'text',
                 'filter' => false,
                 'position' => 'center',
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'rules' => array(
                     0 => 'required',
@@ -124,10 +125,64 @@ class GroupController extends _Controller
         $data = $this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);
         $data['id'] = $id;
-        $data['field'] = $this->modelMaster::find($id);
-        $data['mode'] = 'edit';
-        return view('pages.index', $data);
-    }
+        $data['field'] = ViewGroupPermissions::where('id', $id)->get();
+ 
+            $xx = ViewGroupPermissions::where('id', $id)
+        ->select(
+            'id',
+            'group_name',
+            'menu_item_name',
+            'menu_item_route',
+            'menu_parent',
+            'menu_item_id',
+            'menu_group_id',
+            \DB::raw("GROUP_CONCAT(permission_type SEPARATOR ',') as permission_types")
+        )
+        ->groupBy(
+            'id',
+            'group_name',
+            'menu_item_name',
+            'menu_group_id',
+            'menu_parent',
+            'menu_item_id'
+        )
+        ->get();
+
+        $result = [];
+        foreach ($xx as $item) {
+            $permissionArray = explode(',', $item->permission_types);
+            $result[] = [
+                'id' => $item->id,
+                'group_name' => $item->group_name,
+                'menu_item_id' => $item->menu_item_id,
+                'menu_item_name' => $item->menu_item_name,
+                'menu_group_id' => $item->menu_group_id,
+                'menu_parent' => $item->menu_parent,
+                'permission_types' => [
+                    'create' => in_array('create', $permissionArray) || in_array('store', $permissionArray),
+                    'store' => in_array('create', $permissionArray) || in_array('store', $permissionArray),
+
+                    'destroy' => in_array('destroy', $permissionArray) || in_array('delete', $permissionArray),
+                    'delete' => in_array('destroy', $permissionArray) || in_array('delete', $permissionArray),
+        
+                    'update' => in_array('update', $permissionArray) || in_array('edit', $permissionArray),
+                    'edit' => in_array('update', $permissionArray) || in_array('edit', $permissionArray),
+
+                    'view' => in_array('view', $permissionArray),
+                    'manage' => in_array('manage', $permissionArray),
+                ],
+            ];
+        }
+
+
+         $data['groupPermission'] = $result;
+         $data['mode'] = 'edit';
+        $data['stm'] = true;
+
+        $data['menuGroup'] = MenuGroup::with('menuItems')->with('getAccessMenuItems')->get();
+ 
+        return view('pages.system.group_index', $data);
+        }
 
     /**
      * Update the specified resource in storage.
@@ -142,8 +197,7 @@ class GroupController extends _Controller
                  'id' => $groupId,
                  'guard_name' => 'web',
                  'name' => $request->input('group_name'),
-                //  'description' => $request->input('description'),
-             ]);
+              ]);
      
              $permissions = ['manage', 'create', 'update', 'delete', 'view'];
              foreach ($permissions as $permissionType) {
@@ -160,7 +214,7 @@ class GroupController extends _Controller
                      }
                  }
              }
-     
+    
              DB::commit();
              return redirect()->route('group.index')->with('success', 'Role berhasil disimpan.');
          } catch (\Exception $e) {

@@ -71,7 +71,7 @@
             @endif
             @elseif($mode == 'edit')
             @if(isset($stm))
-            @include('components.form.stm.stm')
+                @include('components.form.stm.edit')
             @else
                @include('components.form.default.edit')
                @endif
