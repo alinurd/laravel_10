@@ -18,10 +18,12 @@ class GroupController extends _Controller
     protected $list = '';
     protected $setFrom = '';
     protected $modelMaster = '';
+    protected $groups = '';
     public function __construct()
     {
         $this->modulName = "group";
         $this->modelMaster = "App\Models\GroupUsers";
+        $this->groups = "App\Models\Groups";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -188,6 +190,6 @@ class GroupController extends _Controller
      */
     public function destroy(string $id, CRUDService $CRUDService)
     {
-        return $CRUDService->delete($id, $this->modelMaster, $this->modulName);
+        return $CRUDService->delete($id, $this->groups, $this->modulName);
     }
 }
