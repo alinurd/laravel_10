@@ -23,14 +23,18 @@ class RouteMiddleware
             if (count($routeParts) > 1) { 
                 $modul = $routeParts[0];
                 $type = $routeParts[1];
+                if(count($routeParts)==3){
+                    $type = $routeParts[2];
+                }
                 $menuItem = \DB::table('menu_items')->where('modul', $modul)->first();
                 if ($menuItem) {
                     $permissions = \DB::table('view_group_permissions')
                     ->where('menu_item_id', $menuItem->id)
                     ->where('id', $groupUser->group_id)  
                     ->get(); 
+ 
                     if ($permissions->isNotEmpty()) {
-                        if($type=='index'){
+                         if($type=='index'){
                             $type='manage';
                         }
                          $filteredPermissions=false;
@@ -39,6 +43,8 @@ class RouteMiddleware
                                 $filteredPermissions=true;
                             }
                         }  
+                        // dd($filteredPermissions);
+
                         if ($filteredPermissions==true) {
                             return $next($request);
                         } else {
