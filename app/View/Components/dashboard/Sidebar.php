@@ -30,8 +30,9 @@ class Sidebar extends Component
         ->with('getPermission.getMenuParent', 'getPermission.getMenuItems')
         ->first();
         $menuWithPermission= ViewGroupPermissions::where('id', $groupUser->group_id)->where('permission_type','manage')->get();
-     
-        return view('components.dashboard.sidebar', compact('menuWithPermission'));
+    
+        $group=$groupUser->getPermission[0]->group_name;
+        return view('components.dashboard.sidebar', compact('menuWithPermission', 'group', 'user'));
     }
     
     

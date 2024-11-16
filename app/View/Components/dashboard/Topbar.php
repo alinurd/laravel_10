@@ -2,8 +2,10 @@
 
 namespace App\View\Components\dashboard;
 
+use App\Models\GroupUsers;
 use Closure;
 use Illuminate\Contracts\View\View;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\Component;
 
 class Topbar extends Component
@@ -21,8 +23,13 @@ class Topbar extends Component
      */
     public function render(): View|Closure|string
     {
-        return view('components.dashboard.topbar', [
-            'user' => auth()->user()
+        $user = Auth::user();
+        $groupUser = GroupUsers::where('user_id', $user->id)
+        ->with('getPermission.getMenuParent', 'getPermission.getMenuItems')
+        ->first();
+         return view('components.dashboard.topbar', [
+            'user' => auth()->user(),
+            'group' => $groupUser->getPermission[0]->group_name,
         ]);
     }
 }
