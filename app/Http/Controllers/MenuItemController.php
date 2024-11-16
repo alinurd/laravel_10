@@ -71,6 +71,7 @@ class MenuItemController extends Controller
      */
     public function update(StoreMenuitemRequest $request, MenuGroup $menu, MenuItem $item, MenuItemService $menuItemService)
     {
+        dd('masuk');
         return $menuItemService->update($request, $menu, $item)
             ? back()->with('success', 'Menu item has been updated successfully!')
             : back()->with('failed', 'Menu item was not updated successfully!');

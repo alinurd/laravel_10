@@ -3,14 +3,19 @@
 @section('title', 'Menu Items')
 
 @section('breadcrumb')
-<x-dashboard.breadcrumb title="Menu Management" page="Menu Management" active="Item" route="{{ route('menu.index') }}" />
+<x-dashboard.breadcrumb 
+    title="Management Menu  {{$menu->name}}" 
+    page="Menu Management > {{$menu->name}}" 
+    active="Item" 
+    route="{{ route('menu.index') }}" 
+/>
 @endsection
 
 @section('content')
 <div class="card card-height-100 table-responsive">
     <!-- cardheader -->
     <div class="card-header border-bottom-dashed align-items-center d-flex">
-        <h4 class="card-title mb-0 flex-grow-1">Menu</h4>
+        <h4 class="card-title mb-0 flex-grow-1"><strong>{{ strtoupper($menu->name)}}</strong></h4>
         <div class="flex-shrink-0">
             <button type="button" class="btn btn-soft-primary btn-sm" data-bs-toggle="modal" data-bs-target="#modal-form-add-menu">
                 <i class="ri-add-line"></i>
@@ -34,7 +39,7 @@
         </thead>
         <tbody>
             @forelse ($menuItems as $menuItem)
-            <tr>
+             <tr>
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{ $menuItem->name }}</td>
                 <td>{{ $menuItem->icon }}</td>
