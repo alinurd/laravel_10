@@ -17,7 +17,7 @@
                         <x-form.validation.error name="name" />
                     </div>
 
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                         <label for="permission_name" class="form-label">Permission Name</label>
                         <select class="form-control" id="permission_name" name="permission_name" data-choices data-choices-removeItem>
                             @foreach ($permissions as $permission)
@@ -25,7 +25,7 @@
                             @endforeach
                         </select>
                         <x-form.validation.error name="permission_name" />
-                    </div>
+                    </div> -->
 
                     <div class="mb-3">
                         <div class="form-check form-switch form-switch-right form-switch-md">

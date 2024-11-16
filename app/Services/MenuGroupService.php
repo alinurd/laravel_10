@@ -13,6 +13,7 @@ class MenuGroupService
       $request->validated(),
       array(
         'status' => !blank($request->status) ? true : false,
+        'permission_name' => 'general',
         'posision' => MenuGroup::max('posision') + 1
       ),
     ));
