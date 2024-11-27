@@ -14,6 +14,7 @@ use App\Http\Controllers\IconController;
 use App\Http\Controllers\ComboController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupPermissionController;
+use App\Http\Controllers\PicController;
 
 
 
@@ -42,6 +43,8 @@ Route::get('/errssdsd', function () {
 Route::permanentRedirect('/', '/login');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('pic', PicController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+
     Route::resource('grouppermission', GroupPermissionController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
     Route::resource('group', GroupController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);

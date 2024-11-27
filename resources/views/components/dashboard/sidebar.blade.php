@@ -1,25 +1,25 @@
-<div class="app-menu navbar-menu">
+<div class="app-menu navbar-menu" style="border-top-right-radius: 20px;border-bottom-right-radius: 20px;">
     <!-- LOGO -->
     <div class="navbar-brand-box">
         <!-- Dark Logo-->
         <a href="{{ url('/') }}" class="logo logo-dark">
             <span class="logo-sm">
-                <img src="/assets/images/logo/logo-sm.png" alt="" height="22">
+                <img src="/assets/images/logo/" alt="sssssssssxxxxx" height="22">
             </span>
             <span class="logo-lg">
                 <!-- <img src="/assets/images/logo/logo-dark.png" alt="" height="17"> -->
-                <img src="/assets/images/logo/dark.png" alt=""  >
+                <img src="/assets/images/logo/" alt="xxxxxxxxd"  >
                 {{$user->name}} {{$group}}xxxxxxxxxx
             </span> 
         </a>
         <!-- Light Logo-->
         <a href="{{ url('/') }}" class="logo logo-light">
             <span class="logo-sm">
-                <img src="/assets/images/logo/logo-sm.png" alt="" height="22">
+                <img src="/assets/images/logo/" alt="ddddd" height="22">
             </span>
             <span class="logo-lg">
                 <!-- <img src="/assets/images/logo/logo-light.png" alt="" height="17"> -->
-                <img src="/assets/images/logo/dark.png" alt=""> 
+                <img src="/assets/images/logo/" alt="ttttttttt"> 
                  
             </span> 
         </a>
