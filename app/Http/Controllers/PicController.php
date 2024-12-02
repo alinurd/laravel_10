@@ -18,14 +18,13 @@ class PicController extends _Controller
     public function __construct()
     {
         $this->modulName = "pic";
-        $this->modelMaster = "App\Models\Icon";
+        $this->modelMaster = "App\Models\Pic";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
         ];
 
        $this->list = [
-            
             [
                 'field' => 'nama',
                 'type' => 'text',
@@ -33,10 +32,10 @@ class PicController extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'product',
@@ -45,10 +44,10 @@ class PicController extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'nilai_project',
@@ -57,23 +56,22 @@ class PicController extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'status',
-                'type' => 'n',
-                'filter' => false,
-                'position' => false,
+                'type' => 'select',
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ]
+                'required' => false,
+                'where' => null,
+                'option' => $option,
+                'multiple' => false,
+            ],
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
