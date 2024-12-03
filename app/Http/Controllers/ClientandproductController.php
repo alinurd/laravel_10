@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
 use App\Models\MenuItem;
+use App\Models\PIC;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,32 +24,33 @@ class ClientandproductController extends _Controller
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
         ];
-
-       $this->list = [
-            
+        $cbo_pt = [
+            ['id' => 1, 'value' => 'Active'],
+            ['id' => 2, 'value' => 'Non Acive'],
+        ];
+        $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
+         $this->list = [
             [
                 'field' => 'pt_id',
-                'type' => 'number',
-                'filter' => false,
-                'position' => false,
+                'type' => 'select',
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'where' => null,
+                'option' => $cbo_pt,
+                'multiple' => false,
             ],
             [
                 'field' => 'pic_id',
-                'type' => 'number',
+                'type' => 'select',
                 'filter' => false,
-                'position' => false,
+                'position' => 'center',
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'where' => null,
+                'option' => $cbo_pic,
+                'multiple' => false,
             ],
             [
                 'field' => 'direktur',
@@ -58,9 +60,9 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'product',
@@ -70,9 +72,9 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'jenis',
@@ -82,9 +84,9 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'spesifikasi',
@@ -94,9 +96,9 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'sut',
@@ -106,9 +108,9 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'merk',
@@ -118,9 +120,9 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'code_hs',
@@ -130,22 +132,21 @@ class ClientandproductController extends _Controller
                 'show' => true,
                 'required' => true,
                 'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                0 => 'required',
+                1 => 'string',
+                )
             ],
             [
                 'field' => 'status',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
+                'type' => 'select',
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ]
+                'required' => false,
+                'where' => null,
+                'option' => $option,
+                'multiple' => false,
+            ],
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);

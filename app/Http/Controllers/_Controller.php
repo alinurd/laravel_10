@@ -10,6 +10,7 @@ use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Route;
+use InvalidArgumentException;
 
 class _Controller extends BaseController
 {
@@ -113,5 +114,27 @@ class _Controller extends BaseController
         $p = $p->get();
         
          return $p;
-    }    
+    }  
+    
+    public function _cbo($model, $fields, $includeEmpty = false) {
+         if (!is_array($fields) || count($fields) < 2) {
+            throw new InvalidArgumentException("Fields harus berupa array dengan minimal 2 elemen.");
+        }
+        $data = $model::select($fields)->get();  
+        $dropdown = $data->map(function ($item) use ($fields) {
+            return [
+                'id' => $item->{$fields[0]},
+                'value' => $item->{$fields[1]}  
+            ];
+        })->toArray();
+    
+        if ($includeEmpty) {
+            array_unshift($dropdown, ['id' => '', 'value' => 'Pilih Opsi']);
+        }
+    
+        return $dropdown;
+    }
+    
+    
+    
 }
