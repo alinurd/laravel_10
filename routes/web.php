@@ -42,8 +42,8 @@ Route::get('/errssdsd', function () {
 Route::permanentRedirect('/', '/login');
  
 
-
-Route::get('/menusbaru', [MenuController::class, 'index']);
+Route::resource('menus', MenuController::class);
+// Route::get('/menusbaru', [MenuController::class, 'index']);
 Route::post('/menu/update-order', [MenuController::class, 'updateOrder']);
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {

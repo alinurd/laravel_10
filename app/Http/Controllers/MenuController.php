@@ -1,58 +1,48 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Menu;
-use App\Http\Requests\StoreMenuRequest;
-use App\Http\Requests\UpdateMenuRequest;
-use GuzzleHttp\Psr7\Request;
+use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    
-     public function index()
-{
-    $menus = Menu::whereNull('parent_id')->with('children')->orderBy('position')->get();
-    return view('menu.menus', compact('menus'));
-}
-
-public function updateOrder(Request $request)
-{
-    $data = $request->input('data');
-
-    foreach ($data as $index => $item) {
-        $menu = Menu::find($item['id']);
-        $menu->update([
-            'parent_id' => $item['parent_id'],
-            'position' => $index + 1,
-        ]);
-
-        if (!empty($item['children'])) {
-            $this->updateChildOrder($item['children']);
-        }
+    public function index()
+    {
+        $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
+        return view('menus.index', compact('menus'));
     }
 
-    return response()->json(['message' => 'Menu order updated successfully!']);
-}
-
-private function updateChildOrder($children)
-{
-    foreach ($children as $index => $child) {
-        $menu = Menu::find($child['id']);
-        $menu->update([
-            'parent_id' => $child['parent_id'],
-            'position' => $index + 1,
+    public function store(Request $request)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'url' => 'nullable|string',
+            'icon' => 'nullable|string',
+            'parent_id' => 'nullable|exists:menus,id',
+            'position' => 'required|integer',
         ]);
 
-        if (!empty($child['children'])) {
-            $this->updateChildOrder($child['children']);
-        }
+        Menu::create($data);
+        return back()->with('success', 'Menu created successfully!');
     }
-}
 
+    public function update(Request $request, Menu $menu)
+    {
+        $data = $request->validate([
+            'name' => 'required|string|max:255',
+            'url' => 'nullable|string',
+            'icon' => 'nullable|string',
+            'parent_id' => 'nullable|exists:menus,id',
+            'position' => 'required|integer',
+        ]);
 
+        $menu->update($data);
+        return back()->with('success', 'Menu updated successfully!');
+    }
 
+    public function destroy(Menu $menu)
+    {
+        $menu->delete();
+        return back()->with('success', 'Menu deleted successfully!');
+    }
 }
