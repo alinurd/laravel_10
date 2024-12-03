@@ -16,9 +16,7 @@ use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupPermissionController;
 use App\Http\Controllers\PicController;
 use App\Http\Controllers\ClientandproductController;
-
-
-
+use App\Http\Controllers\MenuController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,6 +40,11 @@ Route::get('/errssdsd', function () {
 })->name('notfound');
 
 Route::permanentRedirect('/', '/login');
+ 
+
+
+Route::get('/menusbaru', [MenuController::class, 'index']);
+Route::post('/menu/update-order', [MenuController::class, 'updateOrder']);
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('clientandproduct', ClientandproductController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
