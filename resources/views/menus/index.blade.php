@@ -34,6 +34,7 @@
     <hr>
 
     <h3>Menu List</h3>
+    
     <ul class="list-group" id="menu-list">
     @foreach($menus as $menu)
         <li class="list-group-item" data-id="{{ $menu->id }}">
@@ -41,15 +42,29 @@
             <small>({{ $menu->url }})</small>
 
             @if($menu->children->count())
-                <ul class="list-group" data-id="{{ $menu->id }}">
+                <ul class="list-group">
                     @foreach($menu->children as $child)
-                        <li class="list-group-item" data-id="{{ $child->id }}">{{ $child->name }}</li>
+                        <li class="list-group-item" data-id="{{ $child->id }}">
+                            <strong>{{ $child->name }}</strong>
+                            <small>({{ $child->url }})</small>
+
+                            @if($child->children->count())
+                                <ul class="list-group">
+                                    @foreach($child->children as $grandChild)
+                                        <li class="list-group-item" data-id="{{ $grandChild->id }}">
+                                            {{ $grandChild->name }}
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                        </li>
                     @endforeach
                 </ul>
             @endif
         </li>
     @endforeach
 </ul>
+
 
 </div> 
 
@@ -62,45 +77,78 @@
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const menuList = document.getElementById('menu-list');
 
-    // Inisialisasi Sortable.js
+    // Inisialisasi Sortable.js untuk list utama
     new Sortable(menuList, {
-        group: 'nested',
+        group: 'nested', // Support untuk nested group
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
+        // Nested Sortable
         onEnd: function (evt) {
-            const orderedData = [];
-            menuList.querySelectorAll('.list-group-item').forEach((item, index) => {
+            updateMenuOrder(menuList);
+        }
+    });
+
+    // Inisialisasi semua list child
+    document.querySelectorAll('.list-group').forEach(function (list) {
+        new Sortable(list, {
+            group: 'nested',
+            animation: 150,
+            fallbackOnBody: true,
+            swapThreshold: 0.65,
+            onEnd: function (evt) {
+                updateMenuOrder(menuList);
+            }
+        });
+    });
+
+    // Fungsi untuk mengirim data ke server
+    function updateMenuOrder(menuList) {
+        const orderedData = [];
+
+        // Rekursif untuk memproses nested menu
+        function processList(list, parentId = null) {
+            list.querySelectorAll('> .list-group-item').forEach((item, index) => {
                 orderedData.push({
                     id: item.dataset.id,
                     position: index + 1,
-                    parent_id: item.closest('ul').dataset.id || null
+                    parent_id: parentId
                 });
-            });
 
-            // Kirim data baru ke server untuk disimpan
-            fetch('{{ route("menus.updateOrder") }}', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                },
-                body: JSON.stringify({ data: orderedData })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Menu order updated successfully!');
-                } else {
-                    alert('Failed to update menu order.');
+                // Cari child list di dalam item ini
+                const childList = item.querySelector('.list-group');
+                if (childList) {
+                    processList(childList, item.dataset.id);
                 }
-            })
-            .catch(error => console.error('Error:', error));
+            });
         }
-    });
+
+        processList(menuList);
+
+        // Kirim data ke server
+        fetch('{{ route("menus.updateOrder") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            body: JSON.stringify({ data: orderedData })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Menu order updated successfully!');
+            } else {
+                alert('Failed to update menu order.');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
 });
 </script>
+
