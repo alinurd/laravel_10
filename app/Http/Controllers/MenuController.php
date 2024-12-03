@@ -24,12 +24,10 @@ public function index_()
 
     // Bangun tree dari data menus
     $tree = $this->buildTree($menus);
-// dd($tree);
     // Kirim data ke view
     return view('menus.index', compact('tree','menus'));
 }
-
-private function buildTree($menus, $parentId = null)
+private function buildTree_($menus, $parentId = null)
 {
     $branch = [];
     foreach ($menus as $menu) {
@@ -43,31 +41,55 @@ private function buildTree($menus, $parentId = null)
                 'text' => $menu->name,
                 'icon' => $this->getIcon($menu), // Ikon berdasarkan status aktif
                 'state' => $this->getState($menu), // Status kustom
-                'children' => $children,
+                'children' => $children, // Menyertakan children yang sudah direkursi
+            ];
+        }
+    }
+    return $branch;
+}
+private function buildTree($menus, $parentId = null)
+{
+    $branch = [];
+    foreach ($menus as $menu) {
+        if ($menu->parent_id == $parentId) {
+            // Rekursi untuk children, yang sudah ada dalam relasi 'children'
+            $children = $this->buildTree($menu->children, $menu->id);
+
+             $branch[] = [
+                'id' => $menu->id,
+                'text' => $menu->name,
+                'icon' => $this->getIcon($menu), // Ikon berdasarkan status aktif
+                'state' => $this->getState($menu), // Status kustom
+                'children' => $children, // Menyertakan children yang sudah direkursi
             ];
         }
     }
     return $branch;
 }
 
+
 private function getIcon($menu)
 {
     // Tentukan ikon berdasarkan status aktif
-    return $menu->is_active == 1 
-        ? 'fa fa-check-circle text-success' // Ikon untuk status aktif
-        : 'fa fa-times-circle text-danger'; // Ikon untuk status tidak aktif
+    return $menu->is_active == 1
+        ? 'fa fa-check-circle text-success'  // Ikon untuk status aktif
+        : 'fa fa-times-circle text-danger';  // Ikon untuk status tidak aktif
 }
 
 private function getState($menu)
 {
-    // Tentukan state berdasarkan status aktif
-    return [
-        'checked' => (bool)$menu->is_active, // Mengatur checkbox aktif/non-aktif
-        'disabled' => $menu->is_active == 0, // Nonaktifkan node jika tidak aktif
-    ];
+    // Tentukan state berdasarkan nama atau status lainnya
+    if ($menu->is_active == 1) {
+        return ['selected' => true];  // Jika aktif, centang node
+    } elseif ($menu->name == 'Expandable Menu') {
+        return ['opened' => true];  // Jika menu jenis expandable, buka node
+    } elseif ($menu->name == 'Disabled Menu') {
+        return ['disabled' => true];  // Nonaktifkan node tertentu
+    }
+    return [];
 }
 
-
+ 
     public function store(Request $request)
     {
         $data = $request->validate([
