@@ -43,6 +43,8 @@ Route::permanentRedirect('/', '/login');
  
 
 Route::resource('menus', MenuController::class);
+Route::post('/menus/update-order', [MenuController::class, 'updateOrder'])->name('menus.updateOrder');
+
 // Route::get('/menusbaru', [MenuController::class, 'index']);
 Route::post('/menu/update-order', [MenuController::class, 'updateOrder']);
 

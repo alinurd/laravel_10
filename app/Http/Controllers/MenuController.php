@@ -45,4 +45,23 @@ class MenuController extends Controller
         $menu->delete();
         return back()->with('success', 'Menu deleted successfully!');
     }
+    public function updateOrder(Request $request)
+{
+    $data = $request->validate([
+        'data' => 'required|array',
+        'data.*.id' => 'required|exists:menus,id',
+        'data.*.position' => 'required|integer',
+        'data.*.parent_id' => 'nullable|exists:menus,id',
+    ]);
+
+    foreach ($data['data'] as $menuItem) {
+        Menu::where('id', $menuItem['id'])->update([
+            'position' => $menuItem['position'],
+            'parent_id' => $menuItem['parent_id'],
+        ]);
+    }
+
+    return response()->json(['success' => true]);
+}
+
 }

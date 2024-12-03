@@ -34,21 +34,23 @@
     <hr>
 
     <h3>Menu List</h3>
-    <ul class="list-group">
-         @foreach($menus as $menu)
-            <li class="list-group-item">
-                <strong>{{ $menu->name }}</strong> 
-                <small>({{ $menu->url }})</small>
-                @if($menu->children->count())
-                    <ul>
-                        @foreach($menu->children as $child)
-                            <li>{{ $child->name }}</li>
-                        @endforeach
-                    </ul>
-                @endif
-            </li>
-        @endforeach
-    </ul>
+    <ul class="list-group" id="menu-list">
+    @foreach($menus as $menu)
+        <li class="list-group-item" data-id="{{ $menu->id }}">
+            <strong>{{ $menu->name }}</strong>
+            <small>({{ $menu->url }})</small>
+
+            @if($menu->children->count())
+                <ul class="list-group" data-id="{{ $menu->id }}">
+                    @foreach($menu->children as $child)
+                        <li class="list-group-item" data-id="{{ $child->id }}">{{ $child->name }}</li>
+                    @endforeach
+                </ul>
+            @endif
+        </li>
+    @endforeach
+</ul>
+
 </div> 
 
 <style>
@@ -58,3 +60,47 @@
 }
 
 </style>
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const menuList = document.getElementById('menu-list');
+
+    // Inisialisasi Sortable.js
+    new Sortable(menuList, {
+        group: 'nested',
+        animation: 150,
+        fallbackOnBody: true,
+        swapThreshold: 0.65,
+        onEnd: function (evt) {
+            const orderedData = [];
+            menuList.querySelectorAll('.list-group-item').forEach((item, index) => {
+                orderedData.push({
+                    id: item.dataset.id,
+                    position: index + 1,
+                    parent_id: item.closest('ul').dataset.id || null
+                });
+            });
+
+            // Kirim data baru ke server untuk disimpan
+            fetch('{{ route("menus.updateOrder") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ data: orderedData })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Menu order updated successfully!');
+                } else {
+                    alert('Failed to update menu order.');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+});
+</script>
