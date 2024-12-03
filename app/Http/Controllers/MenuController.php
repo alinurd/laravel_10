@@ -45,6 +45,9 @@ class MenuController extends Controller
         $menu->delete();
         return back()->with('success', 'Menu deleted successfully!');
     }
+  
+   
+    
     public function updateOrder(Request $request)
 {
     $data = $request->validate([
@@ -55,6 +58,7 @@ class MenuController extends Controller
     ]);
 
     foreach ($data['data'] as $menuItem) {
+        // Update posisi dan parent_id menu
         Menu::where('id', $menuItem['id'])->update([
             'position' => $menuItem['position'],
             'parent_id' => $menuItem['parent_id'],
@@ -63,5 +67,6 @@ class MenuController extends Controller
 
     return response()->json(['success' => true]);
 }
+
 
 }

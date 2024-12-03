@@ -78,6 +78,8 @@
 
 <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
+
+
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const menuList = document.getElementById('menu-list');
@@ -88,7 +90,6 @@ document.addEventListener('DOMContentLoaded', function () {
         animation: 150,
         fallbackOnBody: true,
         swapThreshold: 0.65,
-        // Nested Sortable
         onEnd: function (evt) {
             updateMenuOrder(menuList);
         }
@@ -113,7 +114,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         // Rekursif untuk memproses nested menu
         function processList(list, parentId = null) {
-            list.querySelectorAll('> .list-group-item').forEach((item, index) => {
+            list.querySelectorAll('.list-group-item').forEach((item, index) => {
                 orderedData.push({
                     id: item.dataset.id,
                     position: index + 1,
@@ -151,4 +152,8 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 </script>
+
+
+
+
 
