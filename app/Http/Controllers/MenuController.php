@@ -8,7 +8,7 @@ class MenuController extends Controller
 {
   
  
-public function index()
+public function index_()
 {
     $menus = Menu::all();
     
@@ -17,6 +17,16 @@ public function index()
     
     $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
     return view('menus.index', compact('tree','menus'));
+}public function index()
+{
+    // Ambil data menus dengan relasi children
+    $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
+
+    // Bangun tree dari data menus
+    $tree = $this->buildTree($menus);
+// dd($tree);
+    // Kirim data ke view
+    return view('menus.index', compact('tree','menus'));
 }
 
 private function buildTree($menus, $parentId = null)
@@ -24,25 +34,37 @@ private function buildTree($menus, $parentId = null)
     $branch = [];
     foreach ($menus as $menu) {
         if ($menu->parent_id == $parentId) {
+            // Rekursi untuk children
             $children = $this->buildTree($menus, $menu->id);
 
-            // Tentukan ikon berdasarkan status aktif
-            $icon = $menu->is_active == 1 
-                ? 'fas fa-check-circle text-success' // Ikon untuk status aktif
-                : 'fas fa-times-circle text-danger'; // Ikon untuk status tidak aktif
-
+            // Tentukan ikon dan status berdasarkan status aktif menu
             $branch[] = [
                 'id' => $menu->id,
-                'text' => $menu->name, // Nama menu
-                'icon' => $icon, // Ikon kustom
+                'text' => $menu->name,
+                'icon' => $this->getIcon($menu), // Ikon berdasarkan status aktif
+                'state' => $this->getState($menu), // Status kustom
                 'children' => $children,
-                'state' => [
-                    'checked' => (bool)$menu->is_active, // Checkbox diaktifkan sesuai status
-                ],
             ];
         }
     }
     return $branch;
+}
+
+private function getIcon($menu)
+{
+    // Tentukan ikon berdasarkan status aktif
+    return $menu->is_active == 1 
+        ? 'fa fa-check-circle text-success' // Ikon untuk status aktif
+        : 'fa fa-times-circle text-danger'; // Ikon untuk status tidak aktif
+}
+
+private function getState($menu)
+{
+    // Tentukan state berdasarkan status aktif
+    return [
+        'checked' => (bool)$menu->is_active, // Mengatur checkbox aktif/non-aktif
+        'disabled' => $menu->is_active == 0, // Nonaktifkan node jika tidak aktif
+    ];
 }
 
 
