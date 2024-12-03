@@ -43,6 +43,37 @@
 
 
     <div id="menu-tree"></div>
+    <!-- Modal untuk update status -->
+    <div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="statusModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="statusModalLabel">Update Status</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="statusForm">
+                        <div class="mb-3">
+                            <label for="menu-name" class="form-label">Menu Name</label>
+                            <input type="text" class="form-control" id="menu-name" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="menu-status" class="form-label">Status</label>
+                            <select class="form-select" id="menu-status">
+                                <option value="1">Active</option>
+                                <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="saveStatus">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 
     @endsection
     <!-- Tambahkan CSS jsTree -->
@@ -54,11 +85,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
     <script>
         $(document).ready(function() {
-            const treeData = @json($tree); // Data tree dari PHP
+            const treeData = @json($tree);  
 
 
             $('#menu-tree').jstree({
-                'plugins': ["dnd", "types"],
+                'plugins': ["wholerow", "dnd", "types"],
                 'core': {
                     "themes": {
                         "responsive": false
@@ -73,38 +104,55 @@
                     "file": {
                         "icon": "fa fa-file text-info"
                     }
-                }
+                },
             });
 
-
+            // Event ketika node di klik
             $('#menu-tree').on("select_node.jstree", function(e, data) {
                 const menuId = data.node.id;
-                const isActive = data.node.state.selected ? 1 : 0;
+                const menuName = data.node.text;
+                const menuStatus = data.node.state.selected ? 1 : 0; // Status berdasarkan seleksi node
 
-                console.log("Menu ID:", menuId);
-                console.log("Is Active:", isActive);
+                // Set nama menu dan status di form modal
+                $('#menu-name').val(menuName);
+                $('#menu-status').val(menuStatus);
 
-                $.ajax({
-                    url: '{{ route("menus.updateStatus") }}',
-                    method: 'POST',
-                    data: {
-                        _token: '{{ csrf_token() }}',
-                        id: menuId,
-                        is_active: isActive,
-                    },
-                    success: function(response) {
-                        if (response.success) {
-                            alert("Status updated successfully!");
-                        } else {
-                            alert("Failed to update status.");
+                // Tampilkan modal untuk mengubah status
+                $('#statusModal').modal('show');
+
+                // Menyimpan status baru setelah diubah
+                $('#saveStatus').on('click', function() {
+                    const newStatus = $('#menu-status').val(); // Ambil status baru dari dropdown
+
+                    // Kirim data ke server untuk update status
+                    $.ajax({
+                        url: '{{ route("menus.updateStatus") }}',
+                        method: 'POST',
+                        data: {
+                            _token: '{{ csrf_token() }}',
+                            id: menuId,
+                            is_active: newStatus,
+                        },
+                        success: function(response) {
+                            if (response.success) {
+                                alert("Status updated successfully!");
+                                // Tutup modal setelah berhasil update
+                                $('#statusModal').modal('hide');
+                                // Update status di jstree
+                                $('#menu-tree').jstree("set_state", {
+                                    selected: newStatus === "1"
+                                });
+                            } else {
+                                alert("Failed to update status.");
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("Error updating status:", error);
                         }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Error updating status:", error);
-                    }
+                    });
                 });
-
             });
+
 
             // Event drag-and-drop selesai
             $('#menu-tree').on("move_node.jstree", function(e, data) {
