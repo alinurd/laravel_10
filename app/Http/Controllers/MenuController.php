@@ -6,11 +6,36 @@ use Illuminate\Http\Request;
 
 class MenuController extends Controller
 {
-    public function index()
-    {
-        $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
-        return view('menus.index', compact('menus'));
+  
+ 
+public function index()
+{
+    $menus = Menu::all();
+    
+    // Format data menjadi tree
+    $tree = $this->buildTree($menus);
+    
+    $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
+    return view('menus.index', compact('tree','menus'));
+}
+
+private function buildTree($menus, $parentId = null)
+{
+    $branch = [];
+    foreach ($menus as $menu) {
+        if ($menu->parent_id == $parentId) {
+            $children = $this->buildTree($menus, $menu->id);
+            $branch[] = [
+                'id' => $menu->id,
+                'text' => $menu->name,
+                'children' => $children,
+            ];
+        }
     }
+    return $branch;
+}
+
+
 
     public function store(Request $request)
     {
@@ -47,7 +72,8 @@ class MenuController extends Controller
     }
   
    
-    
+   
+  
     public function updateOrder(Request $request)
 {
     $data = $request->validate([
@@ -58,12 +84,28 @@ class MenuController extends Controller
     ]);
 
     foreach ($data['data'] as $menuItem) {
-        // Update posisi dan parent_id menu
         Menu::where('id', $menuItem['id'])->update([
             'position' => $menuItem['position'],
             'parent_id' => $menuItem['parent_id'],
         ]);
     }
+
+    return response()->json(['success' => true]);
+}
+
+public function updateTree(Request $request)
+{
+    $request->validate([
+        'id' => 'required|exists:menus,id',
+        'parent_id' => 'nullable|exists:menus,id',
+        'position' => 'required|integer',
+    ]);
+
+    // Update parent_id dan posisi
+    $menu = Menu::find($request->id);
+    $menu->parent_id = $request->parent_id;
+    $menu->position = $request->position;
+    $menu->save();
 
     return response()->json(['success' => true]);
 }

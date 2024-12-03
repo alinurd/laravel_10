@@ -1,4 +1,11 @@
- 
+@extends('components.layouts.default')
+@section('title', 'Menu')
+
+@section('breadcrumb')
+<x-dashboard.breadcrumb title="Menu Management" page="Menu Management" active="Group" route="{{ route('menu.index') }}" />
+@endsection
+
+@section('content')
 <div class="container">
     <h2>Menu Management</h2>
     <form method="POST" action="{{ route('menus.store') }}">
@@ -32,128 +39,65 @@
     </form>
 
     <hr>
-
-    <h3>Menu List</h3>
+    <h3>list menu</h3>
     
-    <ul class="list-group" id="menu-list">
-    @foreach($menus as $menu)
-        <li class="list-group-item" data-id="{{ $menu->id }}">
-            <strong>{{ $menu->name }}</strong>
-            <small>({{ $menu->url }})</small>
 
-            @if($menu->children->count())
-                <ul class="list-group">
-                    @foreach($menu->children as $child)
-                        <li class="list-group-item" data-id="{{ $child->id }}">
-                            <strong>{{ $child->name }}</strong>
-                            <small>({{ $child->url }})</small>
+<div id="menu-tree"></div>
 
-                            @if($child->children->count())
-                                <ul class="list-group">
-                                    @foreach($child->children as $grandChild)
-                                        <li class="list-group-item" data-id="{{ $grandChild->id }}">
-                                            {{ $grandChild->name }}
-                                        </li>
-                                    @endforeach
-                                </ul>
-                            @endif
-                        </li>
-                    @endforeach
-                </ul>
-            @endif
-        </li>
-    @endforeach
-</ul>
+@endsection
+<!-- Tambahkan CSS jsTree -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css">
 
-
-</div> 
-
-<style>
-    .list-group-item ul {
-    margin-top: 10px;
-    padding-left: 20px;
-}
-
-</style>
-
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
-
-
+<!-- Tambahkan JS jsTree -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
 
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const menuList = document.getElementById('menu-list');
+    $(document).ready(function () {
+         const treeData = @json($tree);
 
-    // Inisialisasi Sortable.js untuk list utama
-    new Sortable(menuList, {
-        group: 'nested', // Support untuk nested group
-        animation: 150,
-        fallbackOnBody: true,
-        swapThreshold: 0.65,
-        onEnd: function (evt) {
-            updateMenuOrder(menuList);
-        }
-    });
-
-    // Inisialisasi semua list child
-    document.querySelectorAll('.list-group').forEach(function (list) {
-        new Sortable(list, {
-            group: 'nested',
-            animation: 150,
-            fallbackOnBody: true,
-            swapThreshold: 0.65,
-            onEnd: function (evt) {
-                updateMenuOrder(menuList);
-            }
+         $('#menu-tree').jstree({
+            core: {
+                data: treeData,
+                check_callback: true,  
+            },
+            plugins: ["dnd"], // Drag and Drop untuk mengubah posisi
         });
-    });
 
-    // Fungsi untuk mengirim data ke server
-    function updateMenuOrder(menuList) {
-        const orderedData = [];
+        // Tangani event perubahan tree
+        $('#menu-tree').on("changed.jstree", function (e, data) {
+            console.log("Selected node:", data.node);
+        });
 
-        // Rekursif untuk memproses nested menu
-        function processList(list, parentId = null) {
-            list.querySelectorAll('.list-group-item').forEach((item, index) => {
-                orderedData.push({
-                    id: item.dataset.id,
-                    position: index + 1,
-                    parent_id: parentId
-                });
+        // Tangani event drag-and-drop selesai
+        $('#menu-tree').on("move_node.jstree", function (e, data) {
+            const movedNode = data.node;
+            const newParent = data.parent;
+            const position = data.position;
 
-                // Cari child list di dalam item ini
-                const childList = item.querySelector('.list-group');
-                if (childList) {
-                    processList(childList, item.dataset.id);
+            // Kirim data ke server untuk update parent dan posisi
+            $.ajax({
+                url: '{{ route("menus.updateTree") }}',
+                method: 'POST',
+                data: {
+                    _token: '{{ csrf_token() }}',
+                    id: movedNode.id,
+                    parent_id: newParent === "#" ? null : newParent,
+                    position: position,
+                },
+                success: function (response) {
+                    if (response.success) {
+                        alert("Tree updated successfully!");
+                    } else {
+                        alert("Failed to update tree.");
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error updating tree:", error);
                 }
             });
-        }
-
-        processList(menuList);
-
-        // Kirim data ke server
-        fetch('{{ route("menus.updateOrder") }}', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'X-CSRF-TOKEN': '{{ csrf_token() }}'
-            },
-            body: JSON.stringify({ data: orderedData })
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Menu order updated successfully!');
-            } else {
-                alert('Failed to update menu order.');
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-});
+        });
+    });
 </script>
-
-
-
 
 

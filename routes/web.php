@@ -44,9 +44,10 @@ Route::permanentRedirect('/', '/login');
 
 Route::resource('menus', MenuController::class);
 Route::post('/menus/update-order', [MenuController::class, 'updateOrder'])->name('menus.updateOrder');
+Route::post('/menus/update-tree', [MenuController::class, 'updateTree'])->name('menus.updateTree');
 
 // Route::get('/menusbaru', [MenuController::class, 'index']);
-Route::post('/menu/update-order', [MenuController::class, 'updateOrder']);
+Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('clientandproduct', ClientandproductController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
