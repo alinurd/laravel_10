@@ -25,16 +25,25 @@ private function buildTree($menus, $parentId = null)
     foreach ($menus as $menu) {
         if ($menu->parent_id == $parentId) {
             $children = $this->buildTree($menus, $menu->id);
+
+            // Tentukan ikon berdasarkan status aktif
+            $icon = $menu->is_active == 1 
+                ? 'fas fa-check-circle text-success' // Ikon untuk status aktif
+                : 'fas fa-times-circle text-danger'; // Ikon untuk status tidak aktif
+
             $branch[] = [
                 'id' => $menu->id,
-                'text' => $menu->name,
+                'text' => $menu->name, // Nama menu
+                'icon' => $icon, // Ikon kustom
                 'children' => $children,
+                'state' => [
+                    'checked' => (bool)$menu->is_active, // Checkbox diaktifkan sesuai status
+                ],
             ];
         }
     }
     return $branch;
 }
-
 
 
     public function store(Request $request)
@@ -108,6 +117,20 @@ public function updateTree(Request $request)
     $menu->save();
 
     return response()->json(['success' => true]);
+}
+
+public function updateStatus(Request $request)
+{
+    $menu = Menu::find($request->id);
+
+    if ($menu) {
+        $menu->is_active = $request->is_active;
+        $menu->save();
+
+        return response()->json(['success' => true, 'message' => 'Status updated successfully.']);
+    }
+
+    return response()->json(['success' => false, 'message' => 'Menu not found.']);
 }
 
 

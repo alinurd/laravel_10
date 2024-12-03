@@ -47,6 +47,7 @@
 @endsection
 <!-- Tambahkan CSS jsTree -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/themes/default/style.min.css">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
 <!-- Tambahkan JS jsTree -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -54,50 +55,82 @@
 
 <script>
     $(document).ready(function () {
-         const treeData = @json($tree);
+    const treeData = @json($tree);
+  
+    $('#menu-tree').jstree({
+    core: {
+        themes: {
+            responsive: false // Tema tidak responsif
+        },
+        data: treeData, // Data tree yang dihasilkan dari PHP
+        check_callback: true,  
+    },
+    plugins: ["dnd", "checkbox"], // Plugin Drag and Drop dan Checkbox
+    checkbox: {
+        tie_selection: true // Checkbox mengikuti seleksi node
+    },
+});
 
-         $('#menu-tree').jstree({
-            core: {
-                data: treeData,
-                check_callback: true,  
-            },
-            plugins: ["dnd"], // Drag and Drop untuk mengubah posisi
-        });
+    // Event perubahan pada checkbox
+    $('#menu-tree').on("changed.jstree", function (e, data) {
+        if (data.node) {
+            const menuId = data.node.id;
+            const isActive = data.node.state.checked ? 1 : 0;
 
-        // Tangani event perubahan tree
-        $('#menu-tree').on("changed.jstree", function (e, data) {
-            console.log("Selected node:", data.node);
-        });
-
-        // Tangani event drag-and-drop selesai
-        $('#menu-tree').on("move_node.jstree", function (e, data) {
-            const movedNode = data.node;
-            const newParent = data.parent;
-            const position = data.position;
-
-            // Kirim data ke server untuk update parent dan posisi
+            console.log('jalan')
+            console.log(isActive)
+            // Kirim data status aktif/nonaktif ke server
             $.ajax({
-                url: '{{ route("menus.updateTree") }}',
+                url: '{{ route("menus.updateStatus") }}',
                 method: 'POST',
                 data: {
                     _token: '{{ csrf_token() }}',
-                    id: movedNode.id,
-                    parent_id: newParent === "#" ? null : newParent,
-                    position: position,
+                    id: menuId,
+                    is_active: isActive,
                 },
                 success: function (response) {
                     if (response.success) {
-                        alert("Tree updated successfully!");
+                        alert("Status updated successfully!");
                     } else {
-                        alert("Failed to update tree.");
+                        alert("Failed to update status.");
                     }
                 },
                 error: function (xhr, status, error) {
-                    console.error("Error updating tree:", error);
+                    console.error("Error updating status:", error);
                 }
             });
+        }
+    });
+
+    // Event drag-and-drop selesai
+    $('#menu-tree').on("move_node.jstree", function (e, data) {
+        const movedNode = data.node;
+        const newParent = data.parent;
+        const position = data.position;
+
+        // Kirim data ke server untuk update parent dan posisi
+        $.ajax({
+            url: '{{ route("menus.updateTree") }}',
+            method: 'POST',
+            data: {
+                _token: '{{ csrf_token() }}',
+                id: movedNode.id,
+                parent_id: newParent === "#" ? null : newParent,
+                position: position,
+            },
+            success: function (response) {
+                if (response.success) {
+                    alert("Tree updated successfully!");
+                } else {
+                    alert("Failed to update tree.");
+                }
+            },
+            error: function (xhr, status, error) {
+                console.error("Error updating tree:", error);
+            }
         });
     });
+});
 </script>
 
-
+ 

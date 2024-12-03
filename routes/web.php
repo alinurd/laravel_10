@@ -48,6 +48,7 @@ Route::post('/menus/update-tree', [MenuController::class, 'updateTree'])->name('
 
 // Route::get('/menusbaru', [MenuController::class, 'index']);
 Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
+Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('clientandproduct', ClientandproductController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
