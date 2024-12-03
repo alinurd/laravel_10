@@ -7,46 +7,13 @@ use Illuminate\Http\Request;
 class MenuController extends Controller
 {
   
- 
-public function index_()
+ public function index()
 {
-    $menus = Menu::all();
-    
-    // Format data menjadi tree
-    $tree = $this->buildTree($menus);
-    
     $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
-    return view('menus.index', compact('tree','menus'));
-}public function index()
-{
-    // Ambil data menus dengan relasi children
-    $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
-
-    // Bangun tree dari data menus
     $tree = $this->buildTree($menus);
-    // Kirim data ke view
-    return view('menus.index', compact('tree','menus'));
+     return view('menus.index', compact('tree','menus'));
 }
-private function buildTree_($menus, $parentId = null)
-{
-    $branch = [];
-    foreach ($menus as $menu) {
-        if ($menu->parent_id == $parentId) {
-            // Rekursi untuk children
-            $children = $this->buildTree($menus, $menu->id);
 
-            // Tentukan ikon dan status berdasarkan status aktif menu
-            $branch[] = [
-                'id' => $menu->id,
-                'text' => $menu->name,
-                'icon' => $this->getIcon($menu), // Ikon berdasarkan status aktif
-                'state' => $this->getState($menu), // Status kustom
-                'children' => $children, // Menyertakan children yang sudah direkursi
-            ];
-        }
-    }
-    return $branch;
-}
 private function buildTree($menus, $parentId = null)
 {
     $branch = [];
@@ -58,9 +25,12 @@ private function buildTree($menus, $parentId = null)
              $branch[] = [
                 'id' => $menu->id,
                 'text' => $menu->name,
+                 'url' => $menu->url == null ? '#' : $menu->url,
+                'ic' => $menu->icon == null ? '#' : $menu->icon,
                 'icon' => $this->getIcon($menu), // Ikon berdasarkan status aktif
                 'state' => $this->getState($menu), // Status kustom
-                'children' => $children, // Menyertakan children yang sudah direkursi
+                'children' => $children,
+                
             ];
         }
     }

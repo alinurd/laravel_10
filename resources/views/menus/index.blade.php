@@ -58,6 +58,14 @@
                             <input type="text" class="form-control" id="menu-name" disabled>
                         </div>
                         <div class="mb-3">
+                            <label for="menu-url" class="form-label">Route</label>
+                            <input type="text" class="form-control" id="menu-url" disabled>
+                        </div>
+                        <div class="mb-3">
+                            <label for="menu-icon" class="form-label">Icon</label>
+                            <input type="text" class="form-control" id="menu-icon" disabled>
+                        </div>
+                        <div class="mb-3">
                             <label for="menu-status" class="form-label">Status</label>
                             <select class="form-select" id="menu-status">
                                 <option value="1">Active</option>
@@ -128,11 +136,14 @@ function removeSpinner(elementId, buttonId) {
             // Event ketika node di klik
             $('#menu-tree').on("select_node.jstree", function(e, data) {
                 const menuId = data.node.id;
-                const menuName = data.node.text;
+                const menuName = data.node.text; 
                 const menuStatus = data.node.state.selected ? 1 : 0; // Status berdasarkan seleksi node
 
-                // Set nama menu dan status di form modal
-                $('#menu-name').val(menuName);
+                const menuUrl = data.node.original.url; // Akses dari original
+                const menuIcn = data.node.original.ic; // Akses dari original              
+                   $('#menu-name').val(menuName);
+                $('#menu-url').val(menuUrl);
+                $('#menu-icon').val(menuIcn);
                 $('#menu-status').val(menuStatus);
 
                 // Tampilkan modal untuk mengubah status
