@@ -74,6 +74,13 @@
         </div>
     </div>
 
+    <!-- Spinner -->
+    <!-- <div id="loading-spinner" style="display: none;">
+        <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div> -->
+
 
     @endsection
     <!-- Tambahkan CSS jsTree -->
@@ -84,12 +91,24 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
     <script>
+        function showSpinner(elementId, buttonId) {
+    const spinner = $('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
+     
+    $(buttonId).prop('disabled', true);
+    $(elementId).append(spinner);
+}
+ 
+function removeSpinner(elementId, buttonId) {
+     $(elementId).find('.spinner-border').remove();
+     $(buttonId).prop('disabled', false);
+}
+
         $(document).ready(function() {
-            const treeData = @json($tree);  
+            const treeData = @json($tree);
 
 
             $('#menu-tree').jstree({
-                'plugins': ["wholerow", "dnd", "types"],
+                'plugins': ["contextmenu", "dnd", "types"],
                 'core': {
                     "themes": {
                         "responsive": false
@@ -106,7 +125,6 @@
                     }
                 },
             });
-
             // Event ketika node di klik
             $('#menu-tree').on("select_node.jstree", function(e, data) {
                 const menuId = data.node.id;
@@ -124,6 +142,8 @@
                 $('#saveStatus').on('click', function() {
                     const newStatus = $('#menu-status').val(); // Ambil status baru dari dropdown
 
+                    showSpinner('#statusModal .modal-body', '#saveStatus');
+
                     // Kirim data ke server untuk update status
                     $.ajax({
                         url: '{{ route("menus.updateStatus") }}',
@@ -134,12 +154,12 @@
                             is_active: newStatus,
                         },
                         success: function(response) {
+                            removeSpinner('#statusModal .modal-body', '#saveStatus');
+                                                        $('#saveStatus').prop('disabled', false);
                             if (response.success) {
                                 alert("Status updated successfully!");
-                                // Tutup modal setelah berhasil update
-                                $('#statusModal').modal('hide');
-                                // Update status di jstree
-                                $('#menu-tree').jstree("set_state", {
+                                 $('#statusModal').modal('hide');
+                                 $('#menu-tree').jstree("set_state", {
                                     selected: newStatus === "1"
                                 });
                             } else {
@@ -147,7 +167,9 @@
                             }
                         },
                         error: function(xhr, status, error) {
-                            console.error("Error updating status:", error);
+                            removeSpinner('#statusModal .modal-body', '#saveStatus');
+                            alert("Error: " + error);
+                             console.error("Error updating status:", error);
                         }
                     });
                 });
@@ -159,9 +181,8 @@
                 const movedNode = data.node;
                 const newParent = data.parent;
                 const position = data.position;
-
-                // Kirim data ke server untuk update parent dan posisi
-                $.ajax({
+                showSpinner('.jstree-children', '');
+                 $.ajax({
                     url: '{{ route("menus.updateTree") }}',
                     method: 'POST',
                     data: {
@@ -171,6 +192,7 @@
                         position: position,
                     },
                     success: function(response) {
+                        
                         if (response.success) {
                             alert("Tree updated successfully!");
                         } else {
@@ -178,9 +200,19 @@
                         }
                     },
                     error: function(xhr, status, error) {
-                        console.error("Error updating tree:", error);
-                    }
+                         console.error("Error updating tree:", error);
+                    },
+        complete: function () {
+            // Setelah request selesai, hapus spinner dan aktifkan tombol kembali
+            removeSpinner('.jstree-children', '');
+        }
+                    
                 });
             });
         });
     </script>
+
+    <style>
+        
+
+    </style>
