@@ -24,8 +24,8 @@ class DocumenctferifyController extends _Controller
             ['id' => 2, 'value' => 'Non Acive'],
         ];
 
-       $this->list = [
-            
+        $this->list = [
+
             [
                 'field' => 'pic',
                 'type' => 'text',
@@ -33,10 +33,10 @@ class DocumenctferifyController extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'jenis_product',
@@ -45,10 +45,10 @@ class DocumenctferifyController extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'nilai',
@@ -57,10 +57,10 @@ class DocumenctferifyController extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ]
         ];
 
@@ -75,17 +75,19 @@ class DocumenctferifyController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['sessionOK'] = session('success');
-        // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
+        $data['costum'] = $this->getCombo( "App\Models\Combo",[ 'where'=>['field'=>'categori', 'where'=>'docferify']]);
         return view('pages.index', $data);
     }
 
     public function create()
     {
         $data = $this->_SETCORE;
-        $data['list'] = array_merge($this->setFrom);
+        $data['list'] = array_merge($this->setFrom); 
+
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
-        return view('pages.index', $data);
+        $data['costum'] = $this->getCombo( "App\Models\Combo",[ 'where'=>['field'=>'categori', 'where'=>'docferify']]);
+          return view('pages.index', $data);
     }
 
 
@@ -105,6 +107,8 @@ class DocumenctferifyController extends _Controller
         $data['id'] = $id;
         $data['field'] = $this->modelMaster::find($id);
         $data['mode'] = 'edit';
+        $data['costum'] = $this->getCombo( "App\Models\Combo",[ 'where'=>['field'=>'categori', 'where'=>'docferify']]);
+
         return view('pages.index', $data);
     }
 
