@@ -8,7 +8,7 @@
           <button type="submit" class="btn btn-secondary btn-md">
             <i class="ri-save-line"></i>
             {{ __('global.save') }}
-          </button> 
+          </button>
           <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-md">
             <i class="ri-arrow-left-line"></i>
             {{ __('global.back') }}
@@ -63,6 +63,9 @@
         <span>No data available</span>
         @endforelse
       </div>
+      @if(isset($costum) && $costum->isNotEmpty())
+      @include('components.form.costum.documenctferify')
+      @else
+      @endif
     </div>
-  </div>
 </form>

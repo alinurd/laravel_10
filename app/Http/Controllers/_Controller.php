@@ -104,10 +104,9 @@ class _Controller extends BaseController
     public function getCombo($model='', $con=[])
     {
         $p = $model::query();
-
         if ($con) {
             foreach ($con as $item) {
-                if (isset($item['where']) && !empty($item['where'])) {
+                 if (isset($item['where']) && !empty($item['where'])) {
                      $p = $p->where($item['field'], '=', $item['where']);
                 }
             }
