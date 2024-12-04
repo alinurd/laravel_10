@@ -8,6 +8,7 @@ use Spatie\Permission\Models\Role;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
 use App\Models\Groups;
+use App\Models\GroupUsers;
 use App\Services\UserService;
 
 class UserManagementController extends Controller
@@ -23,15 +24,17 @@ class UserManagementController extends Controller
                     ->where('name', 'like', '%' . $request->search . '%')
                     ->orWhere('email', 'like', '%' . $request->search . '%');
             })
-            ->with('roles', function ($query) {
-                return $query->select('name');
-            })
+            ->with([
+                'groupUser' => function ($query) {
+                    $query->select('user_id', 'group_id'); // Pastikan juga 'user_id' diambil agar relasi dapat dikenali
+                }
+            ])
             ->latest()
             ->paginate(10);
         // $roles = Role::orderBy('name')->get();
         $roles = Groups::where('status',1)->orderBy('name')->get();
-
-        return view('user.index', compact('users', 'roles'));
+        $GroupUsers = GroupUsers::orderBy('group_id')->get();
+         return view('user.index', compact('users', 'roles','GroupUsers'));
     }
 
     /**

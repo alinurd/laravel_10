@@ -37,11 +37,21 @@
                 <th scope="row">{{ $loop->iteration }}</th>
                 <td>{{ $user->name }}</td>
                 <td>{{ $user->email }}</td>
-                <td>
-                    @foreach ($user->roles as $role)
-                    <span class="badge badge-soft-success">{{ $role->name }}</span>
-                    @endforeach
+                <td> 
+                    @forelse ($user->groupUser as $group)
+                        @php
+                            $role = $roles->firstWhere('id', $group->group_id); // Cari role berdasarkan group_id
+                        @endphp
+                        @if ($role)
+                            <span class="badge badge-soft-success">{{ $role->name }}</span>
+                        @else
+                            <span class="badge badge-soft-danger">Unknown</span>
+                        @endif
+                    @empty
+                        <span class="badge badge-soft-danger">No Group</span>
+                    @endforelse
                 </td>
+
                 <td>
                     @if (!blank($user->email_verified_at))
                     <span class="badge badge-soft-success">Verified</span>

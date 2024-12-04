@@ -26,11 +26,17 @@
 
                     <div class="mb-3">
                         <label for="role" class="form-label">Role Name</label>
-                        <select class="form-control" id="role" name="role" data-choices data-choices-removeItem>
-                            @foreach ($roles as $role)
-                            <option @selected($user->hasRole($role->name)) value="{{ $role->name }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>
+                        <select class="form-control" id="role" name="roles"   data-choices data-choices-removeItem>
+    @foreach ($roles as $role)
+        <option 
+            value="{{ $role->name }}" 
+            @if ($GroupUsers->contains('group_id', $role->id)) selected @endif
+        >
+            {{ $role->name }}
+        </option>
+    @endforeach
+</select>
+
                         <x-form.validation.error name="role" />
                     </div>
 

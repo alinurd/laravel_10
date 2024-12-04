@@ -45,4 +45,6 @@ class Groups extends Model
     {
         return $this->hasOne(MenuGroup::class, 'id', 'menu_item_id');
     }
+
+    
 }

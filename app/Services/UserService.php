@@ -27,15 +27,14 @@ class UserService
         if ($g) {
       $groupId = (string) $g->id;  
    
-       GroupUsers::create([
+      return  GroupUsers::create([
           'user_id' => $user->id,
           'group_id' => $groupId, // pastikan ID valid
       ]);
       
     }
  
-    return response()->json(['error' => 'Group not found'], 404);
-}
+ }
 
   public function update(Request $request, User $user): User|bool
   {
@@ -48,10 +47,9 @@ class UserService
         GroupUsers::updateOrCreate(
             [
                 'user_id' => $request->user_id,
-                'group_id' => $groupId,
-            ],
+             ],
             [
-                'group_id' => $groupId,  
+                'group_id' => $groupId, 
             ]
         );
     }
