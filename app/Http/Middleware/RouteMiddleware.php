@@ -89,6 +89,7 @@ public function handle($request, Closure $next)
         // Jika pengguna tidak ditemukan (belum login)
         return redirect()->route('login');
     }
+    return $next($request);
 }
 
 
