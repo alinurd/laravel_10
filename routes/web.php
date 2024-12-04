@@ -18,6 +18,7 @@ use App\Http\Controllers\PicController;
 use App\Http\Controllers\ClientandproductController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocferifyController;
+use App\Http\Controllers\DocumenctferifyController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -60,6 +61,8 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('documenctferify', DocumenctferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+
     Route::resource('docferify', DocferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
     Route::resource('clientandproduct', ClientandproductController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);

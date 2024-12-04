@@ -55,15 +55,15 @@
                     <form id="statusForm">
                         <div class="mb-3">
                             <label for="menu-name" class="form-label">Menu Name</label>
-                            <input type="text" class="form-control" id="menu-name" disabled>
+                            <input type="text" class="form-control" id="menu-name" >
                         </div>
                         <div class="mb-3">
                             <label for="menu-url" class="form-label">Route</label>
-                            <input type="text" class="form-control" id="menu-url" disabled>
+                            <input type="text" class="form-control" id="menu-url" >
                         </div>
                         <div class="mb-3">
                             <label for="menu-icon" class="form-label">Icon</label>
-                            <input type="text" class="form-control" id="menu-icon" disabled>
+                            <input type="text" class="form-control" id="menu-icon" >
                         </div>
                         <div class="mb-3">
                             <label for="menu-status" class="form-label">Status</label>
@@ -151,7 +151,7 @@ function removeSpinner(elementId, buttonId) {
 
                 // Menyimpan status baru setelah diubah
                 $('#saveStatus').on('click', function() {
-                    const newStatus = $('#menu-status').val(); // Ambil status baru dari dropdown
+                    const newStatus = $('#menu-status').val(); 
 
                     showSpinner('#statusModal .modal-body', '#saveStatus');
 
