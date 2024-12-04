@@ -7,6 +7,7 @@ use App\Models\User;
 use Spatie\Permission\Models\Role;
 use App\Http\Requests\User\StoreUserRequest;
 use App\Http\Requests\User\UpdateUserRequest;
+use App\Models\Groups;
 use App\Services\UserService;
 
 class UserManagementController extends Controller
@@ -27,7 +28,8 @@ class UserManagementController extends Controller
             })
             ->latest()
             ->paginate(10);
-        $roles = Role::orderBy('name')->get();
+        // $roles = Role::orderBy('name')->get();
+        $roles = Groups::where('status',1)->orderBy('name')->get();
 
         return view('user.index', compact('users', 'roles'));
     }

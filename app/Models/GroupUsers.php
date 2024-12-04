@@ -11,6 +11,7 @@ class GroupUsers extends Model
 
     protected $table = "group_users";
 
+    protected $fillable = ['user_id', 'group_id'];
 
     public function getCountByUser()
     {

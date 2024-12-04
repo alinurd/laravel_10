@@ -13,6 +13,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="id" placeholder="Role Name" name="user_id" value="{{ $user->id }}">
                         <input type="text" class="form-control" id="name" placeholder="Role Name" name="name" value="{{ $user->name }}">
                         <x-form.validation.error name="name" />
                     </div>
