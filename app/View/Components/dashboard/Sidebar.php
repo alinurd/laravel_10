@@ -31,10 +31,9 @@ class Sidebar extends Component
         ->with('getPermission.getMenuParent', 'getPermission.getMenuItems')
         ->first();
         $menuWithPermission= ViewGroupPermissions::where('id', $groupUser->group_id)->where('permission_type','manage')->get();
-        
         $group=$groupUser->getPermission[0]->group_name;
-         $menus = Menu::whereNull('parent_id')->where('is_active',1)->with('children')->orderBy('position')->get();
-         return view('components.dashboard.sidebar', compact('menuWithPermission', 'group', 'user', 'menus'));
+        $menus = Menu::whereNull('parent_id')->where('is_active',1)->with('children')->orderBy('position')->get();
+          return view('components.dashboard.sidebar', compact('menuWithPermission', 'group', 'user', 'menus'));
     }
     
     

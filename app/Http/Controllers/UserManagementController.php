@@ -76,7 +76,8 @@ class UserManagementController extends Controller
      */
     public function update(UpdateUserRequest $request, User $user, UserService $userService)
     {
-        return $userService->update($request, $user)
+        
+         return $userService->update($request, $user)
             ? back()->with('success', 'User has been updated successfully!')
             : back()->with('failed', 'User was not updated successfully!');
     }

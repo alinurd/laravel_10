@@ -33,29 +33,35 @@
     </div>
     <hr>
     <div id="scrollbar">
-        <ul class="navbar-nav">
-            @foreach ($menus as $menu)
-            @php
+    <ul class="navbar-nav">
+    @foreach ($menus as $menu)
+        @php
+            // Filter the permissions based on the current menu's parent ID
+            $permissions = $menuWithPermission->filter(fn($permission) => $permission->parent_id == $menu->id);
             $isActive = request()->routeIs($menu->url) || (isset($menu['children']) && $menu['children']->pluck('url')->contains(fn($url) => request()->routeIs($url)));
-            @endphp
+        @endphp
+        
+        @if ($permissions->isNotEmpty())
             <li class="nav-item dropdown {{ $isActive ? 'show' : '' }}">
                 @if ($menu['children'] && $menu['children']->isNotEmpty())
-                <!-- Parent Menu -->
-                <a href="javascript:void(0);" class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="{{ $isActive ? 'true' : 'false' }}">
-                    <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
-                </a>
-                <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
-                    @include('components.dashboard.submenu', ['menus' => $menu['children']])
-                </ul>
+                    <!-- Parent Menu -->
+                    <a href="javascript:void(0);" class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="{{ $isActive ? 'true' : 'false' }}">
+                        <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
+                    </a>
+                    <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
+                        @include('components.dashboard.submenu', ['menus' => $menu['children'], 'menuWithPermission' => $menuWithPermission])
+                    </ul>
                 @else
-                <!-- Single Menu -->
-                <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }}" href="{{ route($menu->url) }}">
-                    <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
-                </a>
+                    <!-- Single Menu -->
+                    <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }}" href="{{ route($menu->url) }}">
+                        <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
+                    </a>
                 @endif
             </li>
-            @endforeach
-        </ul>
+        @endif
+    @endforeach
+</ul>
+
 
     </div>
 </div>

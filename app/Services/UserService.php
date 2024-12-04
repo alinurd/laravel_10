@@ -10,10 +10,9 @@ use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
-  public function create(Request $request): User
+  public function create(Request $request)
 {
-    // Membuat pengguna baru
-    $user = User::create(array_merge(
+     $user = User::create(array_merge(
         $request->validated(),
         [
             'password' => Hash::make('password'),
@@ -21,26 +20,23 @@ class UserService
         ]
     ));
 
-    // Mengambil grup berdasarkan nama yang diberikan
-    $g = Groups::where('name', $request->role)->firstOrFail(); // Menggunakan firstOrFail untuk memastikan data ditemukan
+     $g = Groups::where('name', $request->role)->firstOrFail();  
    
-        if ($g) {
-      $groupId = (string) $g->id;  
+        if ($g) {  
    
-      return  GroupUsers::create([
+       $gu = GroupUsers::create([
           'user_id' => $user->id,
-          'group_id' => $groupId, // pastikan ID valid
+          'group_id' => $g->id, // pastikan ID valid
       ]);
       
     }
- 
+    return true;
  }
 
   public function update(Request $request, User $user): User|bool
   {
-    
-    $g = Groups::where('name', $request->role)->firstOrFail();
-
+  
+    $g = Groups::where('name', $request->roles)->firstOrFail();
     if ($g) {
         $groupId = (string) $g->id;  
     
@@ -65,5 +61,7 @@ class UserService
         'email_verified_at' => !blank($request->verified) ? now() : null
       )
     ));
+
+    
   }
 }
