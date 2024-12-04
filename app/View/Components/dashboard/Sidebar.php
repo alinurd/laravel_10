@@ -3,6 +3,7 @@
 namespace App\View\Components\dashboard;
 
 use App\Models\GroupUsers;
+use App\Models\Menu;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
@@ -30,9 +31,10 @@ class Sidebar extends Component
         ->with('getPermission.getMenuParent', 'getPermission.getMenuItems')
         ->first();
         $menuWithPermission= ViewGroupPermissions::where('id', $groupUser->group_id)->where('permission_type','manage')->get();
-    
+        
         $group=$groupUser->getPermission[0]->group_name;
-        return view('components.dashboard.sidebar', compact('menuWithPermission', 'group', 'user'));
+         $menus = Menu::whereNull('parent_id')->where('is_active',1)->with('children')->orderBy('position')->get();
+         return view('components.dashboard.sidebar', compact('menuWithPermission', 'group', 'user', 'menus'));
     }
     
     

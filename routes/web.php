@@ -35,6 +35,14 @@ use Illuminate\Support\Facades\Route;
 Route::get('/sss', function () {
     return view('errors.404');
 })->name('noaccess');
+
+
+Route::get('/sss', function () {
+    return view('errors.404');
+})->name('noaccess');
+Route::get('/sss', function () {
+    return view('errors.404');
+})->name('#');
 Route::get('/errssdsd', function () {
     return view('errors.401');
 })->name('notfound');

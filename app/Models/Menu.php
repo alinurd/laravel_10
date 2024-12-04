@@ -10,11 +10,14 @@ class Menu extends Model
 
     protected $fillable = ['name', 'url', 'icon', 'parent_id', 'position'];
 
+    // public function children()
+    // {
+    //     return $this->hasMany(Menu::class, 'parent_id')->orderBy('position');
+    // }
     public function children()
     {
-        return $this->hasMany(Menu::class, 'parent_id')->orderBy('position');
+        return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');
     }
-
     public function parent()
     {
         return $this->belongsTo(Menu::class, 'parent_id');
