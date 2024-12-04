@@ -51,12 +51,11 @@
     <tbody>
         @foreach ($menuGroup as $g)
             @php
-                // Ubah $groupPermission ke Collection
-                $permissions = collect($groupPermission)->where('menu_group_id', $g->id);
+                 $permissions = collect($groupPermission)->where('menu_group_id', $g->id);
             @endphp
 
             <tr>
-                <td><strong>{{ $g->name }}</strong></td>
+                <td><i class="ri-folder-2-line"></i> &ensp; <strong><strong>{{ $g->name }}</strong></td>
                 <td>
                     <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}" 
                            @if($permissions->contains('permission_types.manage', true)) checked @endif>
@@ -65,23 +64,11 @@
                 <td></td>
                 <td></td>
             </tr>
-
-            @foreach ($g->menuItems as $i)
-                @php
-                    $itemPermissions = $permissions->where('menu_item_id', $i->id)->first();
-                @endphp
-
-                <tr>
-                    <td style="padding-left: 30px;"><strong>{{ $i->name }}</strong></td>
-
-                    <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $i->id }}]" id="manage_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['manage']) checked @endif></td>
-                    <td><input type="checkbox" class="form-switch" name="create[{{ $g->id }}][{{ $i->id }}]" id="create_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Create {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['create']) checked @endif></td>
-                    <td><input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][{{ $i->id }}]" id="delete_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['delete']) checked @endif></td>
-                    <td><input type="checkbox" class="form-switch" name="update[{{ $g->id }}][{{ $i->id }}]" id="update_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['update']) checked @endif></td>
-                    <td><input type="checkbox" class="form-switch" name="view[{{ $g->id }}][{{ $i->id }}]" id="view_{{ $g->id }}_{{ $i->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="View {{ $i->name }}" @if($itemPermissions && $itemPermissions['permission_types']['view']) checked @endif></td>
-                </tr>
+            @foreach ($g->children as $i)
+            @include('components.form.stm.editchild', ['g' => $g, 'i' => $i, 'level' => 1])
             @endforeach
-        @endforeach
+            @endforeach
+ 
     </tbody>
 </table>
 

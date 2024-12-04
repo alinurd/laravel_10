@@ -14,6 +14,10 @@ class Menu extends Model
     // {
     //     return $this->hasMany(Menu::class, 'parent_id')->orderBy('position');
     // }
+    public function getAccessMenuItems()
+    {
+        return $this->hasMany(ViewGroupPermissions::class, 'menu_item_id', 'id');
+    }
     public function children()
     {
         return $this->hasMany(Menu::class, 'parent_id', 'id')->with('children');

@@ -21,7 +21,15 @@ class Groups extends Model
             ->groupBy('groups.id', 'groups.name')
             ->get();
     }
+    public function group()
+    {
+        return $this->belongsTo(Groups::class);
+    }
 
+     public function menu()
+    {
+        return $this->belongsTo(Menu::class);
+    }
     public function getPermission()
     {
         return $this->hasMany(ViewGroupPermissions::class, 'id', 'group_id');

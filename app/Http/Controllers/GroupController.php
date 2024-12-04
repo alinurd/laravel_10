@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\Menu;
 use App\Models\MenuGroup;
 use App\Models\MenuItem;
 use App\Models\ViewGroupPermissions;
@@ -105,8 +106,8 @@ class GroupController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getDataGroup($this->modelMaster, $this->list);
         $data['mode'] = 'add';
-        $data['stm'] = true;
-        $data['menuGroup'] = MenuGroup::with('menuItems')->get();
+        $data['stm'] = true; 
+        $data['menuGroup'] = Menu::whereNull('parent_id')->where('is_active',1)->with('children')->orderBy('position')->get();
         return view('pages.system.group_index', $data);
     }
 
@@ -133,17 +134,17 @@ class GroupController extends _Controller
             'group_name',
             'menu_item_name',
             'menu_item_route',
-            'menu_parent',
+            // 'menu_parent',
             'menu_item_id',
-            'menu_group_id',
+            // 'menu_group_id',
             \DB::raw("GROUP_CONCAT(permission_type SEPARATOR ',') as permission_types")
         )
         ->groupBy(
             'id',
             'group_name',
             'menu_item_name',
-            'menu_group_id',
-            'menu_parent',
+            // 'menu_group_id',
+            // 'menu_parent',
             'menu_item_id'
         )
         ->get();
@@ -156,8 +157,8 @@ class GroupController extends _Controller
                 'group_name' => $item->group_name,
                 'menu_item_id' => $item->menu_item_id,
                 'menu_item_name' => $item->menu_item_name,
-                'menu_group_id' => $item->menu_group_id,
-                'menu_parent' => $item->menu_parent,
+                // // 'menu_group_id' => $item->menu_group_id,
+                // // 'menu_parent' => $item->menu_parent,
                 'permission_types' => [
                     'create' => in_array('create', $permissionArray) || in_array('store', $permissionArray),
                     'store' => in_array('create', $permissionArray) || in_array('store', $permissionArray),
@@ -178,8 +179,9 @@ class GroupController extends _Controller
          $data['groupPermission'] = $result;
          $data['mode'] = 'edit';
         $data['stm'] = true;
+        $data['menuGroup'] = Menu::whereNull('parent_id')->where('is_active',1)->with('children')->orderBy('position')->get();
 
-        $data['menuGroup'] = MenuGroup::with('menuItems')->with('getAccessMenuItems')->get();
+        // $data['menuGroup'] = MenuGroup::with('menuItems')->with('getAccessMenuItems')->get();
  
         return view('pages.system.group_index', $data);
         }
