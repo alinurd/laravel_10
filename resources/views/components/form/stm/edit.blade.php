@@ -49,27 +49,40 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($menuGroup as $g)
+    @foreach ($menuGroup as $g)
+        @php
+            // Menyaring permissions untuk menu_group_id
+            $permissions = collect($groupPermission)->where('menu_group_id', $g->parent_id);
+        @endphp
+
+        <tr>
+            <td><i class="ri-folder-2-line"></i> &ensp; <strong>{{ $g->name }}</strong></td>
+            <td>
+                <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}"
+                       @if($permissions->contains('permission_types.manage', true)) checked @endif>
+            </td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+
+        @foreach ($g->children as $i)
             @php
-                 $permissions = collect($groupPermission)->where('menu_group_id', $g->id);
+                // Menyaring $groupPermission untuk mendapatkan izin berdasarkan menu_item_id
+                $itemPermissions = collect($groupPermission)->firstWhere('menu_item_id', $i->id);
             @endphp
 
-            <tr>
-                <td><i class="ri-folder-2-line"></i> &ensp; <strong><strong>{{ $g->name }}</strong></td>
-                <td>
-                    <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}" 
-                           @if($permissions->contains('permission_types.manage', true)) checked @endif>
-                </td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            @foreach ($g->children as $i)
-            @include('components.form.stm.editchild', ['g' => $g, 'i' => $i, 'level' => 1])
-            @endforeach
-            @endforeach
- 
-    </tbody>
+            @include('components.form.stm.editchild', [
+                'g' => $g,
+                'i' => $i,
+                'level' => 1, 
+                'itemPermissions' => $itemPermissions
+            ])
+        @endforeach
+    @endforeach
+</tbody>
+
 </table>
 
 

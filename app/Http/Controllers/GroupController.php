@@ -174,8 +174,6 @@ class GroupController extends _Controller
                 ],
             ];
         }
-
-
          $data['groupPermission'] = $result;
          $data['mode'] = 'edit';
         $data['stm'] = true;
