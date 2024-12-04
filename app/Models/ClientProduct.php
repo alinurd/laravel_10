@@ -23,5 +23,6 @@ class ClientProduct extends Model
         'merk',
         'code_hs',
         'status',
+        'hp',
     ];
 }

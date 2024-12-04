@@ -3,7 +3,7 @@
 return [
     'title' => 'Data Clinet & Product',
     'page' => 'Data Client & Product',
-    'fld_pt_id' => 'PT',
+    'fld_pt_id' => 'Nama PT',
     'fld_pic_id' => 'PIC',
     'fld_direktur' => 'Direktur',
     'fld_product' => 'Product',
@@ -13,4 +13,5 @@ return [
     'fld_merk' => 'Merk',
     'fld_code_hs' => 'HS Code Product Jadi',
     'fld_status' => 'Status',
+    'fld_hp' => 'No.HP',
 ];

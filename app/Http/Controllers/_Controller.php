@@ -66,6 +66,7 @@ class _Controller extends BaseController
                     'field' => strtolower($item['field']),
                     'position' => strtolower($item['position']), 
                     'show' => isset($item['show']) ? $item['show'] : false,
+                    'showList' => isset($item['showList']) ? $item['showList'] :$item['show'] ,
                     'required' => isset($item['required']) ? $item['required'] : false,
                     'filter' => isset($item['filter']) ? $item['filter'] : false,
                     'type' => isset($item['type']) ? $item['type'] : false,

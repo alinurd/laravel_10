@@ -48,14 +48,14 @@
          
         <table class="display" id="data-tables">
             <thead>
-                <tr>
+                <tr style="background-color: #1B85F6; border-right: 1px solid #FFFFFF; color:#FFFFFF">
                     <th scope="col" class="text-center" width="50px">
                         <input type="checkbox" class="" name="check[]" id="{{__('global.no')}}">&nbsp;
                         {{__('global.no')}}
                     </th>
 
                     @forelse ($list as $l)
-                    @if($l['show']==true)
+                    @if($l['showList']==true)
                     <th scope="col" style="text-align: {{$l['position']}}">{{ $l['label'] }}</th>
                     @endif
                     @empty
@@ -74,7 +74,7 @@
                         {{ $loop->iteration }}
                     </th>
                     @forelse ($list as $l)
-                    @if($l['show']==true)
+                    @if($l['showList']==true)
                     <td style="text-align: {{$l['position']}}">{{ $f[$l['field']] }}</td>
                     @endif
                     @empty
@@ -118,7 +118,7 @@
                         {{__('global.no')}}
                     </th>
                     @forelse ($list as $l)
-                    @if($l['show']==true)
+                    @if($l['showList']==true)
                     <th scope="col" style="text-align: {{$l['position']}}">{{ $l['label'] }}</th>
                     @endif
                     @empty

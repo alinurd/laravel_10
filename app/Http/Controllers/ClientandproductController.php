@@ -19,7 +19,7 @@ class ClientandproductController extends _Controller
     public function __construct()
     {
         $this->modulName = "clientandproduct";
-        $this->modelMaster = "App\Models\Icon";
+        $this->modelMaster = "App\Models\ClientProduct";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -29,12 +29,13 @@ class ClientandproductController extends _Controller
             ['id' => 2, 'value' => 'Non Acive'],
         ];
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
-         $this->list = [
+        $this->list = [
             [
                 'field' => 'pt_id',
                 'type' => 'select',
                 'filter' => true,
                 'position' => 'center',
+                'showList' => true,
                 'show' => true,
                 'required' => true,
                 'where' => null,
@@ -47,10 +48,26 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => 'center',
                 'show' => true,
+                'showList' => false,
+
                 'required' => true,
                 'where' => null,
                 'option' => $cbo_pic,
                 'multiple' => false,
+            ],
+            [
+                'field' => 'hp',
+                'type' => 'number',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'showList' => true,
+
+                'required' => true,
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'direktur',
@@ -58,10 +75,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => false,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -70,10 +89,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => true,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -82,10 +103,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => true,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -94,10 +117,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => false,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -106,10 +131,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => true,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -118,10 +145,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => true,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -130,10 +159,12 @@ class ClientandproductController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'show' => true,
+                'showList' => false,
+
                 'required' => true,
-                'rules' => array (
-                0 => 'required',
-                1 => 'string',
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
                 )
             ],
             [
@@ -142,6 +173,7 @@ class ClientandproductController extends _Controller
                 'filter' => true,
                 'position' => 'center',
                 'show' => true,
+                'showList' => false,
                 'required' => false,
                 'where' => null,
                 'option' => $option,
