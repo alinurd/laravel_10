@@ -63,15 +63,9 @@
         <span>No data available</span>
         @endforelse
       </div>
-       @if(isset($costum))
-      <div class="card">
-        <div class="card-header">
-          <span><strong>A.Legal</strong></span>
-        </div>
-        <div class="card-body">
-
-        </div>
-      </div>
-      @endif 
+      @if(isset($costum) && $costum->isNotEmpty())
+      @include('components.form.costum.documenctferify')
+      @else
+      @endif
     </div>
 </form>
