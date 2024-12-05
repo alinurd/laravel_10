@@ -32,15 +32,12 @@ jobs:
           # Perintah untuk deploy ke dev
       - name: Create Pull Request to Dev (for bugfix/* only)
         if: success() && startsWith(github.ref, 'refs/heads/bugfix/')
-       - name: Create Pull Request to Dev (for bugfix/* only)
-  if: success() && startsWith(github.ref, 'refs/heads/bugfix/')
-  run: |
-    echo "Creating pull request from bugfix/* to dev..."
-    curl -X POST \
-      -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
-      -d '{"title":"Merge bugfix changes to dev","head":"${{ github.ref }}","base":"dev"}' \
-      https://api.github.com/repos/${{ github.repository }}/pulls
-
+        run: |
+          echo "Creating pull request from bugfix/* to dev..."
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
+            -d '{"title":"Merge bugfix changes to dev","head":"${{ github.ref }}","base":"dev"}' \
+            https://api.github.com/repos/${{ github.repository }}/pulls
       - name: Notify Success
         if: success()
         run: echo "Feature/Bugfix changes passed tests and are now on dev."
