@@ -27,11 +27,24 @@ jobs:
       - name: Run Tests on Dev
         run: |
           echo "Running tests on dev..."
+      
       # Deployment Step - You can replace this with actual deployment steps
       - name: Deploy to Dev
         run: |
           echo "Deploying to dev..."
-      # Create a Pull Request to Dev (Only for bugfix/* branch)
+
+      # Create Pull Request to Dev for bugfix/* if there's an update from feature/*
+      - name: Create Pull Request to Dev (for bugfix/* from feature/*)
+        if: success() && startsWith(github.ref, 'refs/heads/feature/')
+        run: |
+          echo "Creating pull request from bugfix/* to dev because of feature/* update..."
+          # This checks if bugfix branch exists and creates a PR to dev
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
+            -d '{"title":"Merge bugfix changes to dev from feature/*","head":"${{ github.repository }}/bugfix/*","base":"dev"}' \
+            https://api.github.com/repos/${{ github.repository }}/pulls
+
+      # Create Pull Request to Dev (for bugfix/* only)
       - name: Create Pull Request to Dev (for bugfix/* only)
         if: success() && startsWith(github.ref, 'refs/heads/bugfix/')
         run: |
@@ -40,48 +53,66 @@ jobs:
             -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
             -d '{"title":"Merge bugfix changes to dev","head":"${{ github.ref }}","base":"dev"}' \
             https://api.github.com/repos/${{ github.repository }}/pulls
-      # Create Pull Request for feature/* to dev
-      - name: Create Pull Request to Dev (for feature/* only)
-        if: success() && startsWith(github.ref, 'refs/heads/feature/')
-        run: |
-          echo "Creating pull request from feature/* to dev..."
-          curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
-            -d '{"title":"Merge feature changes to dev","head":"${{ github.ref }}","base":"dev"}' \
-            https://api.github.com/repos/${{ github.repository }}/pulls
+
       # Notify Success
       - name: Notify Success
         if: success()
         run: echo "Feature/Bugfix changes passed tests and are now on dev."
 
   # Job 2: Push to Staging after Dev
- # Job 2: Push to Staging after Dev
-dev-to-staging:
-  if: github.ref == 'refs/heads/dev' && github.event_name == 'push' && success()
-  runs-on: ubuntu-latest
-  needs: feature-bugfix-to-dev
-  steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+  dev-to-staging:
+    if: github.ref == 'refs/heads/dev' && github.event_name == 'push' && success()
+    runs-on: ubuntu-latest
+    needs: feature-bugfix-to-dev
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    # Testing before Staging deployment
-    - name: Run Tests on Dev before Staging
-      run: |
-        echo "Running tests on dev before deploying to staging..."
-    # Deployment Step - Replace with actual deployment commands
-    - name: Deploy to Staging
-      run: |
-        echo "Deploying to staging..."
-    # Create a Pull Request from dev to staging (if needed)
-    - name: Create Pull Request from Dev to Staging
-      if: success()
-      run: |
-        echo "Creating pull request from dev to staging..."
-        curl -X POST \
-          -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
-          -d '{"title":"Merge dev changes to staging","head":"dev","base":"staging"}' \
-          https://api.github.com/repos/${{ github.repository }}/pulls
-    # Notify Success
-    - name: Notify Success
-      if: success()
-      run: echo "Changes deployed to staging."
+      # Testing before Staging deployment
+      - name: Run Tests on Dev before Staging
+        run: |
+          echo "Running tests on dev before deploying to staging..."
+      
+      # Deployment Step - Replace with actual deployment commands
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying to staging..."
+
+      # Create a Pull Request from dev to staging (if needed)
+      - name: Create Pull Request from Dev to Staging
+        if: success()
+        run: |
+          echo "Creating pull request from dev to staging..."
+          curl -X POST \
+            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
+            -d '{"title":"Merge dev changes to staging","head":"dev","base":"staging"}' \
+            https://api.github.com/repos/${{ github.repository }}/pulls
+
+      # Notify Success
+      - name: Notify Success
+        if: success()
+        run: echo "Changes deployed to staging."
+
+  # Job 3: Hotfix directly to Main
+  hotfix-to-main:
+    if: startsWith(github.ref, 'refs/heads/hotfix/')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Run Tests on Hotfix
+        run: |
+          echo "Running tests on hotfix..."
+
+      - name: Deploy to Staging
+        run: |
+          echo "Deploying hotfix to staging..."
+      
+      - name: Deploy to Main
+        run: |
+          echo "Deploying hotfix to main..."
+
+      - name: Notify Success
+        if: success()
+        run: echo "Hotfix deployed to main successfully."
