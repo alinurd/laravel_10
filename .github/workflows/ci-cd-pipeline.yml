@@ -40,7 +40,7 @@ jobs:
           echo "Creating pull request from bugfix/* to dev because of feature/* update..."
           # This checks if bugfix branch exists and creates a PR to dev
           curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
+            -H "Authorization: token ${{ secrets.DEV_001 }}" \
             -d '{"title":"Merge bugfix changes to dev from feature/*","head":"${{ github.repository }}/bugfix/*","base":"dev"}' \
             https://api.github.com/repos/${{ github.repository }}/pulls
 
@@ -50,7 +50,7 @@ jobs:
         run: |
           echo "Creating pull request from bugfix/* to dev..."
           curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
+            -H "Authorization: token ${{ secrets.DEV_001 }}" \
             -d '{"title":"Merge bugfix changes to dev","head":"${{ github.ref }}","base":"dev"}' \
             https://api.github.com/repos/${{ github.repository }}/pulls
 
@@ -84,7 +84,7 @@ jobs:
         run: |
           echo "Creating pull request from dev to staging..."
           curl -X POST \
-            -H "Authorization: token ${{ secrets.MY_DEV_001 }}" \
+            -H "Authorization: token ${{ secrets.DEV_001 }}" \
             -d '{"title":"Merge dev changes to staging","head":"dev","base":"staging"}' \
             https://api.github.com/repos/${{ github.repository }}/pulls
 
@@ -93,26 +93,4 @@ jobs:
         if: success()
         run: echo "Changes deployed to staging."
 
-  # Job 3: Hotfix directly to Main
-  hotfix-to-main:
-    if: startsWith(github.ref, 'refs/heads/hotfix/')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Run Tests on Hotfix
-        run: |
-          echo "Running tests on hotfix..."
-
-      - name: Deploy to Staging
-        run: |
-          echo "Deploying hotfix to staging..."
-      
-      - name: Deploy to Main
-        run: |
-          echo "Deploying hotfix to main..."
-
-      - name: Notify Success
-        if: success()
-        run: echo "Hotfix deployed to main successfully."
+ 
