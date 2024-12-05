@@ -116,21 +116,4 @@ jobs:
       - name: Notify Success
         if: success()
         run: echo "Hotfix deployed to main successfully."
-
-  # Job 5: Manual Merge to Main (when necessary)
-  manual-merge-to-main:
-    if: github.event_name == 'workflow_dispatch'
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Merge Staging to Main
-        run: |
-          echo "Merging staging to main..."
-          git checkout main
-          git merge staging
-          git push origin main
-
-      - name: Notify Success
-        run: echo "Manual merge from staging to main completed."
+ 
