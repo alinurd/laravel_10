@@ -74,7 +74,7 @@ jobs:
       - name: Run Tests on PR
         run: |
           echo "Running tests before merging to dev or staging..."
-          # Jalankan tes sebelum PR diterima
+          # Jalankan tes sebelum PR diterima 
       - name: Notify Success
         if: success()
         run: echo "PR is ready to merge into dev or staging."
