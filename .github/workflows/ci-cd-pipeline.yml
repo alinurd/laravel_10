@@ -30,12 +30,12 @@ jobs:
         run: |
           echo "Deploying to dev..."
           # Perintah untuk deploy ke dev
-      - name: Create Pull Request to Dev
+      - name: Create Pull Request to Dev (for bugfix/* only)
         if: success() && startsWith(github.ref, 'refs/heads/bugfix/')
         run: |
           echo "Creating pull request from bugfix/* to dev..."
           curl -X POST \
-            -H "Authorization: alinurdin_devops_tes_001 ${{ secrets.DEV_001 }}" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
             -d '{"title":"Merge bugfix changes to dev","head":"${{ github.ref }}","base":"dev"}' \
             https://api.github.com/repos/${{ github.repository }}/pulls
       - name: Notify Success
@@ -67,6 +67,8 @@ jobs:
     if: github.event_name == 'pull_request' && (startsWith(github.head_ref, 'feature/') || startsWith(github.head_ref, 'bugfix/'))
     runs-on: ubuntu-latest
     steps:
+      - name: Print GitHub Context
+        run: echo "Event Name: ${{ github.event_name }}; Head Ref: ${{ github.head_ref }}"
       - name: Checkout Code
         uses: actions/checkout@v3
       - name: Run Tests on PR
