@@ -5,6 +5,8 @@ on:
     branches:
       - dev
       - feature/*
+      - hotfix/*
+      - bugfix/*
 
 jobs:
   build-and-test:
