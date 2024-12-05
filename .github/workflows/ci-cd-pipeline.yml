@@ -85,24 +85,4 @@ jobs:
         if: success()
         run: echo "Changes deployed to staging."
 
-  # Job 3: PR to Dev and Staging 
-  # Job 4: Hotfix directly to Main
-  hotfix-to-main:
-    if: startsWith(github.ref, 'refs/heads/hotfix/')
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Run Tests on Hotfix
-        run: |
-          echo "Running tests on hotfix..."
-      - name: Deploy to Staging
-        run: |
-          echo "Deploying hotfix to staging..."
-      - name: Deploy to Main
-        run: |
-          echo "Deploying hotfix to main..."
-      - name: Notify Success
-        if: success()
-        run: echo "Hotfix deployed to main successfully."
+  # Job 3: PR to Dev and Staging  
