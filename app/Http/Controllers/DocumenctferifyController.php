@@ -149,9 +149,8 @@ class DocumenctferifyController extends _Controller
 
         try {
             // Simpan header
-            $headerData = $request->only(['pic', 'jenis_product', 'nilai']);
-            $headerData['status'] = true;
-            $header = DocFerifyHeader::create($headerData);
+            $headerData = $request->only(['pic', 'jenis_product', 'nilai', 'status']);
+             $header = DocFerifyHeader::create($headerData);
             $id_doc_ferify = $header->id;
             $customData = $request->input('custom');
             if ($customData) {
@@ -190,9 +189,8 @@ class DocumenctferifyController extends _Controller
 
         try { 
             $header = DocFerifyHeader::findOrFail($id);
-            $headerData = $request->only(['pic', 'jenis_product', 'nilai']);
-            $headerData['status'] = true;
-            $header->update($headerData);
+            $headerData = $request->only(['pic', 'jenis_product', 'nilai', 'status']);
+             $header->update($headerData);
 
             $customData = $request->input('customEdit');
 

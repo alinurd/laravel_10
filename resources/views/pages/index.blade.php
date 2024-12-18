@@ -102,6 +102,10 @@
         <span class="badge rounded-pill bg-primary">Aktif</span>
     @elseif($f[$l['field']] == 2 || $f[$l['field']] == "inactive")
         <span class="badge rounded-pill bg-danger">No-Aktif</span>
+        @elseif($f[$l['field']] == 3 || $f[$l['field']] == "show")
+        <span class="badge rounded-pill bg-warning">Show</span>
+        @elseif($f[$l['field']] == 0 || $f[$l['field']] == "")
+        <span class="badge rounded-pill bg-dark">Unknow</span>
     @else
         {{ format_date($f[$l['field']]) }}
     @endif
