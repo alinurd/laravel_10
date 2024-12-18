@@ -76,9 +76,43 @@
                         {{ $loop->iteration }}
                     </th>
                     @forelse ($list as $l)
-                    @if($l['showList']==true)
-                    <td style="text-align: {{$l['position']}}">{{ $f[$l['field']] }}</td>
-                    @endif
+                     
+                    @if($l['showList'] == true)
+                    <td style="text-align: {{$l['position']}}">
+                    @if($l['type'] == 'select') 
+    @php $matchFound = false; @endphp
+    @foreach($l['option'] as $option)
+        @if($option['id'] == $f[$l['field']])
+            {{$option['value']}}  
+            @php $matchFound = true; @endphp 
+            @break 
+        @endif
+    @endforeach
+    @if(!$matchFound)
+        {{$f[$l['field']] ?? 'unknown'}}
+    @endif 
+@elseif($l['input'] == 'rupiah') 
+    {{ format_rupiah($f[$l['field']]) }}
+
+@elseif($l['input'] == 'date') 
+    {{ format_date($f[$l['field']]) }}
+
+@elseif($l['field'] == 'status') 
+    @if($f[$l['field']] == 1 || $f[$l['field']] == "active" || $f[$l['field']] == "show")
+        <span class="badge rounded-pill bg-primary">Aktif</span>
+    @elseif($f[$l['field']] == 2 || $f[$l['field']] == "inactive")
+        <span class="badge rounded-pill bg-danger">No-Aktif</span>
+    @else
+        {{ format_date($f[$l['field']]) }}
+    @endif
+
+@else
+    {{$f[$l['field']] ?? '-'}}
+@endif
+
+                    </td>
+                @endif
+
                     @empty
                     <td colspan="{{ count($list) }}" class="text-center">{{__('global.empt')}}</td>
                     @endforelse

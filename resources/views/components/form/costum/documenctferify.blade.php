@@ -6,8 +6,7 @@
       <i class="ri-arrow-down-s-line"></i>
           </button>
         </div>
- 
-       
+  
         <div class="collapse" id="collapse{{ $p->key1 }}">
           <div class="card-body">
             <table class="table" id="table-{{ $p->id }}">

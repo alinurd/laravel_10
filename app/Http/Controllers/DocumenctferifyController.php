@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\Combo;
 use App\Models\DocFerifyDetail;
 use App\Models\DocFerifyHeader;
 use App\Models\MenuItem;
@@ -25,6 +26,13 @@ class DocumenctferifyController extends _Controller
     {
         $this->modulName = "documenctferify";
         $this->modelMaster = "App\Models\DocFerifyHeader";
+        $sts = $this->_cbo(Combo::class, ['id', 'data'], true, [
+            'where' => [
+                ['f' => 'pid', 'v' => 'sts'],
+                ['f' => 'categori', 'v' => 'sts']
+            ]
+        ]);
+                
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
         $this->list = [
@@ -39,6 +47,7 @@ class DocumenctferifyController extends _Controller
                 'option' => $cbo_pic,
                 'multiple' => false,
             ],
+           
             
             [
                 'field' => 'jenis_product',
@@ -55,15 +64,28 @@ class DocumenctferifyController extends _Controller
             [
                 'field' => 'nilai',
                 'type' => 'number',
+                'input' => 'rupiah',
                 'filter' => false,
-                'position' => false,
+                'position' => 'right',
                 'show' => true,
                 'required' => true,
                 'rules' => array(
                     0 => 'required',
                     1 => 'string',
                 )
-            ]
+                ],
+            [
+                'field' => 'status',
+                'type' => 'radio',
+                'filter' => true, 
+
+                'position' => 'center',
+                'show' => true,
+                'required' => false,
+                'where' => null,
+                'option' => $sts,
+                'multiple' => false,
+            ],
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
