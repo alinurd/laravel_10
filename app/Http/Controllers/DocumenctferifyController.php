@@ -3,10 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\DocFerifyDetail;
+use App\Models\DocFerifyHeader;
 use App\Models\MenuItem;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
+use PhpParser\Node\Expr\Isset_;
 
 class DocumenctferifyController extends _Controller
 {
@@ -18,7 +22,7 @@ class DocumenctferifyController extends _Controller
     public function __construct()
     {
         $this->modulName = "documenctferify";
-        $this->modelMaster = "App\Models\Icon";
+        $this->modelMaster = "App\Models\DocFerifyHeader";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -105,7 +109,10 @@ class DocumenctferifyController extends _Controller
         $data = $this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);
         $data['id'] = $id;
-        $data['field'] = $this->modelMaster::find($id);
+        $header = $this->modelMaster::find($id);
+        $details = $header->getDetails; 
+        $data['field'] = $header;
+        $data['dataDetail'] = $details;
         $data['mode'] = 'edit';
         $data['costum'] = $this->getCombo( "App\Models\Combo",[ 'where'=>['field'=>'categori', 'where'=>'docferify']]);
 
@@ -116,34 +123,103 @@ class DocumenctferifyController extends _Controller
      * Update the specified resource in storage.
      */
 
-     public function store(CRUDService $CRUDService, CRUDRequest $request)
-     {
-         $rules = [];
-         foreach ($this->setFrom as $field) {
-            if($field['show']){
-                $fieldName = $field['field'];
-                $rules[$fieldName] = $field['rules'];
+    public function store(CRUDService $CRUDService, CRUDRequest $request)
+    {
+        DB::beginTransaction();
+    
+        try {
+            // Simpan header
+            $headerData = $request->only(['pic', 'jenis_product', 'nilai']);
+            $headerData['status'] = true;
+            $header = DocFerifyHeader::create($headerData);
+            $id_doc_ferify = $header->id;
+            $customData = $request->input('custom'); 
+             if ($customData) {
+                $cName = $customData['cName']; 
+                foreach ($cName as $key) {  
+                    if (isset($customData[$key])) {  
+                        $fields = $customData[$key];  
+                        $count = count($fields['Uraian']);
+                        for ($index = 0; $index < $count; $index++) {  
+                            DocFerifyDetail::create([
+                                'id_doc_ferify' => $id_doc_ferify,
+                                'pid' => $key,
+                                'uraian' => $fields['Uraian'][$index] ?? null,
+                                'dos' => !empty($fields['DOS'][$index]) ? date('Y-m-d', strtotime($fields['DOS'][$index])) : null,
+                                'ket' => $fields['Ket'][$index] ?? null,
+                                'dov' => !empty($fields['DOV'][$index]) ? date('Y-m-d', strtotime($fields['DOV'][$index])) : null,
+                                'status' => true,
+                            ]);
+                        }
+                    }
+                }
             }
-             
-         }     
-         $request->setRules($rules);
-        return $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
-     }
+            DB::commit();
+            return redirect()->route('documenctferify.index')->with('success', 'Data berhasil disimpan');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            return redirect()->back()->withErrors('Terjadi kesalahan saat menyimpan data: ' . $e->getMessage());
+        }
+    }
+    
      
      
 
     public function update(CRUDRequest $request, string $id, CRUDService $CRUDService)
     {
-        $rules = [];
-         foreach ($this->setFrom as $field) {
-            if($field['show']){
-                $fieldName = $field['field'];
-                $rules[$fieldName] = $field['rules'];
+        DB::beginTransaction();
+ 
+        try { 
+            $header = DocFerifyHeader::findOrFail($id);
+             
+            $headerData = $request->only(['pic', 'jenis_product', 'nilai']);
+            $headerData['status'] = true;
+     
+            $header->update($headerData);
+     
+            $customData = $request->input('custom'); 
+    
+            if ($customData) {
+                $cName = $customData['cName'];  
+                foreach ($cName as $key) {  
+                    if (isset($customData[$key])) {  
+                        $fields = $customData[$key];  
+                        $count = count($fields['Uraian']);
+                           
+                        for ($index = 0; $index < $count; $index++) { 
+                            $idDetail = $fields['id'][$index] ?? null;
+                            $existingDetail = DocFerifyDetail::where('id', $idDetail)
+                            ->first(); 
+                            $data = [
+                                'id_doc_ferify' => $id,
+                                'pid' => $key,
+                                'uraian' => $fields['Uraian'][$index] ?? null,
+                                'dos' => !empty($fields['DOS'][$index]) ? date('Y-m-d', strtotime($fields['DOS'][$index])) : null,
+                                'ket' => $fields['Ket'][$index] ?? null,
+                                'dov' => !empty($fields['DOV'][$index]) ? date('Y-m-d', strtotime($fields['DOV'][$index])) : null,
+                                'status' => true,
+                            ];
+
+                                if ($existingDetail) {
+                                    $existingDetail->update($data);
+                                } else { 
+                                    DocFerifyDetail::create($data);
+                                } 
+                        }
+                    }
+                }
             }
-         }     
-         $request->setRules($rules);
-        return $CRUDService->update($id, $request, $this->modelMaster, $this->setFrom, $this->modulName);
+            
+            DB::commit();
+            return redirect()->route('documenctferify.index')->with('success', 'Data berhasil diperbarui');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            dd($e->getMessage());
+            return redirect()->back()->withErrors('Terjadi kesalahan saat memperbarui data: ' . $e->getMessage());
+        }
     }
+    
 
     /**
      * Remove the specified resource from storage.

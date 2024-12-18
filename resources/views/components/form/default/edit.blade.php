@@ -72,7 +72,10 @@
         <span>No data available</span>
         @endforelse
 
-
+        @if(isset($costum) && $costum->isNotEmpty())
+      @include('components.form.costum.documenctferify')
+      @else
+      @endif
 
       </div>
     </div>
