@@ -19,6 +19,7 @@ use App\Http\Controllers\ClientandproductController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocferifyController;
 use App\Http\Controllers\DocumenctferifyController;
+use App\Http\Controllers\DocumenctferifyReviewController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -62,6 +63,7 @@ Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->na
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('documenctferify', DocumenctferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+    Route::resource('documenctferifyreview', DocumenctferifyReviewController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
     Route::resource('docferify', DocferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
