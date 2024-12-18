@@ -1,12 +1,13 @@
-@foreach($costum as $p)
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
-          <span><strong>{{ $p->key1 }}. {{ $p->data }}</strong></span>
-          <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $p->key1 }}" aria-expanded="false" aria-controls="collapse{{ $p->key1 }}">
-            <i class="ri-arrow-down-s-line"></i>
+@foreach($costum as $k=> $p)
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
+    <span><strong>{{ $p->key1 }}. {{ $p->data }}</strong></span>
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $p->key1 }}" aria-expanded="false" aria-controls="collapse{{ $p->key1 }}">
+      <i class="ri-arrow-down-s-line"></i>
           </button>
         </div>
-
+ 
+       
         <div class="collapse" id="collapse{{ $p->key1 }}">
           <div class="card-body">
             <table class="table" id="table-{{ $p->id }}">
@@ -20,25 +21,56 @@
                 </tr>
               </thead>
               <tbody>
+
+
+              @if(in_array($p->data, array_column($dataDetail->toArray(), 'pid')))
+              @foreach($dataDetail as $detail)
+            @if($detail->pid == $p->data) 
                 <tr>
-                  <td width="45%" class="text-center">
-                    <input type="text" name="custom[cName][]" readonly value="{{ $p->data }}" class="form-control">
-                    <input type="text" name="custom[{{ $p->data }}][Uraian][]" class="form-control">
-                  </td>
-                  <td width="10%" class="text-center">
-                    <input type="date" name="custom[{{ $p->data }}][DOS][]" class="form-control">
-                  </td>
-                  <td width="25%" class="text-center">
-                    <textarea name="custom[{{ $p->data }}][Ket][]" class="form-control"></textarea>
-                  </td>
-                  <td width="10%" class="text-center">
-                    <input name="custom[{{ $p->data }}][DOV][]" type="date" class="form-control">
-                  </td>
-                  <td>
-                    <span class="btn btn-danger btn-sm removeRow"><i class="ri-delete-bin-7-line"></i></span>
-                  </td>
+                    <td class="text-center">
+                        <input type="hidden" name="custom[cName][]" readonly value="{{ $p->data }}" class="form-control">
+                        <input type="text" name="custom[{{ $p->data }}][id][]" value="{{ $detail->id }}" class="form-control"> 
+                        <input type="text" name="custom[{{ $p->data }}][Uraian][]" value="{{ $detail->uraian }}" class="form-control">
+                    </td>
+                    <td class="text-center">
+                        <input type="date" name="custom[{{ $p->data }}][DOS][]" value="{{ $detail->dos ? \Carbon\Carbon::parse($detail->dos)->format('Y-m-d') : '' }}" class="form-control">
+                    </td>
+                    <td class="text-center">
+                        <textarea name="custom[{{ $p->data }}][Ket][]" class="form-control">{{ $detail->ket }}</textarea>
+                    </td>
+                    <td class="text-center">
+                        <input name="custom[{{ $p->data }}][DOV][]" value="{{ $detail->dov ? \Carbon\Carbon::parse($detail->dov)->format('Y-m-d') : '' }}" type="date" class="form-control">
+                    </td>
+                    <td>
+                        <span class="btn btn-danger btn-sm removeRow"><i class="ri-delete-bin-7-line"></i></span>
+                    </td>
                 </tr>
-              </tbody>
+            @endif
+        @endforeach
+    @else
+        <tr>
+            <td class="text-center">
+                <input type="hidden" name="custom[cName][]" readonly value="{{ $p->data }}" class="form-control">
+                <input type="hidden" name="custom[{{ $p->data }}][id][]" class="form-control">
+                <input type="text" name="custom[{{ $p->data }}][Uraian][]" class="form-control">
+            </td>
+            <td class="text-center">
+                <input type="date" name="custom[{{ $p->data }}][DOS][]" class="form-control">
+            </td>
+            <td class="text-center">
+                <textarea name="custom[{{ $p->data }}][Ket][]" class="form-control"></textarea>
+            </td>
+            <td class="text-center">
+                <input name="custom[{{ $p->data }}][DOV][]" type="date" class="form-control">
+            </td>
+            <td>
+                <span class="btn btn-danger btn-sm removeRow"><i class="ri-delete-bin-7-line"></i></span>
+            </td>
+        </tr>
+    @endif
+</tbody>
+
+
             </table>
           </div>
         </div>

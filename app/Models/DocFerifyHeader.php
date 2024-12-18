@@ -14,4 +14,11 @@ class DocFerifyHeader extends Model
     protected $fillable = ['pic', 'jenis_product', 'nilai', 'status'];
     public $incrementing = true; // Pastikan ini true untuk auto-increment integer
     protected $keyType = 'int'; // Set tipe data primary key ke integer
+
+    public function getDetails()
+    { 
+        return $this->hasMany(DocFerifyDetail::class, 'id_doc_ferify', 'id');
+    }
+
+
 }
