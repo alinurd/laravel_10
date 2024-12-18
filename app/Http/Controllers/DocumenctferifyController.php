@@ -6,6 +6,7 @@ use App\Http\Requests\CRUDRequest;
 use App\Models\DocFerifyDetail;
 use App\Models\DocFerifyHeader;
 use App\Models\MenuItem;
+use App\Models\PIC;
 use App\Services\CRUDService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -24,25 +25,21 @@ class DocumenctferifyController extends _Controller
     {
         $this->modulName = "documenctferify";
         $this->modelMaster = "App\Models\DocFerifyHeader";
-        $option = [
-            ['id' => 1, 'value' => 'Active'],
-            ['id' => 2, 'value' => 'Non Acive'],
-        ];
+        $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
         $this->list = [
-
             [
                 'field' => 'pic',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
+                'type' => 'select',
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
-                'required' => true,
-                'rules' => array(
-                    0 => 'required',
-                    1 => 'string',
-                )
+                'required' => false,
+                'where' => null,
+                'option' => $cbo_pic,
+                'multiple' => false,
             ],
+            
             [
                 'field' => 'jenis_product',
                 'type' => 'text',
