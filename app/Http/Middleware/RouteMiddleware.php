@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Groups;
 use App\Models\Route;
 use App\Models\GroupUsers;
 use App\Providers\RouteServiceProvider;
@@ -58,6 +59,7 @@ public function handle($request, Closure $next)
                         }
                          
                         $filteredPermissions = false;
+                     
                         foreach ($permissions as $p) {
                             
                             if ($p->permission_type == $type) {
@@ -65,15 +67,20 @@ public function handle($request, Closure $next)
                                 break;  
                             }
                         }
+                         $GroupsName = Groups::where('id', $groupUser->group_id)->first();                        
+                        if($GroupsName->name=="Administrator" && $type=="updateStatus" || $type=="updateTree" || $type=="updateOrder" || $type=="updateDov"){
+                            $filteredPermissions = true;
 
-                       
-                        if ($filteredPermissions) {
+                        }
+                         if ($filteredPermissions) {
                             return $next($request);
                         } else {
+ 
                              return redirect(RouteServiceProvider::NOACCESS)
                                 ->with('failed', 'Anda tidak memiliki akses untuk modul ini!');
                         }
                     } else {
+ 
                         // Jika tidak ada permissions ditemukan untuk menu ini
                         return redirect(RouteServiceProvider::NOACCESS)
                             ->with('failed', 'Anda tidak memiliki akses untuk modul ini!');
@@ -82,7 +89,7 @@ public function handle($request, Closure $next)
             }
         } else {
             // Jika tidak ditemukan grup pengguna
-            return redirect(RouteServiceProvider::NOACCESS)
+             return redirect(RouteServiceProvider::NOACCESS)
                 ->with('failed', 'Grup pengguna tidak ditemukan!');
         }
     } else {
