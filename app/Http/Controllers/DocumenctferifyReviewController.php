@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
 use PhpParser\Node\Expr\Isset_;
 
-class DocumenctferifyController extends _Controller
+class DocumenctferifyReviewController extends _Controller
 {
     protected $modulName = '';
     protected $_SETCORE = '';
@@ -24,14 +24,9 @@ class DocumenctferifyController extends _Controller
     protected $modelMaster = '';
     public function __construct()
     {
-        $this->modulName = "documenctferify";
+        $this->modulName = "documenctferifyreview";
         $this->modelMaster = "App\Models\DocFerifyHeader";
-        $sts = $this->_cbo(Combo::class, ['id', 'data'], true, [
-            'where' => [
-                ['f' => 'pid', 'v' => 'sts'],
-                ['f' => 'categori', 'v' => 'sts']
-            ]
-        ]);
+        $sts = $this->_cbo(Combo::class, ['id', 'data'], true, ['where' => [['f' => 'pid', 'v' => 'sts'], ['f' => 'categori', 'v' => 'sts']] ]);
                 
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
@@ -268,4 +263,28 @@ class DocumenctferifyController extends _Controller
     {
         return $CRUDService->delete($id, $this->modelMaster, $this->modulName);
     }
+    public function updateDov(Request $request)
+    {
+        // Validasi data yang diterima
+        // $request->validate([
+        //     'id' => 'required|integer',
+        //     'dov' => 'required|date',
+        //     'review' => 'nullable|string',
+        // ]);
+    
+        // Cari detail berdasarkan ID dan update
+        // $detail = YourModel::find($request->id);
+        // if ($detail) {
+        //     $detail->dov = $request->dov;
+        //     $detail->review = $request->review;
+        //     $detail->save();
+    
+        //     // Kirim respons sukses
+        //     return response()->json(['success' => true]);
+        // }
+    
+        // Jika data tidak ditemukan
+        return response()->json(['success' => true, 'message' => 'OK'], 200);
+    }
+    
 }

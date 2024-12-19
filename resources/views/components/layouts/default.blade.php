@@ -15,6 +15,8 @@
 
   <!-- Layout config Js -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
+  <script src="{{ asset('assets/js/main.js') }}"></script>
+
   <!-- Bootstrap CSS -->
   <link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
   <!-- Icons CSS -->

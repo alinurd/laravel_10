@@ -7,6 +7,8 @@ return [
     'add_new' => 'Add',
     'addNew' => 'Add New',
     'edit' => 'Update',
+    'view' => 'View',
+    'approval' => 'Verify',
     'del' => 'Delete',
     'save' => 'Save',
     'censel' => 'Censel',

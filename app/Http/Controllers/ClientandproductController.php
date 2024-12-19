@@ -5,9 +5,11 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CRUDRequest;
 use App\Models\MenuItem;
 use App\Models\PIC;
+use App\Models\PT;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Models\Combo;
 
 class ClientandproductController extends _Controller
 {
@@ -20,14 +22,8 @@ class ClientandproductController extends _Controller
     {
         $this->modulName = "clientandproduct";
         $this->modelMaster = "App\Models\ClientProduct";
-        $option = [
-            ['id' => 1, 'value' => 'Active'],
-            ['id' => 2, 'value' => 'Non Acive'],
-        ];
-        $cbo_pt = [
-            ['id' => 1, 'value' => 'Active'],
-            ['id' => 2, 'value' => 'Non Acive'],
-        ];
+       
+        $cbo_pt = $this->_cbo(PT::class, ['id', 'nama'], true);
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
         $this->list = [
             [
@@ -169,14 +165,13 @@ class ClientandproductController extends _Controller
             ],
             [
                 'field' => 'status',
-                'type' => 'select',
+                'type' => 'radio',
                 'filter' => true,
                 'position' => 'center',
                 'show' => true,
-                'showList' => false,
                 'required' => false,
                 'where' => null,
-                'option' => $option,
+                'option' => $this->_cbo(Combo::class, ['id', 'data'], false, ['where' => [['f' => 'pid', 'v' => 'sts'], ['f' => 'categori', 'v' => 'sts']] ]),
                 'multiple' => false,
             ],
         ];

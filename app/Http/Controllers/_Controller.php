@@ -71,6 +71,7 @@ class _Controller extends BaseController
                     'filter' => isset($item['filter']) ? $item['filter'] : false,
                     'type' => isset($item['type']) ? $item['type'] : false,
                     'option' => isset($item['option']) ? $item['option'] : [],
+                    'input' => isset($item['input']) ? $item['input'] : [],
                     'multiple' => isset($item['multiple']) && $item['multiple'] == true,
                     'rules' => isset($item['rules']) ? $item['rules'] : [],
                 ];
@@ -116,24 +117,45 @@ class _Controller extends BaseController
          return $p;
     }  
     
-    public function _cbo($model, $fields, $includeEmpty = false) {
-         if (!is_array($fields) || count($fields) < 2) {
+    public function _cbo($model, $fields, $includeEmpty = false, $cons = []) {
+        // Validate the fields parameter
+        if (!is_array($fields) || count($fields) < 2) {
             throw new InvalidArgumentException("Fields harus berupa array dengan minimal 2 elemen.");
         }
-        $data = $model::select($fields)->get();  
+    
+         $query = $model::query();
+    
+         if (isset($cons['where']) && !empty($cons['where'])) {
+            foreach ($cons['where'] as $item) {
+                 if (isset($item['f']) && isset($item['v']) && !empty($item['f']) && !empty($item['v'])) {
+                    $query->where($item['f'], '=', $item['v']);
+                }
+            }
+        }
+     
+        $sql = $query->toSql();
+        $bindings = $query->getBindings();
+        $finalQuery = vsprintf(str_replace('?', '%s', $sql), $bindings);
+     
+        $data = $query->select($fields)->get();
+     
         $dropdown = $data->map(function ($item) use ($fields) {
             return [
                 'id' => $item->{$fields[0]},
-                'value' => $item->{$fields[1]}  
+                'value' => $item->{$fields[1]}
             ];
         })->toArray();
     
+        // Optionally add an empty "Pilih Opsi" option at the top
         if ($includeEmpty) {
             array_unshift($dropdown, ['id' => '', 'value' => 'Pilih Opsi']);
         }
     
+        // Return the resulting dropdown array
         return $dropdown;
     }
+    
+    
     
     
     

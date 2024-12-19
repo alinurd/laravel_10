@@ -76,9 +76,47 @@
                         {{ $loop->iteration }}
                     </th>
                     @forelse ($list as $l)
-                    @if($l['showList']==true)
-                    <td style="text-align: {{$l['position']}}">{{ $f[$l['field']] }}</td>
-                    @endif
+                     
+                    @if($l['showList'] == true)
+                    <td style="text-align: {{$l['position']}}">
+                    @if($l['type'] == 'select') 
+    @php $matchFound = false; @endphp
+    @foreach($l['option'] as $option)
+        @if($option['id'] == $f[$l['field']])
+            {{$option['value']}}  
+            @php $matchFound = true; @endphp 
+            @break 
+        @endif
+    @endforeach
+    @if(!$matchFound)
+        {{$f[$l['field']] ?? 'unknown'}}
+    @endif 
+@elseif($l['input'] == 'rupiah') 
+    {{ format_rupiah($f[$l['field']]) }}
+
+@elseif($l['input'] == 'date') 
+    {{ format_date($f[$l['field']]) }}
+
+@elseif($l['field'] == 'status') 
+    @if($f[$l['field']] == 1 || $f[$l['field']] == "active" || $f[$l['field']] == "show")
+        <span class="badge rounded-pill bg-primary">Aktif</span>
+    @elseif($f[$l['field']] == 2 || $f[$l['field']] == "inactive")
+        <span class="badge rounded-pill bg-danger">No-Aktif</span>
+        @elseif($f[$l['field']] == 3 || $f[$l['field']] == "show")
+        <span class="badge rounded-pill bg-warning">Show</span>
+        @elseif($f[$l['field']] == 0 || $f[$l['field']] == "")
+        <span class="badge rounded-pill bg-dark">Unknow</span>
+    @else
+        {{ format_date($f[$l['field']]) }}
+    @endif
+
+@else
+    {{$f[$l['field']] ?? '-'}}
+@endif
+
+                    </td>
+                @endif
+
                     @empty
                     <td colspan="{{ count($list) }}" class="text-center">{{__('global.empt')}}</td>
                     @endforelse
@@ -89,8 +127,18 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li>
+                                    <a class="text-primary dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
+                                        <i class="ri-edit-line text-primary"></i> {{__('global.edit')}}
+                                    </a>
+                                </li>
+                                <li>
                                     <a class="text-info dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
-                                        <i class="ri-edit-line text-info"></i> {{__('global.edit')}}
+                                        <i class="ri-eye-line text-info"></i> {{__('global.view')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-success dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
+                                        <i class="ri-draft-fill text-success"></i> {{__('global.approval')}}
                                     </a>
                                 </li>
                                 <li>

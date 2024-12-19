@@ -19,6 +19,8 @@ use App\Http\Controllers\ClientandproductController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DocferifyController;
 use App\Http\Controllers\DocumenctferifyController;
+use App\Http\Controllers\DocumenctferifyReviewController;
+use App\Http\Controllers\PTController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -55,13 +57,17 @@ Route::permanentRedirect('/', '/login');
 Route::resource('menus', MenuController::class);
 Route::post('/menus/update-order', [MenuController::class, 'updateOrder'])->name('menus.updateOrder');
 Route::post('/menus/update-tree', [MenuController::class, 'updateTree'])->name('menus.updateTree');
+Route::post('/update-dov', [DocumenctferifyReviewController::class, 'updateDov']);
 
 // Route::get('/menusbaru', [MenuController::class, 'index']);
 Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('pt', PTController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+
     Route::resource('documenctferify', DocumenctferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
+    Route::resource('documenctferifyreview', DocumenctferifyReviewController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
     Route::resource('docferify', DocferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);
 
