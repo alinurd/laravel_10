@@ -78,6 +78,13 @@
             @else
                @include('components.form.default.edit')
                @endif
+            @elseif($mode == 'show')
+            @if(isset($stm))
+                @include('components.form.stm.show')
+            @else
+               @include('components.form.default.show')
+               @endif
+               
             @else
                @yield('content')
             @endif

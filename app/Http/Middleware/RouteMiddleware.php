@@ -58,6 +58,10 @@ public function handle($request, Closure $next)
                             $type = 'manage';
                         }
                          
+                        if ($type == 'show') {
+                            $type = 'view';
+                        }
+                         
                         $filteredPermissions = false;
                      
                         foreach ($permissions as $p) {
@@ -66,7 +70,7 @@ public function handle($request, Closure $next)
                                 $filteredPermissions = true;
                                 break;  
                             }
-                        }
+                        } 
                          $GroupsName = Groups::where('id', $groupUser->group_id)->first();                        
                         if($GroupsName->name=="Administrator" && $type=="updateStatus" || $type=="updateTree" || $type=="updateOrder" || $type=="updateDov"){
                             $filteredPermissions = true;

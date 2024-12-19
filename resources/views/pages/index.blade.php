@@ -46,7 +46,7 @@
     <!-- Hoverable Rows -->
     <div class="table-responsive m-3">
     @include('components.form.default.filter')
-        @if($mode !='add' && $mode !='edit')
+        @if($mode !='add' && $mode !='edit'&& $mode !='show')
          
         <table class="display" id="data-tables">
             <thead>
@@ -132,7 +132,7 @@
                                     </a>
                                 </li>
                                 <li>
-                                    <a class="text-info dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
+                                    <a class="text-info dropdown-item" href="{{ route($currentRoute . '.show', $f->id) }}">
                                         <i class="ri-eye-line text-info"></i> {{__('global.view')}}
                                     </a>
                                 </li>
