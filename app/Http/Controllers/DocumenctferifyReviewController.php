@@ -24,7 +24,7 @@ class DocumenctferifyReviewController extends _Controller
     protected $modelMaster = '';
     public function __construct()
     {
-        $this->modulName = "documenctferify";
+        $this->modulName = "documenctferifyreview";
         $this->modelMaster = "App\Models\DocFerifyHeader";
         $sts = $this->_cbo(Combo::class, ['id', 'data'], true, [
             'where' => [

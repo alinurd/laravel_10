@@ -135,6 +135,7 @@ function removeSpinner(elementId, buttonId) {
             });
             // Event ketika node di klik
             $('#menu-tree').on("select_node.jstree", function(e, data) {
+                console.log(data.node)
                 const menuId = data.node.id;
                 const menuName = data.node.text; 
                 const menuStatus = data.node.state.selected ? 1 : 0; // Status berdasarkan seleksi node
