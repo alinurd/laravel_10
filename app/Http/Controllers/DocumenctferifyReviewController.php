@@ -26,12 +26,7 @@ class DocumenctferifyReviewController extends _Controller
     {
         $this->modulName = "documenctferifyreview";
         $this->modelMaster = "App\Models\DocFerifyHeader";
-        $sts = $this->_cbo(Combo::class, ['id', 'data'], true, [
-            'where' => [
-                ['f' => 'pid', 'v' => 'sts'],
-                ['f' => 'categori', 'v' => 'sts']
-            ]
-        ]);
+        $sts = $this->_cbo(Combo::class, ['id', 'data'], true, ['where' => [['f' => 'pid', 'v' => 'sts'], ['f' => 'categori', 'v' => 'sts']] ]);
                 
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
