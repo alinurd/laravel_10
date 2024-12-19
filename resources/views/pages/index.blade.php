@@ -127,8 +127,18 @@
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                                 <li>
+                                    <a class="text-primary dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
+                                        <i class="ri-edit-line text-primary"></i> {{__('global.edit')}}
+                                    </a>
+                                </li>
+                                <li>
                                     <a class="text-info dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
-                                        <i class="ri-edit-line text-info"></i> {{__('global.edit')}}
+                                        <i class="ri-eye-line text-info"></i> {{__('global.view')}}
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="text-success dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
+                                        <i class="ri-draft-fill text-success"></i> {{__('global.approval')}}
                                     </a>
                                 </li>
                                 <li>
