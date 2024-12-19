@@ -114,6 +114,7 @@
 
 
         @if(isset($costum) && $costum->isNotEmpty())
+        <!-- @include('components.form.costum.documenctferifyreview') -->
         @include('components.form.costum.documenctferify')
         @else
         @endif

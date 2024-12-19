@@ -56,6 +56,7 @@ Route::permanentRedirect('/', '/login');
 Route::resource('menus', MenuController::class);
 Route::post('/menus/update-order', [MenuController::class, 'updateOrder'])->name('menus.updateOrder');
 Route::post('/menus/update-tree', [MenuController::class, 'updateTree'])->name('menus.updateTree');
+Route::post('/update-dov', [DocumenctferifyReviewController::class, 'updateDov']);
 
 // Route::get('/menusbaru', [MenuController::class, 'index']);
 Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);

@@ -268,4 +268,28 @@ class DocumenctferifyReviewController extends _Controller
     {
         return $CRUDService->delete($id, $this->modelMaster, $this->modulName);
     }
+    public function updateDov(Request $request)
+    {
+        // Validasi data yang diterima
+        // $request->validate([
+        //     'id' => 'required|integer',
+        //     'dov' => 'required|date',
+        //     'review' => 'nullable|string',
+        // ]);
+    
+        // Cari detail berdasarkan ID dan update
+        // $detail = YourModel::find($request->id);
+        // if ($detail) {
+        //     $detail->dov = $request->dov;
+        //     $detail->review = $request->review;
+        //     $detail->save();
+    
+        //     // Kirim respons sukses
+        //     return response()->json(['success' => true]);
+        // }
+    
+        // Jika data tidak ditemukan
+        return response()->json(['success' => true, 'message' => 'OK'], 200);
+    }
+    
 }

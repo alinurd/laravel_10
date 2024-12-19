@@ -99,17 +99,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jstree/3.3.12/jstree.min.js"></script>
     <script>
-        function showSpinner(elementId, buttonId) {
-    const spinner = $('<div class="spinner-border text-primary" role="status"><span class="visually-hidden">Loading...</span></div>');
-     
-    $(buttonId).prop('disabled', true);
-    $(elementId).append(spinner);
-}
+        
  
-function removeSpinner(elementId, buttonId) {
-     $(elementId).find('.spinner-border').remove();
-     $(buttonId).prop('disabled', false);
-}
+
 
         $(document).ready(function() {
             const treeData = @json($tree);
