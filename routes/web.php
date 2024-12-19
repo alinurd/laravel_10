@@ -64,38 +64,38 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
-    Route::resource('pt', PTController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
+    Route::resource('pt', PTController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
-    Route::resource('documenctferify', DocumenctferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
-    Route::resource('documenctferifyreview', DocumenctferifyReviewController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
+    Route::resource('documenctferify', DocumenctferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+    Route::resource('documenctferifyreview', DocumenctferifyReviewController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
-    Route::resource('docferify', DocferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
+    Route::resource('docferify', DocferifyController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('clientandproduct', ClientandproductController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
-    Route::resource('pic', PicController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
+    Route::resource('pic', PicController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
-    Route::resource('grouppermission', GroupPermissionController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
+    Route::resource('grouppermission', GroupPermissionController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
-    Route::resource('group', GroupController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'view']);
+    Route::resource('group', GroupController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('dashboard', DashboardController::class)->only('index');
-    Route::resource('user', UserManagementController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
+    Route::resource('user', UserManagementController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     Route::prefix('user')->group(function () {
         Route::resource('profile', UserProfileController::class)->only('index');
     });
     Route::resource('setting', SettingController::class)->only('index', 'update');
 
-    Route::resource('route', RouteController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
-    Route::resource('role', RoleController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
-    Route::resource('permission', PermissionController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
+    Route::resource('route', RouteController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
+    Route::resource('role', RoleController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
+    Route::resource('permission', PermissionController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
 
-    Route::resource('menu', MenuGroupController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
-    Route::resource('menu.item', MenuItemController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
+    Route::resource('menu', MenuGroupController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
+    Route::resource('menu.item', MenuItemController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
 
     Route::resource('pelatihan', PelatihanController::class)->only('index');
-    Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
-    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'view');
+    Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
+    Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
     // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
  
