@@ -115,12 +115,15 @@
 @endif
 @empty
 @endforelse
-
-
-        @if(isset($costum) && $costum->isNotEmpty())
-        <!-- @include('components.form.costum.documenctferifyreview') -->
-        @include('components.form.costum.documenctferify')
-        @else
+        @if(isset($costum) && $costum->isNotEmpty()) 
+          @if($currentRoute=='documenctferifyreview')
+            @include('components.form.costum.documenctferifyreview')
+            @elseif($currentRoute=='documenctferify')
+            @include('components.form.costum.documenctferify')
+            @else
+            @include('components.form.costum.index')
+        @endif
+        
         @endif
 
       </div>

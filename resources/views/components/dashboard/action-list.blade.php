@@ -11,18 +11,19 @@
         </li>
         @endif
         @if($canView)
+        @if($currentRoute==="documenctferifyreview")
+        <li>
+            <a class="text-success dropdown-item" href="{{ route($currentRoute . '.show', [$currentRoute => $id]) }}">
+                <i class="ri-draft-fill text-success"></i> {{__('global.approval')}}
+            </a>
+        </li>
+        @else
         <li>
             <a class="text-info dropdown-item" href="{{ route($currentRoute . '.show', $id) }}">
                 <i class="ri-eye-line text-info"></i> {{__('global.view')}}
             </a>
         </li>
         @endif
-        @if($canView)
-        <li>
-            <a class="text-success dropdown-item" href="{{ route($currentRoute . '.show', [$currentRoute => $id]) }}">
-                <i class="ri-draft-fill text-success"></i> {{__('global.approval')}}
-            </a>
-        </li>
         @endif
         @if($canDelete)
         <li>

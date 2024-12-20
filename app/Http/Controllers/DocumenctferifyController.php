@@ -118,7 +118,17 @@ class DocumenctferifyController extends _Controller
 
     public function show(string $id)
     {
-        //
+        $data = $this->_SETCORE;
+        $data['list'] = array_merge($this->setFrom);
+        $data['id'] = $id;
+        $header = $this->modelMaster::find($id);
+        $details = $header->getDetails;
+        $data['field'] = $header;
+        $data['dataDetail'] = $details;
+        $data['mode'] = 'show';
+        $data['costum'] = $this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
+
+        return view('pages.index', $data);
     }
 
     /**
