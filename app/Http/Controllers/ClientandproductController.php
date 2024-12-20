@@ -204,7 +204,12 @@ class ClientandproductController extends _Controller
 
     public function show(string $id)
     {
-        //
+        $data = $this->_SETCORE;
+        $data['list'] = array_merge($this->setFrom);
+        $data['id'] = $id;
+        $data['field'] = $this->modelMaster::find($id);
+        $data['mode'] = 'show';
+        return view('pages.index', $data);
     }
 
     /**
