@@ -1,7 +1,7 @@
 @extends('components.layouts.app')
 @section('title', $title)
-@section('costum', isset($costum)??'') 
-@section('dataDetail', isset($dataDetail)??'') 
+@section('costum', isset($costum)??'')
+@section('dataDetail', isset($dataDetail)??'')
 @section('mode', $mode = $mode ?? 'list')
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
 
@@ -21,33 +21,17 @@
     <div class="card-header border-bottom-dashed align-items-center d-flex">
         <div class="row w-100">
             <div class="d-flex gap-2">
-                <a href=" {{ route($currentRoute.'.create') }} " class="btn btn-primary btn-md">
-                    <i class="ri-add-line"></i>
-                    {{ __('global.add_new') }}
-                </a>
-                <button type="button" class="btn btn-info btn-md" data-bs-toggle="modal" data-bs-target="#modal-form-print">
-                    <i class="ri-printer-line"></i>
-                    {{ __('global.print') }}
-                </button>
-                <button type="button" class="btn btn-danger btn-md" data-bs-toggle="modal" data-bs-target="#modal-form-delete">
-                    <i class="ri-delete-bin-line"></i>
-                    {{ __('global.del') }}
-                </button>
-                <button type="button" class="btn btn-success btn-md" data-bs-toggle="modal" data-bs-target="#filter">
-                    <i class="ri-filter-3-line"></i>
-                    {{ __('global.filter') }}
-                </button>
+                <x-dashboard.ActionHeader currentRoute="{{$currentRoute}}" />
             </div>
-
         </div>
     </div>
 
     <!-- end cardheader -->
     <!-- Hoverable Rows -->
     <div class="table-responsive m-3">
-    @include('components.form.default.filter')
+        @include('components.form.default.filter')
         @if($mode !='add' && $mode !='edit'&& $mode !='show')
-         
+
         <table class="display" id="data-tables">
             <thead>
                 <tr style="background-color: #1B85F6; border-right: 1px solid #FFFFFF; color:#FFFFFF">
@@ -69,91 +53,58 @@
             <tbody>
                 @if(count($field)>0)
                 @forelse ($field as $f)
-                
+
                 <tr>
                     <th scope="row" class="">
                         <input type="checkbox" class="m-2" name="check[]" id="{{__('global.no')}}">&nbsp;
                         {{ $loop->iteration }}
                     </th>
                     @forelse ($list as $l)
-                     
+
                     @if($l['showList'] == true)
                     <td style="text-align: {{$l['position']}}">
-                    @if($l['type'] == 'select') 
-    @php $matchFound = false; @endphp
-    @foreach($l['option'] as $option)
-        @if($option['id'] == $f[$l['field']])
-            {{$option['value']}}  
-            @php $matchFound = true; @endphp 
-            @break 
-        @endif
-    @endforeach
-    @if(!$matchFound)
-        {{$f[$l['field']] ?? 'unknown'}}
-    @endif 
-@elseif($l['input'] == 'rupiah') 
-    {{ format_rupiah($f[$l['field']]) }}
+                        @if($l['type'] == 'select')
+                        @php $matchFound = false; @endphp
+                        @foreach($l['option'] as $option)
+                        @if($option['id'] == $f[$l['field']])
+                        {{$option['value']}}
+                        @php $matchFound = true; @endphp
+                        @break
+                        @endif
+                        @endforeach
+                        @if(!$matchFound)
+                        {{$f[$l['field']] ?? 'unknown'}}
+                        @endif
+                        @elseif($l['input'] == 'rupiah')
+                        {{ format_rupiah($f[$l['field']]) }}
 
-@elseif($l['input'] == 'date') 
-    {{ format_date($f[$l['field']]) }}
+                        @elseif($l['input'] == 'date')
+                        {{ format_date($f[$l['field']]) }}
 
-@elseif($l['field'] == 'status') 
-    @if($f[$l['field']] == 1 || $f[$l['field']] == "active" || $f[$l['field']] == "show")
-        <span class="badge rounded-pill bg-primary">Aktif</span>
-    @elseif($f[$l['field']] == 2 || $f[$l['field']] == "inactive")
-        <span class="badge rounded-pill bg-danger">No-Aktif</span>
-        @elseif($f[$l['field']] == 3 || $f[$l['field']] == "show")
-        <span class="badge rounded-pill bg-warning">Show</span>
-        @elseif($f[$l['field']] == 0 || $f[$l['field']] == "")
-        <span class="badge rounded-pill bg-dark">Unknow</span>
-    @else
-        {{ format_date($f[$l['field']]) }}
-    @endif
-
-@else
-    {{$f[$l['field']] ?? '-'}}
-@endif
+                        @elseif($l['field'] == 'status')
+                        @if($f[$l['field']] == 1 || $f[$l['field']] == "active" || $f[$l['field']] == "show")
+                        <span class="badge rounded-pill bg-primary">Aktif</span>
+                        @elseif($f[$l['field']] == 2 || $f[$l['field']] == "inactive")
+                        <span class="badge rounded-pill bg-danger">No-Aktif</span>
+                        @elseif($f[$l['field']] == 3 || $f[$l['field']] == "show")
+                        <span class="badge rounded-pill bg-warning">Show</span>
+                        @elseif($f[$l['field']] == 0 || $f[$l['field']] == "")
+                        <span class="badge rounded-pill bg-dark">Unknow</span>
+                        @else
+                        {{ format_date($f[$l['field']]) }}
+                        @endif
+                        @else
+                        {{$f[$l['field']] ?? '-'}}
+                        @endif
 
                     </td>
-                @endif
+                    @endif
 
                     @empty
                     <td colspan="{{ count($list) }}" class="text-center">{{__('global.empt')}}</td>
                     @endforelse
                     <td class="text-center">
-                        <div class="dropdown">
-                            <a href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="ri-list-check"></i>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                <li>
-                                    <a class="text-primary dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
-                                        <i class="ri-edit-line text-primary"></i> {{__('global.edit')}}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="text-info dropdown-item" href="{{ route($currentRoute . '.show', $f->id) }}">
-                                        <i class="ri-eye-line text-info"></i> {{__('global.view')}}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="text-success dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $f->id]) }}">
-                                        <i class="ri-draft-fill text-success"></i> {{__('global.approval')}}
-                                    </a>
-                                </li>
-                                <li>
-                                    <a class="text-danger dropdown-item">
-                                        <form action="{{ route($currentRoute . '.destroy', [$currentRoute => $f->id]) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="text-danger dropdown-item" style="background:none;border:none;padding:0;">
-                                                <i class="ri-delete-bin-2-line text-danger"></i> {{ __('global.del') }}
-                                            </button>
-                                        </form>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                        <x-dashboard.ActionList currentRoute="{{$currentRoute}}" id="{{$f->id}}" />
                     </td>
                 </tr>
                 @empty
@@ -177,7 +128,7 @@
                 </tr>
             </tfoot>
         </table>
-        
+
         @endif
     </div>
 
