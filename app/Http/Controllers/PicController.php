@@ -63,7 +63,7 @@ class PicController extends _Controller
             ],
             [
                 'field' => 'status',
-                'type' => 'select',
+                'type' => 'radio',
                 'filter' => true,
                 'position' => 'center',
                 'show' => true,
