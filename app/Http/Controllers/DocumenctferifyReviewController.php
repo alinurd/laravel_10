@@ -113,6 +113,7 @@ class DocumenctferifyReviewController extends _Controller
 
     public function show(string $id)
     {
+        
         $data = $this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);
         $data['id'] = $id;

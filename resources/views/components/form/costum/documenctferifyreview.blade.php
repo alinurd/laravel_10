@@ -6,7 +6,11 @@
       <i class="ri-arrow-down-s-line"></i>
     </button>
   </div>
-
+  @php
+  $x=auth();
+  $auth=$x;
+  $user = $x->user();
+  @endphp 
   <div class="collapse" id="collapse{{ $p->key1 }}">
     <div class="card-body">
       <table class="table" id="table-{{ $p->id }}">
@@ -18,7 +22,7 @@
             <th width="10%" class="text-center">Date Of Verified</th>
             <th></th>
           </tr>
-        </thead>
+        </thead> 
         <tbody>
           <input type="hidden" name="customEdit[cName][]" readonly value="{{ $p->data }}" class="form-control">
           @if(isset($dataDetail) && in_array($p->data, array_column($dataDetail->toArray(), 'pid')))
@@ -31,6 +35,7 @@
               <input type="text" name="customEdit[{{ $p->data }}][Uraian][]" readonly value="{{ $detail->uraian }}" class="form-control">
             </td>
             <td class="text-center">
+            
               <input type="date" name="customEdit[{{ $p->data }}][DOS][]" readonly value="{{ $detail->dos ? \Carbon\Carbon::parse($detail->dos)->format('Y-m-d') : '' }}" class="form-control">
             </td>
             <td class="text-center">
@@ -39,9 +44,10 @@
             <td class="text-center">
               <input name="customEdit[{{ $p->data }}][DOV][]" id="DOV{{ $detail->id }}" data-id="{{ $detail->id }}"
                 value="{{ $detail->dov ? \Carbon\Carbon::parse($detail->dov)->format('Y-m-d') : '' }}"
-                type="date" class="form-control">
+                type="date" class="form-control"{{ $user->verified ==1  ? '' : 'readonly' }}>
+                 
               <br>
-              <textarea name="review" id="review{{ $detail->id }}" cols="2" rows="2" class="form-control">{{ $detail->ket_review ? $detail->ket_review : '' }}</textarea>
+              <textarea name="review" id="review{{ $detail->id }}" cols="2" rows="2" class="form-control" {{ $user->verified ==1  ? '' : 'readonly' }}>{{ $detail->ket_review ? $detail->ket_review : '' }}</textarea>
             </td>
             <td>
               <div id="spinner{{ $detail->id }}" class="spinner-border text-dark d-none" role="status"
@@ -54,7 +60,7 @@
                 </span>
                 <div class="form-check form-switch form-switch-right form-switch-md mt-4">
                   <label for="reset{{ $detail->id }}" class="form-label text-danger">Reset?</label>
-                  <input class="form-check-input code-switcher" type="checkbox" id="reset{{ $detail->id }}" data-id="{{ $detail->id }}" name="reset{{ $detail->id }}" value="0" data-toggle="tooltip" data-placement="top" title="reset verifiied?">
+                  <input class="form-check-input code-switcher" type="checkbox" id="reset{{ $detail->id }}" data-id="{{ $detail->id }}" name="reset{{ $detail->id }}" value="0" data-toggle="tooltip" data-placement="top" title="reset verifiied?" {{ $user->verified ==1  ? '' : 'disabled' }}>
                 </div>
               </div>
             </td>
