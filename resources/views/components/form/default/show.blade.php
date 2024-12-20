@@ -130,3 +130,5 @@
     </div>
   </div>
 </form>
+
+<script src="{{ asset('assets/js/pages/custom/' . $currentRoute . '.js') }}"></script>

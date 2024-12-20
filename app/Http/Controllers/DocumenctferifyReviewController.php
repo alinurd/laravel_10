@@ -278,25 +278,34 @@ class DocumenctferifyReviewController extends _Controller
     public function updateDov(Request $request)
     {
         // Validasi data yang diterima
-        // $request->validate([
-        //     'id' => 'required|integer',
-        //     'dov' => 'required|date',
-        //     'review' => 'nullable|string',
-        // ]);
-    
-        // Cari detail berdasarkan ID dan update
-        // $detail = YourModel::find($request->id);
-        // if ($detail) {
-        //     $detail->dov = $request->dov;
-        //     $detail->review = $request->review;
-        //     $detail->save();
-    
-        //     // Kirim respons sukses
-        //     return response()->json(['success' => true]);
-        // }
+        $request->validate([
+            'id' => 'required|integer',
+            'dov' => 'required|date',
+            'ket_review' => 'nullable|string',
+            'review' => 'nullable|string',
+        ]);
+
+        $ket_review=$request->ket_review;
+        $dov=$request->dov;
+        $review=$request->review;
+        
+        if($request->reset>0){
+            $ket_review=null;
+            $dov=null;
+            $review=0;
+        }
+        
+        $detail = DocFerifyDetail::find($request->id);
+        if ($detail) {
+            $detail->ket_review = $ket_review;
+            $detail->dov = $dov;
+             $detail->review = $review;
+            $detail->save(); 
+            return response()->json(['success' => true, 'data' => $detail, 'review' => $review]);
+        }
     
         // Jika data tidak ditemukan
-        return response()->json(['success' => true, 'message' => 'OK'], 200);
+        // return response()->json(['success' => true, 'message' => 'OK'], 200);
     }
     
 }
