@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Icon;
 use App\Models\Menu;
 use Illuminate\Http\Request;
 
@@ -10,8 +11,9 @@ class MenuController extends Controller
  public function index()
 {
     $menus = Menu::with('children')->whereNull('parent_id')->orderBy('position')->get();
+    $icon = Icon::orderBy('id')->where('status', 1)->get();
     $tree = $this->buildTree($menus);
-     return view('menus.index', compact('tree','menus'));
+     return view('menus.index', compact('tree','menus','icon'));
 }
 
 private function buildTree($menus, $parentId = null)
@@ -24,7 +26,8 @@ private function buildTree($menus, $parentId = null)
 
              $branch[] = [
                 'id' => $menu->id,
-                'text' => $menu->name,
+                'text' => $menu->name.' - <i style="font-size:10px;color:#4e73df;">['.$menu->url.']</i> 
+                        <i class='.$menu->icon.' style="font-size:15px; margin-left:8px;"></i>',
                  'url' => $menu->url == null ? '#' : $menu->url,
                 'ic' => $menu->icon == null ? '#' : $menu->icon,
                 'icon' => $this->getIcon($menu), // Ikon berdasarkan status aktif
@@ -94,9 +97,6 @@ private function getState($menu)
         return back()->with('success', 'Menu deleted successfully!');
     }
   
-   
-   
-  
     public function updateOrder(Request $request)
 {
     $data = $request->validate([
@@ -107,6 +107,7 @@ private function getState($menu)
     ]);
 
     foreach ($data['data'] as $menuItem) {
+         
         Menu::where('id', $menuItem['id'])->update([
             'position' => $menuItem['position'],
             'parent_id' => $menuItem['parent_id'],
@@ -123,7 +124,6 @@ public function updateTree(Request $request)
         'parent_id' => 'nullable|exists:menus,id',
         'position' => 'required|integer',
     ]);
-
     // Update parent_id dan posisi
     $menu = Menu::find($request->id);
     $menu->parent_id = $request->parent_id;
@@ -136,9 +136,11 @@ public function updateTree(Request $request)
 public function updateStatus(Request $request)
 {
     $menu = Menu::find($request->id);
-
     if ($menu) {
         $menu->is_active = $request->is_active;
+        $menu->url = $request->url;
+        $menu->icon = $request->icon;
+        $menu->name = $request->name;
         $menu->save();
 
         return response()->json(['success' => true, 'message' => 'Status updated successfully.']);

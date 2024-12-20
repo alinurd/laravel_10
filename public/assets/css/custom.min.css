@@ -1,1 +1,95 @@
 /*# sourceMappingURL=custom.min.css.map */
+
+/* Styling jsTree */
+.jstree-default .jstree-anchor {
+     background-color: #ebebeb;
+    border: 1px solid #e3e6f0;
+    padding-right: 90%;
+    margin: 4px;
+    border-radius: 5px;
+    color: #151515;
+     box-shadow: 0 2px 4px rgba(10, 10, 10, 0.1);  
+    transition: all 0.3s ease-in-out;
+    max-width: 200px;  
+}
+
+.jstree-default .jstree-anchor:hover {
+    color: #2e59d9;
+    text-decoration: underline;
+    background-color: #b0b0b0;
+}
+
+.jstree-default .jstree-clicked {
+    background-color: #f8f9fc;
+    color: #33c21e;
+    border: 1px solid #000000;
+    border-radius: 5px;
+}
+ 
+
+/* Drag and Drop */
+.jstree-dnd-placeholder {
+    background-color: #f4b400;
+    border: 2px dashed #fd7e14;
+    border-radius: 4px;
+    opacity: 1;
+}
+
+/* Mengganti ikon default */
+.jstree-default .jstree-icon {
+    background-image: url('custom-icon.png'); /* Ganti dengan ikon Anda */
+    background-size: cover;
+}
+
+ 
+
+
+/* Ikon expand (default [+]) */
+.jstree-ocl:before {
+    content: url('../fonts/sub_icon_menu_parent.svg'); 
+    display: inline-block;
+}
+/* Ikon collapse (default [-]) */
+.jstree-closed > .jstree-ocl:before {
+    content: url('../fonts/plus_icon_menu_parent.svg');
+    width: 20px;  
+    height: 20px; 
+ }
+.jstree-open > .jstree-ocl:before {
+    content: url('../fonts/min_icon_menu_parent.svg');
+    width: 20px;  
+    height: 20px; 
+ }
+
+/* Gaya untuk semua node */
+.jstree-node {
+    font-size: 12px;
+    font-weight: bold;
+    color: #000000;
+}
+
+/* Hilangkan ikon default jika tidak diinginkan */
+.jstree-icon {
+    display: none;
+}
+
+/* Spinner Loader */
+.spinner {
+    display: inline-block;
+    width: 1.5rem;
+    height: 1.5rem;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-top: 3px solid #4e73df;
+    border-radius: 50%;
+    animation: spinner 0.8s linear infinite;
+    margin-left: 10px;
+}
+
+@keyframes spinner {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
