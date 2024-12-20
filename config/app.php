@@ -58,6 +58,7 @@ return [
     'url' => env('APP_URL', 'http://localhost/laravel_10/public'),
 
     'asset_url' => env('ASSET_URL'),
+    'js_page' => env('JS_PAGE'),
 
     /*
     |--------------------------------------------------------------------------

@@ -41,89 +41,32 @@
                 value="{{ $detail->dov ? \Carbon\Carbon::parse($detail->dov)->format('Y-m-d') : '' }}"
                 type="date" class="form-control">
               <br>
-              <textarea name="review" id="review{{ $detail->id }}" cols="2" rows="2" class="form-control"></textarea>
+              <textarea name="review" id="review{{ $detail->id }}" cols="2" rows="2" class="form-control">{{ $detail->ket_review ? $detail->ket_review : '' }}</textarea>
             </td>
             <td>
               <div id="spinner{{ $detail->id }}" class="spinner-border text-dark d-none" role="status"
                 style="width: 1.5rem; height: 1.5rem;">
                 <span class="visually-hidden">Loading...</span>
               </div>
-              <span style="padding:2px; font-size: 20px;" class="badge bg-success   d-none " id="{{ $detail->id }}"><strong><i class="ri-check-fill"></i></strong></span>
+              <div class="{{ $detail->review == 1 ? '' : 'd-none' }}" id="{{ $detail->id }}">
+                <span style="padding:2px; font-size: 20px;" class="badge bg-success btn" data-toggle="tooltip" data-placement="top" title="verified">
+                  <strong><i class="ri-check-fill"></i></strong>
+                </span>
+                <div class="form-check form-switch form-switch-right form-switch-md mt-4">
+                  <label for="reset{{ $detail->id }}" class="form-label text-danger">Reset?</label>
+                  <input class="form-check-input code-switcher" type="checkbox" id="reset{{ $detail->id }}" data-id="{{ $detail->id }}" name="reset{{ $detail->id }}" value="0" data-toggle="tooltip" data-placement="top" title="reset verifiied?">
+                </div>
+              </div>
             </td>
           </tr>
           @endif
           @endforeach
           @else
-
           @endif
         </tbody>
-
-
       </table>
     </div>
   </div>
 </div>
-
-
-@endforeach
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-
-<script>
-  function showSpinner(elementId) {
-    $('#' + elementId).removeClass('d-none'); // Tampilkan spinner
-  }
-
-  function hideSpinner(elementId) {
-    $('#' + elementId).addClass('d-none'); // Sembunyikan spinner
-  }
-
-  $(document).on('click', '.toggleHeader', function() {
-    var tableId = $(this).data('id');
-    var key = $(this).data('key');
-    var headerRow = $('#header-row-' + tableId);
-
-    headerRow.toggle();
-  });
-  $(document).ready(function() {
-    // Event handler untuk perubahan pada input DOV
-
-    $(document).on('change', 'input[id^="DOV"]', function() {
-      var dovValue = $(this).val(); // Nilai dari DOV
-      var detailId = $(this).data('id'); // ID dari detail yang terkait
-      var spinnerId = 'spinner' + detailId; // ID spinner terkait
-
-      // Ambil nilai dari textarea review
-      var reviewValue = $(this).closest('tr').find('textarea').val();
-
-      // Tampilkan spinner
-      showSpinner(spinnerId);
-
-      // Kirimkan data ke server menggunakan AJAX
-      $.ajax({
-        url: '/update-dov',
-        method: 'POST',
-        data: {
-          _token: '{{ csrf_token() }}', // CSRF Token Laravel
-          id: detailId,
-          dov: dovValue,
-          review: reviewValue
-        },
-        success: function(response) {
-          $("#" + detailId).removeClass("d-none");
-          hideSpinner(spinnerId);
-          console.log('DOV updated successfully', response);
-        },
-        error: function(xhr, status, error) {
-          // Sembunyikan spinner jika terjadi error
-          hideSpinner(spinnerId);
-          console.error('Error updating DOV:', error);
-        }
-      });
-    });
-
-
-
-
-  });
-</script>
+@endforeach 
+ 
