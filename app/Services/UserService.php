@@ -12,25 +12,24 @@ class UserService
 {
   public function create(Request $request)
 {
-     $user = User::create(array_merge(
-        $request->validated(),
-        [
-            'password' => Hash::make('password'),
-            'email_verified_at' => !blank($request->verified) ? now() : null
-        ]
-    ));
+      $user = User::create([
+      'password' => Hash::make(!blank($request->password) ? $request->password : '$$admin$$'),
+      'verified' => !blank($request->verified) ? 1 : 0, // pastikan ID valid
+      'name' => $request->name, // pastikan ID valid
+      'email' => $request->email, // pastikan ID valid
+      'email_verified_at' => now()
 
-     $g = Groups::where('name', $request->role)->firstOrFail();  
-   
-        if ($g) {  
+     ]);
+
+        if ($user) {  
    
        $gu = GroupUsers::create([
           'user_id' => $user->id,
-          'group_id' => $g->id, // pastikan ID valid
+          'group_id' => $request->role, // pastikan ID valid
       ]);
       
     }
-    return true;
+     return true;
  }
 
   public function update(Request $request, User $user): User|bool
@@ -49,7 +48,6 @@ class UserService
             ]
         );
     }
-    
     $email = $request->email === $user->email
       ? $request->email
       : (blank(User::firstWhere('email', $request->email)) ? $request->email : null);
@@ -58,7 +56,10 @@ class UserService
       $request->validated(),
       array(
         'email' => $email,
-        'email_verified_at' => !blank($request->verified) ? now() : null
+        'email_verified_at' => now(),
+        'verified' => !blank($request->verified) ? 1 : 0, // pastikan ID valid
+        'password' => !blank($request->password) ? Hash::make($request->password) : $user->password,
+
       )
     ));
 

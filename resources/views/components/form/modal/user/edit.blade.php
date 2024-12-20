@@ -13,7 +13,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="id" placeholder="Role Name" name="user_id" value="{{ $user->id }}">
+                        <input type="hidden" class="form-control" id="id" placeholder="Role Name" name="user_id" value="{{ $user->id }}">
                         <input type="text" class="form-control" id="name" placeholder="Role Name" name="name" value="{{ $user->name }}">
                         <x-form.validation.error name="name" />
                     </div>
@@ -26,20 +26,24 @@
 
                     <div class="mb-3">
                         <label for="role" class="form-label">Role Name</label>
-                        <select class="form-control" id="role" name="roles"   data-choices data-choices-removeItem>
-    @foreach ($roles as $role)
-        <option 
-            value="{{ $role->name }}" 
-            @if ($GroupUsers->contains('group_id', $role->id)) selected @endif
-        >
-            {{ $role->name }}
-        </option>
-    @endforeach
-</select>
+                        <select class="form-control" id="role" name="roles" data-choices data-choices-removeItem>
+                            @foreach ($roles as $role)
+                            <option
+                                value="{{ $role->name }}"
+                                @if ($GroupUsers->contains('group_id', $role->id)) selected @endif
+                                >
+                                {{ $role->name }}
+                            </option>
+                            @endforeach
+                        </select>
 
                         <x-form.validation.error name="role" />
                     </div>
-
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" placeholder="Masukkan password baru jika ingin mengganti" name="password">
+                        <x-form.validation.error name="password" />
+                    </div>
                     <div class="mb-3">
                         <div class="form-check form-switch form-switch-right form-switch-md">
                             <label for="verified" class="form-label">Verified</label>

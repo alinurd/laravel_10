@@ -12,7 +12,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Role Name" name="name">
+                        <input type="text" class="form-control" id="name" placeholder="Name" name="name">
                         <x-form.validation.error name="name" />
                     </div>
 
@@ -26,12 +26,16 @@
                         <label for="role" class="form-label">Role Name</label>
                         <select class="form-control" id="role" name="role" data-choices data-choices-removeItem>
                             @foreach ($roles as $role)
-                            <option value="{{ $role->name }}">{{ $role->name }}</option>
+                            <option value="{{ $role->id }}">{{ $role->name }}</option>
                             @endforeach
                         </select>
                         <x-form.validation.error name="role" />
                     </div>
-
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="text" class="form-control" id="password" placeholder="password" name="password">
+                        <x-form.validation.error name="password" />
+                    </div>
                     <div class="mb-3">
                         <div class="form-check form-switch form-switch-right form-switch-md">
                             <label for="verified" class="form-label">Verified</label>
