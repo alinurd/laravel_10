@@ -6,7 +6,6 @@
     "license": "MIT",
     "require": {
         "php": "^8.1",
-        "energon7/nova-menu-builder": "*",
         "filament/filament": "^3.2",
         "guzzlehttp/guzzle": "^7.2",
         "laravel/fortify": "^1.17",

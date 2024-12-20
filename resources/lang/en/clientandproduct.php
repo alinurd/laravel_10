@@ -1,8 +1,8 @@
 <?php
 
 return [
-    'title' => 'Data Clinet & Product',
-    'page' => 'Data Client & Product',
+    'title' => 'Client and Product',
+    'page' => 'Client and Product',
     'fld_pt_id' => 'Nama PT',
     'fld_pic_id' => 'PIC',
     'fld_direktur' => 'Direktur',

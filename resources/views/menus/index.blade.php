@@ -35,7 +35,7 @@
             <label for="position">Position</label>
             <input type="number" name="position" class="form-control" required>
         </div>
-        <button type="submit" class="btn btn-primary">Add Menu</button>
+        <button type="submit" class="btn btn-primary mt-2">Add Menu</button>
     </form>
 
     <hr>

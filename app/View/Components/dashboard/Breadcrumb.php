@@ -34,6 +34,7 @@ class Breadcrumb extends Component
             'page' => $this->page,
             'route' => $this->route,
             'active' => $this->active,
+            'anjg' => $this->active,
         ]);
     }
 }

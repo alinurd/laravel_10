@@ -1,70 +1,55 @@
 @extends('components.layouts.auth.app')
 
-@section('title', 'Sign In')
+@section('title', 'Login')
 
 @section('content')
-<div class="row justify-content-center">
-  <div class="col-md-8 col-lg-6 col-xl-5">
-    <div class="card mt-4">
+<div class="container-login d-flex" style="height: 100vh; overflow: hidden;">
+  <!-- Left Section: Illustration -->
+  <div class="d-none d-lg-flex col-lg-6 align-items-center justify-content-center" style="background-color: #f9fafc; height: 100vh;">
+    <div class="text-center">
+      <img src="{{ asset('assets/images/logo/ilustrasi.png') }}" alt="Login Illustration" class="img-fluid" style="max-height: 350px;">
+    </div>
+  </div>
 
-      <div class="card-body p-4">
-        <div class="text-center mt-2">
-          <h5 class="text-primary">Welcome Back !</h5>
-          <p class="text-muted">Sign in to continue to Velzon.</p>
-        </div>
-        <div class="p-2 mt-4">
-          <form action="{{ route('login') }}" method="POST">
-            @csrf
-
-            <div class="mb-3">
-              <label for="email" class="form-label">Email</label>
-              <input type="email" class="form-control" id="email" placeholder="Enter email address" name="email" value="{{ old('email') }}" required placeholder="Email" autocomplete="email" autofocus>
-              <x-form.validation.error name="email" />
-            </div>
-
-            <div class="mb-3">
-              <div class="float-end">
-                <a href="{{ route('password.request') }}" class="text-muted">Forgot password?</a>
-              </div>
-              <label class="form-label" for="password-input">Password</label>
-              <div class="position-relative auth-pass-inputgroup mb-3">
-                <input type="password" class="form-control pe-5" placeholder="Enter password" id="password-input" name="password" required placeholder="Password" autocomplete="current-password">
-                <button class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted" type="button" id="password-addon"><i class="ri-eye-fill align-middle"></i></button>
-                <x-form.validation.error name="password" />
-              </div>
-            </div>
-
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="auth-remember-check" name="remember" {{ old('remember') ? 'checked' : '' }}>
-              <label class="form-check-label" for="auth-remember-check">Remember me</label>
-            </div>
-
-            <div class="mt-4">
-              <button class="btn btn-success w-100" type="submit">Sign In</button>
-            </div>
-
-            <div class="mt-4 text-center">
-              <div class="signin-other-title">
-                <h5 class="fs-13 mb-4 title">Sign In with</h5>
-              </div>
-              <div>
-                <button type="button" class="btn btn-primary btn-icon waves-effect waves-light"><i class="ri-facebook-fill fs-16"></i></button>
-                <button type="button" class="btn btn-danger btn-icon waves-effect waves-light"><i class="ri-google-fill fs-16"></i></button>
-                <button type="button" class="btn btn-dark btn-icon waves-effect waves-light"><i class="ri-github-fill fs-16"></i></button>
-                <button type="button" class="btn btn-info btn-icon waves-effect waves-light"><i class="ri-twitter-fill fs-16"></i></button>
-              </div>
-            </div>
-          </form>
-        </div>
+  <!-- Right Section: Login Form -->
+  <div class="col-lg-6 d-flex align-items-center justify-content-center" style="background-color: white; height: 100vh;">
+    <div class="w-100 px-4" style="max-width: 400px;">
+      <!-- Logo -->
+      <div class="mb-4 text-center">
+        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo" class="mb-4" style="height: 50px; margin: auto;">
       </div>
-      <!-- end card body -->
-    </div>
-    <!-- end card -->
 
-    <div class="mt-4 text-center">
-      <p class="mb-0">Don't have an account ? <a href="{{ route('register') }}" class="fw-semibold text-primary text-decoration-underline"> Signup </a> </p>
-    </div>
+      <!-- Welcome Text -->
+      <h4 class="text-primary mb-1" style="font-weight: bold;">Welcome Back,</h4>
+      <p class="text-muted mb-4">Enter Username and Password</p>
 
+      <!-- Login Form -->
+      <form action="{{ route('login') }}" method="POST" class="pt-2">
+        @csrf
+
+        <!-- Username Field -->
+        <div class="input-group mb-3">
+          <span class="input-group-text bg-white border-0 border-bottom border-info rounded-0">
+            <i class="ri-user-line text-muted"></i>
+          </span>
+          <input type="text" class="form-control border-0 border-bottom border-info rounded-0" name="email" placeholder="Username" required autocomplete="username" style="padding-left: 1px;">
+          <x-form.validation.error name="email" />
+        </div>
+
+        <!-- Password Field -->
+        <div class="input-group mb-4">
+          <span class="input-group-text bg-white border-0 border-bottom border-info rounded-0">
+            <i class="ri-lock-line text-muted"></i>
+          </span>
+          <input type="password" class="form-control border-0 border-bottom border-info rounded-0" name="password" placeholder="Password" required autocomplete="current-password" style="padding-left: 1px;">
+          <button class="btn border-0 border-bottom border-info rounded-0" type="button" id="password-addon"><i class="ri-eye-line"></i></button>
+          <x-form.validation.error name="password" />
+        </div>
+
+        <!-- Submit Button -->
+        <button class="btn btn-outline-info w-100" type="submit">Login</button>
+      </form>
+    </div>
   </div>
 </div>
 @endsection
