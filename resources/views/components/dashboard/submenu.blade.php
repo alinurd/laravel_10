@@ -13,7 +13,7 @@
             <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
                 @include('components.dashboard.submenu', ['menus' => $menu['children']])
             </ul>
-        @else
+        @else 
             <!-- Submenu Item -->
             <a class="dropdown-item {{ request()->routeIs($menu->url) ? 'active' : '' }}" href="{{ route($menu->url) }}">
                 <i class="{{ $menu->icon }}"></i> {{ ucwords($menu->name) }}

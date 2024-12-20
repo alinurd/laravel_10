@@ -28,15 +28,13 @@
 
 <body>
 
-  <div class="auth-page-wrapper pt-5">
+  <div class="auth-page-wrapper">
 
     <!-- auth page content -->
-    <div class="auth-page-content mt-5">
-      <div class="container">
+    <div class="auth-page-content">
         <!-- content -->
         @yield('content')
         <!-- end content -->
-      </div>
       <!-- end container -->
     </div>
     <!-- end auth page content -->

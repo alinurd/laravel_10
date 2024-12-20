@@ -51,7 +51,7 @@ Route::get('/errssdsd', function () {
     return view('errors.401');
 })->name('notfound');
 
-Route::permanentRedirect('/', '/login');
+Route::permanentRedirect('/', 'login');
  
 
 Route::resource('menus', MenuController::class);

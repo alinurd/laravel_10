@@ -4,9 +4,14 @@
 @section('dataDetail', isset($dataDetail)??'') 
 @section('mode', $mode = $mode ?? 'list')
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
-
+ 
 @section('breadcrumb')
-<x-dashboard.breadcrumb title="{{ $page }}" page="{{$title}}" active="{{ __('global.ket_' . $mode) }} " route="" />
+<x-dashboard.breadcrumb 
+    :title="'Client & Product'"
+    :page="'Client & Product'"
+    :active="'Client & Product'"
+    :route="route('clientandproduct.index')"
+/>
 @endsection
 @section('content')
 
