@@ -57,7 +57,9 @@ public function handle($request, Closure $next)
                         if ($type == 'index') {
                             $type = 'manage';
                         }
-                         
+                        if ($type == 'updateStatus') {
+                            $type = 'update';
+                        }
                         if ($type == 'show') {
                             $type = 'view';
                         }
