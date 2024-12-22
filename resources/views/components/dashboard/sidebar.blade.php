@@ -11,34 +11,36 @@
     </div>
     <hr>
     <div id="scrollbar">
+        @php
+        use Illuminate\Support\Str;
+        @endphp
+
         <ul class="navbar-nav">
             @foreach ($menus as $menu)
             @php
             $akses = collect($menuWithPermission)->contains('menu_item_id', $menu->id);
             $hasChildren = isset($menu['children']) && collect($menu['children'])->isNotEmpty();
 
-            // Periksa apakah salah satu child menu aktif
-            $activeChild = $hasChildren && collect($menu['children'])->pluck('url')->contains(fn($url) => request()->routeIs($url));
+            // Periksa apakah URL saat ini mengandung URL dasar menu
+            $isActive = Str::contains(request()->url(), route($menu->url, [], false)) ||
+            ($hasChildren && collect($menu['children'])->pluck('url')->contains(fn($url) => Str::contains(request()->url(), route($url, [], false))));
             @endphp
 
             @if ($akses || $hasChildren)
-            <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }} {{ $activeChild ? 'show' : '' }}">
-                @if ($hasChildren)
-                <!-- Menu dengan Submenu -->
-                <a href="javascript:void(0);" 
-                   class="nav-link dropdown-toggle {{ $activeChild ? 'active' : '' }}" 
-                   data-bs-toggle="dropdown" 
-                   aria-expanded="{{ $activeChild ? 'true' : 'false' }}">
+            <li class="nav-item dropdown {{ $isActive ? 'show' : '' }}">
+                <a href="javascript:void(0);"
+                    class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}"
+                    data-bs-toggle="dropdown"
+                    aria-expanded="{{ $isActive ? 'true' : 'false' }}">
                     <i class="{{ $menu->icon }}"></i>
                     <span>{{ ucwords($menu->name) }}</span>
                 </a>
-                <ul class="dropdown-menu {{ $activeChild ? 'show' : '' }}">
+                <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
                     @foreach ($menu['children'] as $child)
                     @php
                     $childAkses = collect($menuWithPermission)->contains('menu_item_id', $child['id']);
-                    $isChildActive = request()->routeIs($child->url);
+                    $isChildActive = Str::contains(request()->url(), route($child->url, [], false));
                     @endphp
-
                     @if ($childAkses)
                     <li>
                         <a class="dropdown-item {{ $isChildActive ? 'active' : '' }}" href="{{ route($child->url) }}">
@@ -49,18 +51,11 @@
                     @endif
                     @endforeach
                 </ul>
-                @else
-                <!-- Menu Tanpa Submenu -->
-                <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }}" 
-                   href="{{ $menu->url ? route($menu->url) : 'javascript:void(0);' }}">
-                    <i class="{{ $menu->icon }}"></i>
-                    <span>{{ ucwords($menu->name) }}</span>
-                </a>
-                @endif
             </li>
             @endif
             @endforeach
         </ul>
+
     </div>
     <div class="user-profile">
         <div class="user-info">
@@ -74,61 +69,3 @@
         </div>
     </div>
 </div>
-
-<style>
-    .navbar-nav .dropdown-menu.show {
-        display: block;
-    }
-    .navbar-nav .dropdown-toggle.active {
-        color: #ffffff;
-        background-color: #061f3a;
-    }
-    .navbar-nav .dropdown-item.active {
-        color: #ffffff;
-        background-color: #003e81;
-    }
-    .navbar-nav .nav-item .nav-link.active {
-        color: #ffffff;
-        background-color: #003e81;
-    }
-    .user-profile {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        padding: 20px 30px;
-        text-align: left;
-        border-top: 1px solid #082F56;
-    }
-    .user-info {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        color: #ffffff;
-        font-size: 14px;
-    }
-    .user-icon {
-        background-color: #003e81;
-        width: 40px;
-        height: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 50%;
-        font-size: 18px;
-    }
-    .user-details {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        line-height: 1.2;
-    }
-    .user-name {
-        font-size: 12px;
-        font-weight: bold;
-    }
-    .user-group {
-        font-size: 10px;
-        color: #bbbbbb;
-        margin-top: 3px;
-    }
-</style>

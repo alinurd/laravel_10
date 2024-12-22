@@ -1,0 +1,64 @@
+.navbar-nav .dropdown-menu.show {
+    display: block;
+}
+
+.navbar-nav .dropdown-toggle.active {
+    color: #ffffff;
+    background-color: #061f3a;
+}
+
+.navbar-nav .dropdown-item.active {
+    color: #ffffff;
+    background-color: #003e81;
+}
+
+.navbar-nav .nav-item .nav-link.active {
+    color: #ffffff;
+    background-color: #003e81;
+}
+
+.user-profile {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 30px;
+    text-align: left;
+    border-top: 1px solid #082F56;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #ffffff;
+    font-size: 14px;
+}
+
+.user-icon {
+    background-color: #003e81;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-size: 18px;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    line-height: 1.2;
+}
+
+.user-name {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.user-group {
+    font-size: 10px;
+    color: #bbbbbb;
+    margin-top: 3px;
+}

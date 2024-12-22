@@ -25,6 +25,7 @@
   <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" />
   <!-- custom CSS-->
   <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet" type="text/css" />
+  <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet" type="text/css" />
   @stack('css')
 
   <!-- cdn -->
