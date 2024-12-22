@@ -57,15 +57,33 @@
         </ul>
 
     </div>
-    <div class="user-profile">
+
+    <div class=" user-profile">
         <div class="user-info">
-            <div class="user-icon">
-                <i class="ri-user-line"></i>
-            </div>
-            <div class="user-details" onclick="showLogoutPopup()">
-                <span class="user-name">{{ $user->name }}</span>
-                <small class="user-group">{{ $group }}</small>
+            <button type="button" class="btn no-deco" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="d-flex align-items-center">
+                    <div class="user-icon">
+                        <i class="ri-user-line"></i>
+                    </div>
+                    <div class="user-details">
+                        <span class="user-name">{{ $user->name }}</span>
+                        <small class="user-group">{{ $group }}</small>
+                    </div>
+                </span>
+            </button>
+            <div class="dropdown-menu dropdown-menu-end">
+                <h6 class="dropdown-header">Welcome {{ $user->name }}!</h6>
+                <!-- <a class="dropdown-item" href="{{ route('profile.index') }}"><i class="mdi mdi-account-circle text-muted fs-16 align-middle me-1"></i> <span class="align-middle">Profile</span></a> -->
+                <a class="dropdown-item" href="#"
+                    onclick="event.preventDefault(); document.getElementById('form-logout').submit()">
+                    <i class="mdi mdi-logout text-muted fs-16 align-middle me-1"></i>
+                    <span class="align-middle" data-key="t-logout">Logout</span>
+                </a>
+                <form action="{{ route('logout') }}" method="POST" id="form-logout">
+                    @csrf
+                </form>
             </div>
         </div>
     </div>
+
 </div>
