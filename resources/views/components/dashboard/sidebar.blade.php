@@ -16,37 +16,64 @@
     <hr>
 
     <div id="scrollbar">
-        <ul class="navbar-nav">
-            @foreach ($menus as $menu)
-                @php
-                    $hasChildren = isset($menu['children']) && $menu['children']->isNotEmpty();
-                    $isActive = request()->routeIs($menu->url) || ($hasChildren && $menu['children']->pluck('url')->contains(fn($url) => request()->routeIs($url)));
-                @endphp
+  
+    <ul class="navbar-nav">
+    @foreach ($menus as $menu)
+        @php 
+            $akses = collect($menuWithPermission)->contains('menu_item_id', $menu->id);
+ 
+            $aksesChild = isset($menu['children']) && collect($menu['children'])->contains(function ($child) use ($menuWithPermission) {
+                return collect($menuWithPermission)->contains('menu_item_id', $child['id']);
+            });
+ 
+            $shouldDisplay = $akses || $aksesChild;
+ 
+            $hasChildren = isset($menu['children']) && collect($menu['children'])->isNotEmpty();
+ 
+            $isActive = request()->routeIs($menu->url) || ($hasChildren && collect($menu['children'])->pluck('url')->contains(fn($url) => request()->routeIs($url)));
+        @endphp
 
-                <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }} {{ $isActive ? 'show' : '' }}">
-                    @if ($hasChildren)
-                        <!-- Menu dengan Submenu -->
-                        <a href="javascript:void(0);" class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="{{ $isActive ? 'true' : 'false' }}">
-                            <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
-                        </a>
-                        <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
-                            @foreach ($menu['children'] as $child)
+        @if ($shouldDisplay)
+            <li class="nav-item {{ $hasChildren ? 'dropdown' : '' }} {{ $isActive ? 'show' : '' }}">
+                @if ($hasChildren)
+                    <!-- Menu dengan Submenu -->
+                    <a href="javascript:void(0);" class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}" data-bs-toggle="dropdown" aria-expanded="{{ $isActive || $aksesChild ? 'true' : 'false' }}">
+                        <i class="{{ $menu->icon }}"></i> 
+                        <span>
+                            {{ ucwords($menu->name) }}
+                        </span>
+                    </a>
+                    <ul class="dropdown-menu {{ $isActive || $aksesChild ? 'show' : '' }}">
+                        @foreach ($menu['children'] as $child)
+                            @php 
+                                $childAkses = collect($menuWithPermission)->contains('menu_item_id', $child['id']);
+                            @endphp
+
+                            @if ($childAkses)
                                 <li>
                                     <a class="dropdown-item {{ request()->routeIs($child->url) ? 'active' : '' }}" href="{{ route($child->url) }}">
-                                        <i class="{{ $child->icon }}"></i> <span>{{ ucwords($child->name) }}</span>
+                                        <i class="{{ $child->icon }}"></i> 
+                                        <span>{{ ucwords($child->name) }}</span>
                                     </a>
                                 </li>
-                            @endforeach
-                        </ul>
-                    @else
-                        <!-- Menu Tanpa Submenu -->
-                        <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }}  {{ $menu->url=='#' ? 'd-none' : '' }}" href="{{ $menu->url ? route($menu->url) : 'javascript:void(0);' }}">
-                            <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
-                        </a>
-                    @endif
-                </li>
-            @endforeach
-        </ul>
+                            @endif
+                        @endforeach
+                    </ul>
+                @else
+                    <!-- Menu Tanpa Submenu -->
+                    <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }} {{ $menu->url=='#' ? 'd-none' : '' }}" href="{{ $menu->url ? route($menu->url) : 'javascript:void(0);' }}">
+                        <i class="{{ $menu->icon }}"></i> 
+                        <span>
+                            {{ ucwords($menu->name) }}
+                        </span>
+                    </a>
+                @endif
+            </li>
+        @endif
+    @endforeach
+</ul>
+
+
     </div>
 
     <div class="user-profile">
@@ -68,17 +95,17 @@
     }
 
     .navbar-nav .dropdown-toggle.active {
-        color: #fff;
+        color: #ffffff;
         background-color: #061f3a;
     }
 
     .navbar-nav .dropdown-item.active {
-        color: #fff;
+        color: #ffffff;
         background-color: #003e81;
     }
 
     .navbar-nav .nav-item .nav-link.active {
-        color: #fff;
+        color: #ffffff;
         background-color: #003e81;
     }
 
