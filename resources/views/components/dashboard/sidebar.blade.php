@@ -40,7 +40,7 @@
                         </ul>
                     @else
                         <!-- Menu Tanpa Submenu -->
-                        <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }}" href="{{ $menu->url ? route($menu->url) : 'javascript:void(0);' }}">
+                        <a class="nav-link {{ request()->routeIs($menu->url) ? 'active' : '' }}  {{ $menu->url=='#' ? 'd-none' : '' }}" href="{{ $menu->url ? route($menu->url) : 'javascript:void(0);' }}">
                             <i class="{{ $menu->icon }}"></i> <span>{{ ucwords($menu->name) }}</span>
                         </a>
                     @endif

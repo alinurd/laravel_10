@@ -1,6 +1,10 @@
 <tr>
-    <td style="padding-left: {{ $level * 30 }}px;">
-    <i class="ri-checkbox-blank-circle-line"></i> &ensp; <strong>{{ $i->name }}</strong>
+    <td style="padding-left: {{ $level * 35 }}px;">
+    <i class="ri-checkbox-blank-circle-line"></i> &ensp; <strong style="margin-right: 7px;">
+                  <i class="{{ $i->icon }}" ></i>
+                  &ensp;{{ $i->name }}
+                </strong>
+                [<i style="color: rgb(0, 125, 243); margin: 5px;">{{ $i->url }}</i>]
     </td>
     <td>
         <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $i->id }}]" 

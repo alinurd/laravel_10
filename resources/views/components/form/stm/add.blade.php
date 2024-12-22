@@ -76,9 +76,18 @@
           <tbody>
             @foreach ($menuGroup as $g)
             <tr>
-              <td><i class="ri-folder-2-line"></i> &ensp; <strong>{{ $g->name }}</strong></td>
+            <td>
+                <i class="{{ $g->url == '#' ? 'ri-layout-masonry-fill' : 'ri-checkbox-blank-circle-line' }}">
+                </i>
+                &ensp;
+                <strong style="margin-right: 7px;">
+                  <i class="{{ $g->icon }}"></i>
+                  &ensp;{{ $g->name }}
+                </strong>
+                [<i style="color: rgb(0, 125, 243); margin: 5px;">{{ $g->url }}</i>]
+              </td>              
               @if($g['url']=='#')
-              <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $g->id }}]" id="manage_{{ $g->id }}_{{ $g->id }}"></td>
+              <td></td>
               <td></td>
               <td></td>
               <td></td>
@@ -106,8 +115,7 @@
             @endforeach
             @endforeach
           </tbody>
-        </table>
-        <button type="submit" class="btn btn-primary">Save Permissions</button>
+        </table> 
 
         <script>
           // Inisialisasi tooltip Bootstrap
