@@ -6,12 +6,8 @@
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
  
 @section('breadcrumb')
-<x-dashboard.breadcrumb 
-    :title="'Client & Product'"
-    :page="'Client & Product'"
-    :active="'Client & Product'"
-    :route="route('clientandproduct.index')"
-/>
+<x-dashboard.breadcrumb title="{{ $page }}" page="{{$parentName}} > {{$title}}" active="{{ __('global.ket_' . $mode) }} " route="" />
+
 @endsection
 @section('content')
 

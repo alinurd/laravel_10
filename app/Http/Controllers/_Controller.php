@@ -30,12 +30,12 @@ class _Controller extends BaseController
         
         $currentRoute = Route::current();
         $alias = $currentRoute->getName();
-        $menuItem = MenuItem::where('route', $alias)->first();   
-      
-        return [
+        $menuItem = MenuItem::where('route', $alias)->with('getMenuParent')->first();   
+         return [
             'currentRoute' => $mdl ?? $currentRoute->uri,            
             'route' => $currentRoute->getActionName(),
             'menuParent' => $menuItem ? $menuItem->menuGroup->name : null,
+            'parentName' => isset($menuItem['getMenuParent']['parent_name']) && $menuItem['getMenuParent']['parent_name']!='Main' ? $menuItem['getMenuParent']['parent_name'] : "Home",
         ];
     }
     
@@ -51,6 +51,7 @@ class _Controller extends BaseController
             'route' => $base['route'],
             'list' => $base['route'],
             'currentRoute' => $base['currentRoute'],
+            'parentName' => $base['parentName'],
         ];
     }
     

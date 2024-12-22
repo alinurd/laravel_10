@@ -18,5 +18,10 @@ class MenuItem extends Model
     {
         return $this->belongsTo(MenuGroup::class, 'menu_group_id', 'id');
     }
+
+    public function getMenuParent()
+    {
+        return $this->belongsTo(ViewGroupPermissions::class, 'route', 'menu_item_route');
+    }
     
 }
