@@ -49,23 +49,49 @@
         </tr>
     </thead>
     <tbody>
+      
     @foreach ($menuGroup as $g)
         @php
             // Menyaring permissions untuk menu_group_id
-            $permissions = collect($groupPermission)->where('menu_group_id', $g->parent_id);
+            $permissions = collect($groupPermission)->where('menu_item_id', $g->id);
         @endphp
 
         <tr>
-            <td><i class="ri-folder-2-line"></i> &ensp; <strong>{{ $g->name }}</strong></td>
-            <td>
-                <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}"
-                       @if($permissions->contains('permission_types.manage', true)) checked @endif>
-            </td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
+              <td><i class="ri-folder-2-line"></i> &ensp; <strong>{{ $g->name }}</strong>-{{ $g->url }}</td>
+              @if($g['url']=='#')
+              <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $g->id }}]" id="manage_{{ $g->id }}_{{ $g->id }}"></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              @else
+              <td>
+                <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $g->id }}]" id="manage_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage data {{ $g->name }}"
+                @if($permissions->contains('permission_types.manage', true)) checked @endif
+                >
+              </td>
+              <td>
+                <input type="checkbox" class="form-switch" name="create[{{ $g->id }}][{{ $g->id }}]" id="create_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Create data {{ $g->name }}"
+                @if($permissions->contains('permission_types.create', true)) checked @endif
+                >
+              </td>
+              <td>
+                <input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][{{ $g->id }}]" id="delete_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete data {{ $g->name }}"
+                @if($permissions->contains('permission_types.delete', true)) checked @endif
+                >
+              </td>
+              <td>
+                <input type="checkbox" class="form-switch" name="update[{{ $g->id }}][{{ $g->id }}]" id="update_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update data {{ $g->name }}"
+                                @if($permissions->contains('permission_types.update', true)) checked @endif
+>
+              </td>
+              <td>
+                <input type="checkbox" class="form-switch" name="view[{{ $g->id }}][{{ $g->id }}]" id="view_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="View data {{ $g->name }}"
+                                @if($permissions->contains('permission_types.view', true)) checked @endif
+>
+              </td>
+              @endif
+            </tr>
 
         @foreach ($g->children as $i)
             @php

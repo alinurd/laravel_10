@@ -78,25 +78,26 @@
             <tr>
               <td><i class="ri-folder-2-line"></i> &ensp; <strong>{{ $g->name }}</strong></td>
               @if($g['url']=='#')
-              <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][]" id="manage_{{ $g->id }}"></td>
+              <td><input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $g->id }}]" id="manage_{{ $g->id }}_{{ $g->id }}"></td>
               <td></td>
               <td></td>
               <td></td>
               <td></td>
-              
               @else
-             
               <td>
-                <input type="checkbox" class="form-switch" name="create[{{ $g->id }}][]" id="create_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Create data {{ $i->name }}">
+                <input type="checkbox" class="form-switch" name="manage[{{ $g->id }}][{{ $g->id }}]" id="manage_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Manage data {{ $g->name }}">
               </td>
               <td>
-                <input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][]" id="delete_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete data {{ $i->name }}">
+                <input type="checkbox" class="form-switch" name="create[{{ $g->id }}][{{ $g->id }}]" id="create_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Create data {{ $g->name }}">
               </td>
               <td>
-                <input type="checkbox" class="form-switch" name="update[{{ $g->id }}][]" id="update_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update data {{ $i->name }}">
+                <input type="checkbox" class="form-switch" name="delete[{{ $g->id }}][{{ $g->id }}]" id="delete_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Delete data {{ $g->name }}">
               </td>
               <td>
-                <input type="checkbox" class="form-switch" name="view[{{ $g->id }}][]" id="view_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="View data {{ $i->name }}">
+                <input type="checkbox" class="form-switch" name="update[{{ $g->id }}][{{ $g->id }}]" id="update_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Update data {{ $g->name }}">
+              </td>
+              <td>
+                <input type="checkbox" class="form-switch" name="view[{{ $g->id }}][{{ $g->id }}]" id="view_{{ $g->id }}_{{ $g->id }}" data-bs-toggle="tooltip" data-bs-placement="top" title="View data {{ $g->name }}">
               </td>
               @endif
             </tr>
