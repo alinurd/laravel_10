@@ -16,30 +16,40 @@
         @endphp
 
         <ul class="navbar-nav">
-            @foreach ($menus as $menu)
-            @php
-            $akses = collect($menuWithPermission)->contains('menu_item_id', $menu->id);
-            $hasChildren = isset($menu['children']) && collect($menu['children'])->isNotEmpty();
+    @foreach ($menus as $menu)
+    @php
+        $akses = collect($menuWithPermission)->contains('menu_item_id', $menu->id);
+        $hasChildren = isset($menu['children']) && collect($menu['children'])->isNotEmpty();
 
-            // Periksa apakah URL saat ini mengandung URL dasar menu
-            $isActive = Str::contains(request()->url(), route($menu->url, [], false)) ||
-            ($hasChildren && collect($menu['children'])->pluck('url')->contains(fn($url) => Str::contains(request()->url(), route($url, [], false))));
-            @endphp
+        // Periksa apakah URL saat ini mengandung URL dasar menu
+        $isActive = Str::contains(request()->url(), route($menu->url, [], false)) ||
+        ($hasChildren && collect($menu['children'])->pluck('url')->contains(fn($url) => Str::contains(request()->url(), route($url, [], false))));
+    @endphp
 
-            @if ($akses || $hasChildren)
+    @if ($akses || $hasChildren)
+        @if ($menu->url != '#')
+            <!-- Menu Item without Dropdown (Main Link) -->
+            <li class="nav-item {{ $isActive ? 'active' : '' }}">
+                <a href="{{ route($menu->url) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
+                    <i class="{{ $menu->icon }}"></i>
+                    <span>{{ ucwords($menu->name) }}</span>
+                </a>
+            </li>
+        @else
+            <!-- Menu Item with Dropdown -->
             <li class="nav-item dropdown {{ $isActive ? 'show' : '' }}">
                 <a href="javascript:void(0);"
-                    class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="{{ $isActive ? 'true' : 'false' }}">
+                   class="nav-link dropdown-toggle {{ $isActive ? 'active' : '' }}"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="{{ $isActive ? 'true' : 'false' }}">
                     <i class="{{ $menu->icon }}"></i>
                     <span>{{ ucwords($menu->name) }}</span>
                 </a>
                 <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
                     @foreach ($menu['children'] as $child)
                     @php
-                    $childAkses = collect($menuWithPermission)->contains('menu_item_id', $child['id']);
-                    $isChildActive = Str::contains(request()->url(), route($child->url, [], false));
+                        $childAkses = collect($menuWithPermission)->contains('menu_item_id', $child['id']);
+                        $isChildActive = Str::contains(request()->url(), route($child->url, [], false));
                     @endphp
                     @if ($childAkses)
                     <li>
@@ -52,9 +62,11 @@
                     @endforeach
                 </ul>
             </li>
-            @endif
-            @endforeach
-        </ul>
+        @endif
+    @endif
+    @endforeach
+</ul>
+
 
     </div>
 
