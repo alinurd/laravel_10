@@ -6,7 +6,7 @@
           var detailId = $(this).data('id');
            var dovValue = $("#DOV" + detailId).val();
          
-          updateDOV(dovValue, detailId, 2)
+          updateDOV(dovValue, detailId, 3)
         } else {
           $(this).prop('checked', false);
           $(this).val(0);
@@ -66,7 +66,7 @@
       dov: dovValue,
       ket_review: ket_review,
       reset: reset,
-      review: (reset > 0 ? reset : 0) // 1 => review | 2 => reject | 0 => reset
+      review: (reset > 0 ? reset : 0) // 1 => approved | 3 => reject | 1 => reset
     };
     console.log(data)
     $.ajax({
