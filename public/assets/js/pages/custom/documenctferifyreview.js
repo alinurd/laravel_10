@@ -15,14 +15,14 @@
         $(this).val(0);
       }
     });
-    $(document).on('change', '.reset', function() {
+    $(document).on('change', 'input[id^="reset"]', function() {
       if ($(this).is(':checked')) {
         var confirmation = confirm("Apakah Anda yakin reset data ini ?");
         if (confirmation) {
           var detailId = $(this).data('id');
            var dovValue = $("#DOV" + detailId).val();
          
-          updateDOV(dovValue, detailId, 1)
+          updateDOV(dovValue, detailId, 2 )
         } else {
           $(this).prop('checked', false);
           $(this).val(0);
@@ -35,9 +35,7 @@
     $(document).on('change', 'input[id^="DOV"]', function() {
       var dovValue = $(this).val();
       var detailId = $(this).data('id');
-      
-    
-      updateDOV(dovValue, detailId,0)
+      updateDOV(dovValue, detailId,1)
     });
   });
 
@@ -68,7 +66,7 @@
       dov: dovValue,
       ket_review: ket_review,
       reset: reset,
-      review: (reset >0 ? reset : 0) // 1 => review | 2 => reject | 0 => reset
+      review: (reset > 0 ? reset : 0) // 1 => review | 2 => reject | 0 => reset
     };
     console.log(data)
     $.ajax({

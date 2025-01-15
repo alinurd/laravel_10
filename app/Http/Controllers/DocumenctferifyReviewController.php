@@ -294,7 +294,7 @@ class DocumenctferifyReviewController extends _Controller
             $dov=date('Y-m-d');
         }
 
-        if($reset!=2 && $reset!=0){
+        if($reset==2){
             $ket_review=null;
             $dov=null;
             $review=0;
