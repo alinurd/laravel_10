@@ -55,8 +55,8 @@
                 <span class="visually-hidden">Loading...</span>
               </div>
               <!-- is approv -->
-              <div class="{{ $detail->review == 1 ? '' : 'd-none' }}" id="{{ $detail->id }}">
-                <span style="padding:2px; font-size: 20px;" class="badge bg-success btn" data-toggle="tooltip" data-placement="top" title="verified">
+              <div class="{{ $detail->review == 1 ? '' : 'd-none' }}" id="isApporv{{ $detail->id }}">
+                <span style="padding:2px; font-size: 20px;" class="badge bg-success btn" data-toggle="tooltip" data-placement="top" title="Verified">
                   <strong><i class="ri-check-fill"></i></strong>
                 </span>
                 <div class="form-check form-switch form-switch-right form-switch-md mt-4">
@@ -65,8 +65,8 @@
                 </div>
               </div>  
               <!-- is reject -->
-              <div class="{{ $detail->review == 3 ? '' : 'd-none' }}" id="Rejected{{ $detail->id }}">
-                <span style="padding:2px; font-size: 20px;" class="badge bg-danger btn" data-toggle="tooltip" data-placement="top" title="verified">
+              <div class="{{ $detail->review == 3 ? '' : 'd-none' }}" id="isRejected{{ $detail->id }}">
+                <span style="padding:2px; font-size: 20px;" class="badge bg-danger btn" data-toggle="tooltip" data-placement="top" title="Rejected">
                   <strong><i class="ri-close-fill"></i></strong>
                 </span>
                 <div class="form-check form-switch form-switch-right form-switch-md mt-4">
@@ -76,10 +76,10 @@
               </div>  
 
               <!-- rejected -->
-              <div class="{{ $detail->review == 0 ? '' : 'd-none' }}" id="{{ $detail->id }}">
+              <div class="{{ $detail->review == 0 ? '' : 'd-none' }}" id="Rejected{{ $detail->id }}">
               <div class="form-check form-switch form-switch-right form-switch-md mt-4">
                   <label for="reject{{ $detail->id }}" class="form-label text-danger">Reject?</label>
-                  <input class="form-check-input code-switcher reject" type="checkbox" id="reject{{ $detail->id }}" data-id="{{ $detail->id }}" name="reject{{ $detail->id }}" value="2" data-toggle="tooltip" data-placement="top" title="reset verifiied?" {{ $user->verified ==1  ? '' : 'disabled' }}>
+                  <input class="form-check-input code-switcher reject" type="checkbox" id="reject{{ $detail->id }}" data-id="{{ $detail->id }}" name="reject{{ $detail->id }}" value="2" data-toggle="tooltip" data-placement="top" title="reject dokument?" {{ $user->verified ==1  ? '' : 'disabled' }}>
                 </div>
                </div>
             </td>

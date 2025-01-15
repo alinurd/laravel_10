@@ -74,16 +74,19 @@
       method: 'POST',
       data: data,
       success: function(response) {
-        console.log(response)
-        if (response.review==1) {
-          $("#" + detailId).removeClass("d-none");
+        if (response.review == 1) {
           $("#Rejected" + detailId).addClass("d-none");
-        }else if(response.review==2) {
-          $("#" + detailId).addClass("d-none");
+          $("#isRejected" + detailId).addClass("d-none");
+          $("#isApporv" + detailId).removeClass("d-none");
+        } else if (response.review == 3) {
+          console.log("is rejectd")
+          $("#isApporv" + detailId).addClass("d-none");
+          $("#Rejected" + detailId).addClass("d-none");
+          $("#isRejected" + detailId).removeClass("d-none");
+        } else {
           $("#Rejected" + detailId).removeClass("d-none");
-        }
-         else {
-          $("#" + detailId).addClass("d-none");
+          $("#isApporv" + detailId).addClass("d-none");
+          $("#isRejected" + detailId).addClass("d-none");
           $("#review" + detailId).val('');
           $("#DOV" + detailId).val(null);
         }
