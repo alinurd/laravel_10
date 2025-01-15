@@ -2,6 +2,13 @@
 
 @section('title', 'Dashboard')
 
+@section('jSchart')
+<script src="{{ $chartBar->cdn() }}"></script>
+<script src="{{ $chartLine->cdn() }}"></script>
+{{ $chartBar->script() }}
+{{ $chartLine->script() }}
+@endsection
+
 @section('breadcrumb')
 <x-dashboard.breadcrumb
     :title="'Dashboard'"
@@ -31,7 +38,9 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">Total Sertifikat Tahunan</h5>
-                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+                    <div class="p-6 m-20 bg-white rounded shadow">
+        {!! $chartBar->container() !!}
+    </div>
                 </div>
             </div>
         </div>
@@ -98,7 +107,8 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">Total Nominal Sertifikat Tahunan</h5>
-                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
+                {!! $chartLine->container() !!}
+
             </div>
         </div>
     </div>
