@@ -306,7 +306,7 @@ class DocumenctferifyReviewController extends _Controller
             $detail->dov = $dov;
              $detail->review = $review;
             $detail->save(); 
-            return response()->json(['success' => true, 'data' => $detail, 'review' => $review]);
+            return response()->json(['success' => true, 'data' => $detail, 'review' =>intval($review)]);
         }
     
         // Jika data tidak ditemukan
