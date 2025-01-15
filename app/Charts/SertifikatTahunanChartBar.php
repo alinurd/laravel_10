@@ -23,7 +23,7 @@ class SertifikatTahunanChartBar
             ->toArray();
     
          $rejectCounts = \App\Models\DocFerifyDetail::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
-            ->where('review', '=', 0)
+            ->where('review', '=', 2)
             ->groupBy('year')
             ->orderBy('year', 'asc')
             ->pluck('total', 'year')
