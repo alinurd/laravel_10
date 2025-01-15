@@ -366,11 +366,11 @@
                     </button>
                 </div> -->
 
-                <div class="ms-1 header-item d-none d-sm-flex d-none">
+                <!-- <div class="ms-1 header-item d-none d-sm-flex d-none">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle light-dark-mode">
                         <i class='bx bx-moon fs-22'></i>
                     </button>
-                </div>
+                </div> -->
 
                 <!-- <div class="dropdown topbar-head-dropdown ms-1 header-item">
                     <button type="button" class="btn btn-icon btn-topbar btn-ghost-secondary rounded-circle" id="page-header-notifications-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
