@@ -15,10 +15,34 @@ class SertifikatTahunanChartBar
 
     public function build(): \ArielMejiaDev\LarapexCharts\BarChart
     {
-        return $this->chart->barChart() 
-            ->addData('Approved', [6, 9, 3, 4, 10, 8])
-            ->addData('Reject', [7, 3, 8, 2, 6, 4])
+         $approvedCounts = \App\Models\DocFerifyDetail::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+            ->where('review', '=', 1)
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->pluck('total', 'year')
+            ->toArray();
+    
+         $rejectCounts = \App\Models\DocFerifyDetail::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
+            ->where('review', '=', 0)
+            ->groupBy('year')
+            ->orderBy('year', 'asc')
+            ->pluck('total', 'year')
+            ->toArray();
+    
+         $currentYear = date('Y');
+        $years = range(2020, $currentYear);
+    
+         $approvedData = array_replace(array_fill_keys($years, 0), $approvedCounts);
+        $rejectData = array_replace(array_fill_keys($years, 0), $rejectCounts);
+    
+         return $this->chart->barChart()
+            ->addData('Approved', array_values($approvedData))
+            ->addData('Reject', array_values($rejectData))
+            ->setXAxis($years) 
             ->setColors(['#0ab39c', '#f06548'])
-            ->setXAxis(['January', 'February', 'March', 'April', 'May', 'June']);
+            ->setTitle('Data Sertifikat Tahunan')
+            ->setSubtitle('Approved vs Reject dari tahun 2020 hingga sekarang');
     }
+    
 }
+ 
