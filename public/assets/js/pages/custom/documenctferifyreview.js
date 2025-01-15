@@ -1,5 +1,5 @@
    $(document).ready(function() {
-    $(document).on('change', '.reject', function() {
+    $(document).on('change', 'input[id^="reject"]', function() {
       if ($(this).is(':checked')) {
         var confirmation = confirm("Apakah Anda yakin mereject data ini ?");
         if (confirmation) {
@@ -74,9 +74,15 @@
       method: 'POST',
       data: data,
       success: function(response) {
-        if (response.review) {
+        console.log(response)
+        if (response.review==1) {
           $("#" + detailId).removeClass("d-none");
-        } else {
+          $("#Rejected" + detailId).addClass("d-none");
+        }else if(response.review==2) {
+          $("#" + detailId).addClass("d-none");
+          $("#Rejected" + detailId).removeClass("d-none");
+        }
+         else {
           $("#" + detailId).addClass("d-none");
           $("#review" + detailId).val('');
           $("#DOV" + detailId).val(null);

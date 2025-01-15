@@ -76,7 +76,7 @@
               </div>  
 
               <!-- rejected -->
-              <div class="{{ $detail->review == 0 ? '' : 'd-none' }}" id="{{ $detail->id }}">
+              <div class="{{ $detail->review == 0 ? '' : 'd-none' }}" id="Rejected{{ $detail->id }}">
               <div class="form-check form-switch form-switch-right form-switch-md mt-4">
                   <label for="reject{{ $detail->id }}" class="form-label text-danger">Reject?</label>
                   <input class="form-check-input code-switcher reject" type="checkbox" id="reject{{ $detail->id }}" data-id="{{ $detail->id }}" name="reject{{ $detail->id }}" value="2" data-toggle="tooltip" data-placement="top" title="reset verifiied?" {{ $user->verified ==1  ? '' : 'disabled' }}>
