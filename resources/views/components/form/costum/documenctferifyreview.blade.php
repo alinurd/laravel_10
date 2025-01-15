@@ -59,10 +59,16 @@
                   <strong><i class="ri-check-fill"></i></strong>
                 </span>
                 <div class="form-check form-switch form-switch-right form-switch-md mt-4">
-                  <label for="reset{{ $detail->id }}" class="form-label text-danger">Reset?</label>
+                  <label for="reset{{ $detail->id }}" class="form-label text-info">Reset?</label>
                   <input class="form-check-input code-switcher" type="checkbox" id="reset{{ $detail->id }}" data-id="{{ $detail->id }}" name="reset{{ $detail->id }}" value="0" data-toggle="tooltip" data-placement="top" title="reset verifiied?" {{ $user->verified ==1  ? '' : 'disabled' }}>
                 </div>
               </div>
+              <div class="{{ $detail->review == 0 ? '' : 'd-none' }}" id="{{ $detail->id }}">
+              <div class="form-check form-switch form-switch-right form-switch-md mt-4">
+                  <label for="reject{{ $detail->id }}" class="form-label text-danger">Reject?</label>
+                  <input class="form-check-input code-switcher" type="checkbox" id="reject{{ $detail->id }}" data-id="{{ $detail->id }}" name="reset{{ $detail->id }}" value="0" data-toggle="tooltip" data-placement="top" title="reset verifiied?" {{ $user->verified ==1  ? '' : 'disabled' }}>
+                </div>
+               </div>
             </td>
           </tr>
           @endif

@@ -194,6 +194,8 @@
 
 </body>
 
+@yield('jSchart')
+
 <script>
  
   $(document).ready(function() {

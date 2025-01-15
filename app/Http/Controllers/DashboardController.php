@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Charts\MonthlyUsersChart;
+use App\Charts\SertifikatNominalChartline;
+use App\Charts\SertifikatTahunanChartBar;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -9,9 +12,11 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)
     {
-        return view('dashboard.index');
+        $data['chartBar']= $chartBar->build();
+        $data['chartLine']= $chartLine->build();
+        return view('pages.dashboard.index', $data);
     }
 
     /**
