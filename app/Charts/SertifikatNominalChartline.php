@@ -2,6 +2,7 @@
 
 namespace App\Charts;
 
+use App\Models\DocFerifyHeader;
 use ArielMejiaDev\LarapexCharts\LarapexChart;
 
 class SertifikatNominalChartline
@@ -15,11 +16,41 @@ class SertifikatNominalChartline
 
     public function build(): \ArielMejiaDev\LarapexCharts\LineChart
     {
-        return $this->chart->lineChart()
-            ->setTitle('Sales during 2021.')
-            ->setSubtitle('Physical sales vs Digital sales.')
-            ->addData('Physical sales', [40, 93, 35, 42, 18, 82])
-            ->addData('Digital sales', [70, 29, 77, 28, 55, 45])
-            ->setXAxis(['January', 'February', 'March', 'April', 'May', 'June']);
+        $data = DocFerifyHeader::selectRaw('YEAR(created_at) as year, SUM(CAST(REPLACE(REPLACE(nilai, ".", ""), ",", ".") AS DECIMAL(10,2))) as total')
+            ->groupBy('year')
+            ->orderBy('year')
+            ->get();
+    
+        $years = $data->pluck('year')->toArray();
+        $totals = $data->pluck('total')->map(fn($value) => round($value, 2))->toArray();
+    
+        return $this->chart->lineChart() 
+            ->addData('Total Nilai',  $totals)
+            ->setXAxis($years)
+            ->setOptions([
+                'yaxis' => [
+                    'labels' => [
+                        'formatter' => function ($value) {
+                            return number_format($value, 0, ',', '.'); // Format angka ribuan di Y-axis
+                        },
+                    ],
+                ],
+                'tooltip' => [
+                    'y' => [
+                        'formatter' => function ($value) {
+                            return number_format($value, 0, ',', '.'); // Format angka di tooltip
+                        },
+                    ],
+                ],
+                'dataLabels' => [
+                    'enabled' => true, // Menonaktifkan label data
+                ],
+                'chart' => [
+                    'zoom' => [
+                        'enabled' => true, // Nonaktifkan zoom jika tidak diperlukan
+                    ],
+                ],
+            ]);
     }
+    
 }
