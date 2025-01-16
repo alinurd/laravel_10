@@ -281,7 +281,7 @@ class DocumenctferifyReviewController extends _Controller
         // Validasi data yang diterima
         $request->validate([
             'id' => 'required|integer',
-            'dov' => 'required|date',
+            // 'dov' => 'required|date',
             'ket_review' => 'nullable|string',
             'review' => 'nullable|string',
         ]);
@@ -289,8 +289,12 @@ class DocumenctferifyReviewController extends _Controller
         $ket_review=$request->ket_review;
         $dov=$request->dov;
         $review=$request->review;
-        
-        if($request->reset>0){
+        $reset=$request->reset;
+        if(!$dov){
+            $dov=date('Y-m-d');
+        }
+
+        if($reset==2){
             $ket_review=null;
             $dov=null;
             $review=0;
@@ -302,7 +306,7 @@ class DocumenctferifyReviewController extends _Controller
             $detail->dov = $dov;
              $detail->review = $review;
             $detail->save(); 
-            return response()->json(['success' => true, 'data' => $detail, 'review' => $review]);
+            return response()->json(['success' => true, 'data' => $detail, 'review' =>intval($review)]);
         }
     
         // Jika data tidak ditemukan

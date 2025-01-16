@@ -1,11 +1,28 @@
    $(document).ready(function() {
-    $(document).on('change', '.code-switcher', function() {
+    $(document).on('change', 'input[id^="reject"]', function() {
       if ($(this).is(':checked')) {
-        var confirmation = confirm("Apakah Anda yakin ?");
+        var confirmation = confirm("Apakah Anda yakin mereject data ini ?");
         if (confirmation) {
           var detailId = $(this).data('id');
-          var dovValue = $("#DOV" + detailId).val();
-          updateDOV(dovValue, detailId, 1)
+           var dovValue = $("#DOV" + detailId).val();
+         
+          updateDOV(dovValue, detailId, 3)
+        } else {
+          $(this).prop('checked', false);
+          $(this).val(0);
+        }
+      } else {
+        $(this).val(0);
+      }
+    });
+    $(document).on('change', 'input[id^="reset"]', function() {
+      if ($(this).is(':checked')) {
+        var confirmation = confirm("Apakah Anda yakin reset data ini ?");
+        if (confirmation) {
+          var detailId = $(this).data('id');
+           var dovValue = $("#DOV" + detailId).val();
+         
+          updateDOV(dovValue, detailId, 2 )
         } else {
           $(this).prop('checked', false);
           $(this).val(0);
@@ -18,9 +35,7 @@
     $(document).on('change', 'input[id^="DOV"]', function() {
       var dovValue = $(this).val();
       var detailId = $(this).data('id');
-      
-    var reset = $("#reset" + detailId).val();
-      updateDOV(dovValue, detailId,reset)
+      updateDOV(dovValue, detailId,1)
     });
   });
 
@@ -51,17 +66,27 @@
       dov: dovValue,
       ket_review: ket_review,
       reset: reset,
-      review: (reset == 1 ? 0 : 1) // 1 => review | 2 => reject | 0 => reset
+      review: (reset > 0 ? reset : 0) // 1 => approved | 3 => reject | 1 => reset
     };
+    console.log(data)
     $.ajax({
       url: '/update-dov',
       method: 'POST',
       data: data,
       success: function(response) {
-        if (response.review) {
-          $("#" + detailId).removeClass("d-none");
+        if (response.review == 1) {
+          $("#Rejected" + detailId).addClass("d-none");
+          $("#isRejected" + detailId).addClass("d-none");
+          $("#isApporv" + detailId).removeClass("d-none");
+        } else if (response.review == 3) {
+          console.log("is rejectd")
+          $("#isApporv" + detailId).addClass("d-none");
+          $("#Rejected" + detailId).addClass("d-none");
+          $("#isRejected" + detailId).removeClass("d-none");
         } else {
-          $("#" + detailId).addClass("d-none");
+          $("#Rejected" + detailId).removeClass("d-none");
+          $("#isApporv" + detailId).addClass("d-none");
+          $("#isRejected" + detailId).addClass("d-none");
           $("#review" + detailId).val('');
           $("#DOV" + detailId).val(null);
         }
