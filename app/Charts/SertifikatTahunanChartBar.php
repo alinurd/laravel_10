@@ -23,7 +23,7 @@ class SertifikatTahunanChartBar
             ->toArray();
     
          $rejectCounts = \App\Models\DocFerifyDetail::selectRaw('YEAR(created_at) as year, COUNT(*) as total')
-            ->where('review', '=', 2)
+            ->where('review', '=', 3)
             ->groupBy('year')
             ->orderBy('year', 'asc')
             ->pluck('total', 'year')
@@ -39,9 +39,7 @@ class SertifikatTahunanChartBar
             ->addData('Approved', array_values($approvedData))
             ->addData('Reject', array_values($rejectData))
             ->setXAxis($years) 
-            ->setColors(['#0ab39c', '#f06548'])
-            ->setTitle('Data Sertifikat Tahunan')
-            ->setSubtitle('Approved vs Reject dari tahun 2020 hingga sekarang');
+            ->setColors(['#0ab39c', '#f06548']);
     }
     
 }

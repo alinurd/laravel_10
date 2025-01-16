@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Charts\MonthlyUsersChart;
 use App\Charts\SertifikatNominalChartline;
 use App\Charts\SertifikatTahunanChartBar;
+use App\Models\DocFerifyDetail;
+use App\Models\DocFerifyHeader;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -14,6 +16,12 @@ class DashboardController extends Controller
      */
     public function index(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)
     {
+        $data['totalNilaiProduct'] = DocFerifyHeader::selectRaw("SUM(REPLACE(REPLACE(nilai, '.', ''), ',', '.')) as total")
+        ->value('total');
+            $data['totalSerti'] = DocFerifyDetail::count();
+        $data['totalReject'] = DocFerifyDetail::where('review',3)->count();
+        $data['totalApprv'] = DocFerifyDetail::where('review',1)->count();
+        $data['totalReview'] = DocFerifyDetail::where('review',0)->count();
         $data['chartBar']= $chartBar->build();
         $data['chartLine']= $chartLine->build();
         return view('pages.dashboard.index', $data);
