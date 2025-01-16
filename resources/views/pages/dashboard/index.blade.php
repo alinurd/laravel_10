@@ -20,21 +20,21 @@
 <div class="card card-height-100 ">
     <div class="card-body">
         <div class="row row-cols-1 row-cols-md-2 g-4">
-
-            <div class="input-group">
-                <select class="form-select" id="inputGroupSelect04" aria-label="Example select2  with button addon">
-                    <option selected>Choose...</option>
-                    <option value="">2025</option>
-                    <option value="">2024</option>
-                    <option value="">2023</option>
-                </select>
-                <button class="btn btn-outline-primary" type="button">Search</button>
-            </div>
-
+            <form method="GET" action="{{ route('dashboard.index') }}">
+                <div class="input-group">
+                    <select name="year" class="form-select" id="inputGroupSelect04" aria-label="Example select2 with button addon">
+                        <option value="" disabled selected>Pilih Tahun...</option>
+                        <option value="2025" {{ request()->get('year') == '2025' ? 'selected' : '' }}>2025</option>
+                        <option value="2024" {{ request()->get('year') == '2024' ? 'selected' : '' }}>2024</option>
+                        <option value="2023" {{ request()->get('year') == '2023' ? 'selected' : '' }}>2023</option>
+                    </select>
+                    <button class="btn btn-outline-primary" type="submit">Search</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
-
+</div>
 <div class="row row-cols-1 row-cols-md-2 g-4">
     <div class="col">
         <div class="card">
@@ -94,8 +94,8 @@
                 <div class="col">
                     <div class="card">
                         <div class="card-body">
-                            <h5 class="card-title">Total Nilai Barang 2024</h5>
-                            <center>
+                        <h5 class="card-title">Total Nilai Barang {{ $year ? $year : '[all data]' }}</h5>
+                        <center>
                                 <h2 class="card-text"><strong>Rp. {{ number_format($totalNilaiProduct, 2, ',', '.') }}</strong></h2>
                             </center>
                         </div>
