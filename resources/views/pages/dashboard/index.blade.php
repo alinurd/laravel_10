@@ -19,8 +19,7 @@
 @section('content')
 <div class="card card-height-100 ">
     <div class="card-body">
-        <div class="row row-cols-1 row-cols-md-2 g-4">
-            <form method="GET" action="{{ route('dashboard.index') }}">
+             <form method="GET" action="{{ route('dashboard.index') }}">
                 <div class="input-group">
                     <select name="year" class="form-select" id="inputGroupSelect04" aria-label="Example select2 with button addon">
                         <option value="" disabled selected>Pilih Tahun...</option>
@@ -30,8 +29,7 @@
                     </select>
                     <button class="btn btn-outline-primary" type="submit">Search</button>
                 </div>
-            </form>
-        </div>
+            </form> 
     </div>
 </div>
 </div>
