@@ -23,6 +23,7 @@ class Topbar extends Component
      */
     public function render(): View|Closure|string
     {
+        dd("jalan");
         $user = Auth::user();
         $groupUser = GroupUsers::where('user_id', $user->id)
         ->with('getPermission.getMenuParent', 'getPermission.getMenuItems')
