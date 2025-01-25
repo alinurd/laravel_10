@@ -16,24 +16,26 @@
     <div class="w-100 px-4" style="max-width: 400px;">
       <!-- Logo -->
       <div class="mb-4 text-center">
-        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo" class="mb-4" style="height: 50px; margin: auto;">
+        <img src="{{ asset('assets/images/logo/logo.png') }}" alt="Logo" class="mb-4" style="height: 120px; margin: auto;">
       </div>
 
       <!-- Welcome Text -->
       <h4 class="text-primary mb-1" style="font-weight: bold;">Welcome Back,</h4>
       <p class="text-muted mb-4">Enter Username and Password</p>
+      <x-form.validation.error name="email" />
+        <x-form.validation.error name="password" />
 
       <!-- Login Form -->
       <form action="{{ route('login') }}" method="POST" class="pt-2">
         @csrf
 
         <!-- Username Field -->
+        
         <div class="input-group mb-3">
           <span class="input-group-text bg-white border-0 border-bottom border-info rounded-0">
             <i class="ri-user-line text-muted"></i>
           </span>
           <input type="text" class="form-control border-0 border-bottom border-info rounded-0" name="email" placeholder="Username" required autocomplete="username" style="padding-left: 1px;">
-          <x-form.validation.error name="email" />
         </div>
 
         <!-- Password Field -->
@@ -43,7 +45,6 @@
           </span>
           <input type="password" class="form-control border-0 border-bottom border-info rounded-0" name="password" placeholder="Password" required autocomplete="current-password" style="padding-left: 1px;">
           <button class="btn border-0 border-bottom border-info rounded-0" type="button" id="password-addon"><i class="ri-eye-line"></i></button>
-          <x-form.validation.error name="password" />
         </div>
 
         <!-- Submit Button -->
