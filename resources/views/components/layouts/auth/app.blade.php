@@ -6,10 +6,9 @@
   <meta charset="utf-8" />
   <title>@yield('title') | {{ config('app.name', 'Laravel') }}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta content="Premium Multipurpose Admin & Dashboard Template" name="description" />
-  <meta content="Themesbrand" name="author" />
+   <meta content="Themesbrand" name="author" />
   <!-- App favicon -->
-  <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
+  <link rel="shortcut icon" href="{{ asset('assets/images/logo/logo.png') }}">
 
   <!-- Layout config Js -->
   <script src="{{ asset('assets/js/layout.js') }}"></script>
@@ -40,21 +39,8 @@
     <!-- end auth page content -->
 
     <!-- footer -->
-    <footer class="footer">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="text-center">
-              <p class="mb-0 text-muted">&copy;
-                <script>
-                  document.write(new Date().getFullYear())
-                </script> Velzon. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesbrand
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </footer>
+    @include('components.layouts.footer')
+
     <!-- end Footer -->
   </div>
   <!-- end auth-page-wrapper -->
