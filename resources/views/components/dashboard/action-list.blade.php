@@ -3,7 +3,7 @@
         <i class="ri-list-check"></i>
     </a>
     <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-        @if($canEdit)
+        @if($canEdit && $currentRoute !="documenctferifyreview")
         <li>
             <a class="text-primary dropdown-item" href="{{ route($currentRoute . '.edit', [$currentRoute => $id]) }}">
                 <i class="ri-edit-line text-primary"></i> {{__('global.edit')}}

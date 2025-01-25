@@ -1,4 +1,4 @@
-@if($mode=='add' && $canCreate)
+ @if($mode=='add' && $canCreate && $currentRoute !="documenctferifyreview")
  <button type="submit" class="btn btn-secondary btn-md">
             <i class="ri-save-line"></i>
             {{ __('global.save') }}

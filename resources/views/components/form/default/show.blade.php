@@ -6,6 +6,7 @@
     <div class="card-header border-bottom-dashed align-items-center d-flex">
       <div class="row w-100">
         <div class="d-flex gap-2">
+          @if($currentRoute !="documenctferifyreview")
           <button type="submit" class="btn btn-secondary btn-md" disabled>
             <i class="ri-save-line"></i>
             {{ __('global.save') }}
@@ -14,6 +15,7 @@
             <i class="ri-add-line"></i>
             {{ __('global.addNew') }}
           </a>
+          @endif
           <a href=" {{ route($currentRoute.'.index') }} " class="btn btn-dark btn-md">
             <i class="ri-arrow-left-line"></i>
             {{ __('global.back') }}
