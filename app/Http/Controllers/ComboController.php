@@ -18,7 +18,7 @@ class ComboController extends _Controller
     public function __construct()
     {
         $this->modulName = "combo";
-        $this->modelMaster = "App\Models\Icon";
+        $this->modelMaster = "App\Models\Combo";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -35,7 +35,7 @@ class ComboController extends _Controller
                 'rules' => ['required', 'string']
             ],
             [
-                'field' => 'nama',
+                'field' => 'data',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
@@ -44,12 +44,48 @@ class ComboController extends _Controller
                 'rules' => ['required', 'string']
             ],
             [
-                'field' => 'data',
+                'field' => 'categori',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'show' => true,
                 'required' => true,
+                'rules' => ['required', 'string']
+            ],
+            [
+                'field' => 'pid',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => false,
+                'rules' => ['required', 'string']
+            ],
+            [
+                'field' => 'key1',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => false,
+                'rules' => ['required', 'string']
+            ],
+            [
+                'field' => 'key2',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => false,
+                'rules' => ['required', 'string']
+            ],
+            [
+                'field' => 'key3',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => false,
                 'rules' => ['required', 'string']
             ],
             [
