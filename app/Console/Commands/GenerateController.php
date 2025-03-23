@@ -140,7 +140,7 @@ class GenerateController extends Command
         foreach ($this->list as $field) {
             $fieldName = $field['field'];
             $translation = $this->ask("Enter translation for {$fieldName}");
-            $langContent .= "    fld_'{$fieldName}' => '{$translation}',\n";
+            $langContent .= "'fld_{$fieldName}' => '{$translation}',\n";
         }
 
         $langContent .= "];\n";

@@ -8,7 +8,7 @@ use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-class {{ControllerName}} extends _Controller
+class kategoriController extends _Controller
 {
     protected $modulName = '';
     protected $_SETCORE = '';
@@ -17,15 +17,39 @@ class {{ControllerName}} extends _Controller
     protected $modelMaster = '';
     public function __construct()
     {
-        $this->modulName = "{{modul}}";
-        $this->modelMaster = "App\Models\Icon";
+        $this->modulName = "kategori";
+        $this->modelMaster = "App\Models\Combo";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
         ];
 
        $this->list = [
-            {{list}}
+            
+            [
+                'field' => 'data',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => true,
+                'rules' => array (
+  0 => 'required',
+  1 => 'string',
+)
+            ],
+            [
+                'field' => 'status',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => true,
+                'rules' => array (
+  0 => 'required',
+  1 => 'string',
+)
+            ]
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
@@ -56,12 +80,7 @@ class {{ControllerName}} extends _Controller
 
     public function show(string $id)
     {
-        $data = $this->_SETCORE;
-        $data['list'] = array_merge($this->setFrom);
-        $data['id'] = $id;
-        $data['field'] = $this->modelMaster::find($id);
-        $data['mode'] = 'show';
-        return view('pages.index', $data);
+        //
     }
 
     /**
