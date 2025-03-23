@@ -155,7 +155,7 @@ class GenerateController extends Command
         $routePath = base_path('routes/web.php');
 
         $useEntry = "use App\Http\Controllers\\{$controllerName};\n";
-        $routeEntry = "    Route::resource('{$modul}', {$controllerName}::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print']);\n";
+        $routeEntry = "    Route::resource('{$modul}', {$controllerName}::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);\n";
 
         if (!File::exists($routePath)) {
             $this->error("Route file not found.");
