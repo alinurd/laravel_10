@@ -79,6 +79,40 @@
                         @elseif($l['input'] == 'rupiah')
                         {{ format_rupiah($f[$l['field']]) }}
 
+                        @elseif($l['type'] == 'file')
+                        @php
+    $fileData = json_decode($f[$l['field']], true);
+@endphp
+
+@php
+    $fileData = json_decode($f[$l['field']], true);
+@endphp
+
+<span class="btn btn-primary ShowLampiran" data-file="{{ $fileData['random_name'] ?? '' }}" data-original="{{ $fileData['original_name'] ?? '' }}">
+    {{ $fileData['original_name'] ?? 'Tidak ada file' }}
+</span>
+
+<!-- Modal untuk menampilkan lampiran -->
+<div class="modal fade" id="modalLampiran" tabindex="-1" aria-labelledby="modalLampiranLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalLampiranLabel">Lampiran</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body text-center">
+                <a id="downloadFile" href="" target="_blank" class="btn btn-success mt-2 d-none">Download File</a>
+                <p id="fileName"></p>
+                <img id="previewImage" src="" class="img-fluid d-none" alt="Lampiran">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
                         @elseif($l['input'] == 'date')
                         {{ format_date($f[$l['field']]) }}
 

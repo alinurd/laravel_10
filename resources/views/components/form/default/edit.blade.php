@@ -62,23 +62,30 @@
             </label>
           </div>
           @endforeach
-
           <!-- Rupiah Input -->
           @elseif($l['input'] === 'rupiah')
-          <div class="input-group mb-3">
-            <span class="input-group-text" id="basic-addon1">Rp</span>
-            <input type="text"
-              name="{{ $l['field'] }}"
-              placeholder="{{ $l['label'] }}"
-              aria-label="{{ $l['field'] }}"
-              class="form-control rupiah"
-              id="{{ $l['field'] }}"
-              value="{{ old($l['field'], $field[$l['field']]) }}"
-              @if($l['required']) required @endif
-              aria-describedby="{{ $l['field'] }}Help"
-              oninput="_formatRupiah(this)">
-          </div>
+    @php
+        $val = isset($field[$l['field']]) ? str_replace(['.', ','], ['', '.'], $field[$l['field']]) : '';
+    @endphp
+    <div class="input-group mb-3">
+        <span class="input-group-text" id="basic-addon1">Rp</span>
+        <input type="text"
+            name="{{ $l['field'] }}"
+            placeholder="{{ $l['label'] }}"
+            aria-label="{{ $l['field'] }}"
+            class="form-control rupiah inputRupiah"
+            id="{{ $l['field'] }}"
+            value="{{ old($l['field'], $val) }}"
+            @if($l['required']) required @endif
+            aria-describedby="{{ $l['field'] }}Help"
+            oninput="_formatRupiah(this)">
+    </div>
 
+          @elseif($l['type'] === 'textarea')
+          <div class="input-group mb-3">
+          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+          aria-describedby="{{ $l['field'] }}Help"></textarea>
+          </div>
           <!-- Text Input -->
           @else
           <input type="{{ $l['type'] }}"
@@ -113,4 +120,4 @@
 </form>
 
 
-<script src="{{ asset('assets/js/pages/custom/' . $currentRoute . '.js') }}"></script>
+<script src="{{ asset('assets/js/pages/custom/' .$currentRoute. '.js') }}"></script>

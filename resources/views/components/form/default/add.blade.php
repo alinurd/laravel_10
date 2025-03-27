@@ -1,4 +1,4 @@
-<form action="{{ route($currentRoute . '.store') }}" method="POST">
+<form action="{{ route($currentRoute . '.store') }}" method="POST" enctype="multipart/form-data">
   @csrf
   <div class="card card-height-100 ">
     <!-- cardheader -->
@@ -65,14 +65,19 @@
               name="{{ $l['field'] }}"
               placeholder="{{ $l['label'] }}"
               aria-label="{{ $l['field'] }}"
-              class="form-control rupiah"
+              class="form-control rupiah inputRupiah"
               id="{{ $l['field'] }}"
               @if($l['required']) required @endif
               aria-describedby="{{ $l['field'] }}Help"
               oninput="_formatRupiah(this)">
           </div>
 
-
+          @elseif($l['type'] === 'textarea')
+          <div class="input-group mb-3">
+          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+          aria-describedby="{{ $l['field'] }}Help"></textarea>
+          </div>
+ 
           @else
           <input type="{{ $l['type'] }}"
             name="{{ $l['field'] }}"
@@ -93,12 +98,13 @@
         @endif
         @empty
         @endforelse
-
-      </div>
+        {{ $currentRoute}}
+       </div>
       @if(isset($costum) && $costum->isNotEmpty())
       @include('components.form.costum.documenctferify')
       @else
       @endif
+      
     </div>
 </form>
 
