@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\Combo;
 use App\Models\MenuItem;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class StakeholderController extends _Controller
@@ -19,49 +21,55 @@ class StakeholderController extends _Controller
     {
         $this->modulName = "stakeholder";
         $this->modelMaster = "App\Models\Stakeholder";
-        $option = [
-            ['id' => 1, 'value' => 'Active'],
-            ['id' => 2, 'value' => 'Non Acive'],
-        ];
+        $cboJenis = $this->_cbo(Combo::class, ['id', DB::raw("CONCAT(data) AS data")], true, ['where' => [['f' => 'categori', 'v' => 'stackholder']] ]);
+        $sts = $this->_cbo(Combo::class, ['id', 'data'], true, [
+            'where' => [
+                ['f' => 'pid', 'v' => 'sts'],
+                ['f' => 'categori', 'v' => 'sts']
+            ]
+        ]);
 
        $this->list = [
-            
+        [
+            'field' => 'pic',
+            'type' => 'status',
+            'filter' => false,
+            'position' => false,
+            'show' => true,
+            'required' => true,
+            'rules' => array (0 => 'required',1 => 'string',)
+        ],
             [
                 'field' => 'name',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'required' => false,
+                'rules' => array (0 => 'required',1 => 'string',)
             ],
             [
-                'field' => 'pic',
-                'type' => 'status',
-                'filter' => false,
-                'position' => false,
+                'field' => 'jenis',
+                'type' => 'select',
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'where' => null,
+                'option' => $cboJenis,
+                'multiple' => false,
             ],
             [
-                'field' => 'select',
-                'type' => '1:aktif',
-                'filter' => false,
-                'position' => false,
+                'field' => 'status',
+                'type' => 'radio',
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ]
+                'required' => false,
+                'where' => null,
+                'option' => $sts,
+                'multiple' => false,
+            ],
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
