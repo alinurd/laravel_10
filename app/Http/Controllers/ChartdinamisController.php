@@ -46,16 +46,15 @@ class ChartdinamisController extends _Controller
                 'required' => true,
                 'rules' => ['required', 'string']
             ],
+
             [
                 'field' => 'jenis',
-                'type' => 'select',
-                'filter' => true,
-                'position' => 'center',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
                 'show' => true,
                 'required' => true,
-                'where' => null,
-                'option' => $cboJenis,
-                'multiple' => false,
+                'rules' => ['required', 'string']
             ],
             
             [
@@ -92,7 +91,7 @@ class ChartdinamisController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
-        $data['costum'] = "chart";
+        // $data['costum'] = "chart";
 
         return view('pages.index', $data);
     }

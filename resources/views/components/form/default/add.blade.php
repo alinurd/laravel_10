@@ -97,8 +97,7 @@
         </div>
         @endif
         @empty
-        @endforelse
-        {{ $currentRoute}}
+        @endforelse 
        </div>
         @if(!empty($costum))
     @if($costum == 'chart')
