@@ -27,6 +27,7 @@ use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\ChartdinamisController;
+use App\Http\Controllers\ChartdetailController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -70,6 +71,8 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('chacrtdetail', ChartdetailController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
     Route::resource('chart', ChartdinamisController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('stakeholder', StakeholderController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
