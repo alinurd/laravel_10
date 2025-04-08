@@ -14,7 +14,19 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)
+
+     /**
+      * Undefined function
+      * 
+      * @return Type Returns data of type Type
+      */
+     public function index()
+     {
+        
+        return view('pages.dashboard.keuangan');
+
+     }
+    public function index_(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)
     { 
         $year = request()->get('year', null);  
         
