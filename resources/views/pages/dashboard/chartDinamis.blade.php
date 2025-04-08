@@ -189,7 +189,7 @@
 
   .caret {
     transition: transform 0.3s ease;
-  }
+  } 
 
   .chart-group.expanded .caret {
     transform: rotate(180deg);

@@ -77,6 +77,11 @@
           <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
           aria-describedby="{{ $l['field'] }}Help"></textarea>
           </div>
+          @elseif($l['type'] === 'json')
+          <div class="input-group mb-3 bg">
+          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+          aria-describedby="{{ $l['field'] }}Help" readonly></textarea>
+          </div>
  
           @else
           <input type="{{ $l['type'] }}"

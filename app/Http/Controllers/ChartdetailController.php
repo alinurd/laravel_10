@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\Chart;
 use App\Models\MenuItem;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class ChartdetailController extends _Controller
@@ -19,120 +21,145 @@ class ChartdetailController extends _Controller
     {
         $this->modulName = "chacrtdetail";
         $this->modelMaster = "App\Models\ChartDetail";
-        $option = [
-            ['id' => 1, 'value' => 'Active'],
-            ['id' => 2, 'value' => 'Non Acive'],
+        $cboType = [
+            ['id' => "line", 'value' => 'Line'],
+            ['id' => "bar", 'value' => 'Bar'],
+            ['id' => "polarArea", 'value' => 'Polar Area'],
+            ['id' => "doughnut", 'value' => 'Doughnut'],
         ];
+        // ['id', DB::raw("CONCAT(nama, ': ', norek, ' - A/N ', an) AS data")],
 
-       $this->list = [
-            
+        $cboJenis = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,);
+        $this->list = [];
+        $this->listx = [
+
             [
-                'field' => 'chart_id',
-                'type' => 'text',
-                'filter' => false,
+                'field' => 'type',
+                'type' => 'select',
+                'filter' => true,
                 'position' => false,
+                'showList' => true,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'where' => null,
+                'option' => $cboType,
+                'multiple' => false,
+            ],
+            [
+                'field' => 'chart_id',
+                'type' => 'select',
+                'filter' => true,
+                'position' => false,
+                'showList' => true,
+                'show' => true,
+                'required' => true,
+                'where' => null,
+                'option' => $cboJenis,
+                'multiple' => false,
             ],
             [
                 'field' => 'judul',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
+                'showList' => true,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
-            [
-                'field' => 'type',
-                'type' => 'labels',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ],
-            [
-                'field' => 'data_chart',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ],
+            // [
+            //     'field' => 'type',
+            //     'type' => 'json',
+            //     'filter' => false,
+            //     'position' => false,
+            //     'showList' => true,
+            //     'show' => true,
+            //     'required' => true,
+            //     'rules' => array(
+            //         0 => 'required',
+            //         1 => 'string',
+            //     )
+            // ],
+            // [
+            //     'field' => 'data_chart',
+            //     'type' => 'json',
+            //     'filter' => false,
+            //     'position' => false,
+            //     'showList' => false,
+            //     'show' => true,
+            //     'required' => true,
+            //     'rules' => array(
+            //         0 => 'required',
+            //         1 => 'string',
+            //     )
+            // ],
             [
                 'field' => 'label',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
+                'showList' => true,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
-            [
-                'field' => 'color',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ],
-            [
-                'field' => 'border_color',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ],
+            // [
+            //     'field' => 'color',
+            //     'type' => 'json',
+            //     'filter' => false,
+            //     'position' => false,
+            //     'showList' => false,
+            //     'show' => true,
+            //     'required' => true,
+            //     'rules' => array(
+            //         0 => 'required',
+            //         1 => 'string',
+            //     )
+            // ],
+            // [
+            //     'field' => 'border_color',
+            //     'type' => 'json',
+            //     'filter' => false,
+            //     'position' => false,
+            //     'showList' => false,
+            //     'show' => true,
+            //     'required' => true,
+            //     'rules' => array(
+            //         0 => 'required',
+            //         1 => 'string',
+            //     )
+            // ],
             [
                 'field' => 'fill',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
+                'showList' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'tension',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
+                'showList' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ]
         ];
 
@@ -157,6 +184,8 @@ class ChartdetailController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
+        $data['costum'] = "chart";
+
         return view('pages.index', $data);
     }
 
@@ -189,32 +218,31 @@ class ChartdetailController extends _Controller
      * Update the specified resource in storage.
      */
 
-     public function store(CRUDService $CRUDService, CRUDRequest $request)
-     {
-         $rules = [];
-         foreach ($this->setFrom as $field) {
-            if($field['show']){
+    public function store(CRUDService $CRUDService, CRUDRequest $request)
+    {
+        $rules = [];
+        foreach ($this->setFrom as $field) {
+            if ($field['show']) {
                 $fieldName = $field['field'];
                 $rules[$fieldName] = $field['rules'];
             }
-             
-         }     
-         $request->setRules($rules);
+        }
+        $request->setRules($rules);
         return $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
-     }
-     
-     
+    }
+
+
 
     public function update(CRUDRequest $request, string $id, CRUDService $CRUDService)
     {
         $rules = [];
-         foreach ($this->setFrom as $field) {
-            if($field['show']){
+        foreach ($this->setFrom as $field) {
+            if ($field['show']) {
                 $fieldName = $field['field'];
                 $rules[$fieldName] = $field['rules'];
             }
-         }     
-         $request->setRules($rules);
+        }
+        $request->setRules($rules);
         return $CRUDService->update($id, $request, $this->modelMaster, $this->setFrom, $this->modulName);
     }
 
