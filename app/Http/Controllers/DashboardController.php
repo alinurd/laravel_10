@@ -7,6 +7,7 @@ use App\Charts\SertifikatNominalChartline;
 use App\Charts\SertifikatTahunanChartBar;
 use App\Models\DocFerifyDetail;
 use App\Models\DocFerifyHeader;
+use App\Models\Piutang;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -22,8 +23,11 @@ class DashboardController extends Controller
       */
      public function index()
      {
-        
-        return view('pages.dashboard.keuangan');
+        $piutang = Piutang::getChartDataForPolarArea(); 
+        // dd($piutang);
+        $data['piutangVendor']=$piutang;
+        $data['TotalPiutangVendor'] = Piutang::where('jenis', 45)->sum('nominal');
+        return view('pages.dashboard.keuangan', $data);
 
      }
     public function index_(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)

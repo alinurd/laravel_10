@@ -107,7 +107,7 @@
   </div>
   <div class="card">
     <h4>Pinjaman Vendor</h4>
-    <div class="value">Rp 30 Juta</div>
+    <div class="value">Rp {{ number_format($TotalPiutangVendor, 0, ',', '.') }}</div>
     <div class="icon" data-lucide="hand-coins"></div>
   </div>
   <div class="card">
@@ -315,23 +315,27 @@ new Chart(ctxSlope, {
       plugins: { legend: { position: 'bottom' } }
     }
   });
+  const piutangVendorChart = @json($piutangVendor);
 
-  new Chart(document.getElementById('pinjamanVendorChart'), {
-    type: 'polarArea',
-    data: {
-      labels: ['Vendor A', 'Vendor B', 'Vendor C', 'Vendor D'],
-      datasets: [{
-        label: 'Pinjaman (juta)',
-        data: [10, 8, 6, 6],
-        backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#f87171']
-      }]
-    },
-    options: {
-      plugins: {
-        legend: { position: 'bottom' }
-      }
+const labels = piutangVendorChart.map(item => item.stackholder);
+const data = piutangVendorChart.map(item => item.total_nominal);
+
+new Chart(document.getElementById('pinjamanVendorChart'), {
+  type: 'polarArea',
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Pinjaman',
+      data: data,
+      backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#f87171']
+    }]
+  },
+  options: {
+    plugins: {
+      legend: { position: 'bottom' }
     }
-  });
+  }
+});
 
   lucide.createIcons();
 </script>
