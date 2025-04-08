@@ -222,6 +222,7 @@ class ChartdetailController extends _Controller
 
     public function store(CRUDService $CRUDService, CRUDRequest $request)
     {
+        dd($request);
         $rules = [];
         foreach ($this->setFrom as $field) {
             if ($field['show']) {

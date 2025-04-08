@@ -23,6 +23,7 @@ use App\Http\Controllers\DocumenctferifyReviewController;
 use App\Http\Controllers\PTController;
 use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\bankController;
+use App\Http\Controllers\ChartConfigController;
 use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\TransaksiController;
@@ -123,4 +124,6 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::get('/chart-builder', [ChartController::class, 'index'])->name('chart.builder');
 Route::post('/chart-data', [ChartController::class, 'getData'])->name('chart.data');
 
+Route::post('/simpan-chart-config', [ChartConfigController::class, 'store'])
+     ->name('chart.store');
 });

@@ -86,6 +86,7 @@ $data=$costum[1]['data'];
 <!-- Control spans dan Dropdown -->
 <div class="mb-3">
   <span class="btn btn-primary me-2" id="showChartBtn">Lihat Chart</span>
+  <span class="btn btn-success me-2" id="simpanBtn">Simpan Konfigurasi</span>
   <span class="btn btn-secondary" id="sumberData">Sumber Data</span>
 </div>
 
@@ -131,8 +132,8 @@ $data=$costum[1]['data'];
             <option selected disabled>Pilih label dari kelompok</option>
           </select>
         </td>
-        <td><input type="color" class="form-control form-control-color"></td>
-        <td><input type="color" class="form-control form-control-color"></td>
+        <td><input type="color" class="form-control form-control-color" data-type="background"></td>
+<td><input type="color" class="form-control form-control-color" data-type="border"></td>
         <td>
           <span class="btn btn-danger btn-sm hapus-row">Hapus</span>
           <span class="btn btn-outline-secondary btn-sm tambah-row">Tambah</span>
@@ -140,7 +141,70 @@ $data=$costum[1]['data'];
       </tr>
     </tbody>
   </table>
-</div>
+
+ </div>
+
+
+ 
+<script>
+// Fungsi untuk mendapatkan konfigurasi
+function getChartConfig() {
+  const config = {
+    kelompok: document.getElementById('kelompokSelector').value,
+    data: document.getElementById('dataSelector').value,
+    operasi: document.getElementById('dataLabelSelector').value,
+    datasets: []
+  };
+
+
+  // Ambil data dari setiap row
+  document.querySelectorAll('#chartAdd tr').forEach(row => {
+    const labelSelect = row.querySelector('.label-select');
+    const colorInput = row.querySelector('input[type="color"][data-type="background"]');
+    const borderColorInput = row.querySelector('input[type="color"][data-type="border"]');
+
+    if (labelSelect.value && labelSelect.value !== 'Pilih label dari kelompok') {
+      config.datasets.push({
+        label: labelSelect.value,
+        backgroundColor: colorInput?.value || '#000000', // Fallback color
+        borderColor: borderColorInput?.value || '#000000' // Fallback color
+      });
+    }
+  });
+
+  return config;
+
+  return config;
+}
+
+// Fungsi validasi konfigurasi
+function validateConfig(config) {
+  if (!config.kelompok) return 'Kelompok belum dipilih!';
+  if (!config.data) return 'Data belum dipilih!';
+  if (!config.operasi) return 'Operasi belum dipilih!';
+  if (config.datasets.length === 0) return 'Belum ada dataset yang ditambahkan!';
+  return true;
+}
+
+// Event listener untuk tombol simpan
+
+// Tambahkan CSRF token di header
+document.getElementById('simpanBtn').addEventListener('click', async () => {
+  try {
+    const config = getChartConfig();
+    
+    // Menggunakan axios instance dari Laravel
+    const response = await window.axios.post('/simpan-chart-config', config);
+    
+    alert('Berhasil disimpan! ID: ' + response.data.id);
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Error: ' + error.response?.data?.message || error.message);
+  }
+});
+
+</script>
+
 
 <script>
   const kelompokData = @json($kelompok);
