@@ -78,102 +78,189 @@
   }
 </style>
 
-<!-- Control Buttons -->
-<span class="btn btn-primary" id="showChartBtn">Lihat Chart</span>
-<span class="btn btn-secondary" id="sumberData">Sumber Data</span>
- @php
+<!-- Control spans -->
+@php
 $kelompok=$costum[1]['kelompok'];
 $data=$costum[1]['data'];    
-
 @endphp
+<!-- Control spans dan Dropdown -->
+<div class="mb-3">
+  <span class="btn btn-primary me-2" id="showChartBtn">Lihat Chart</span>
+  <span class="btn btn-secondary" id="sumberData">Sumber Data</span>
+</div>
 
-<select class="form-select" id="kelompokSelector">
-  <option selected disabled>Pilih Kelompok</option>
-  @foreach($kelompok as $key => $items)
-    <option value="{{ $key }}">{{ strtoupper($key) }}</option>
-  @endforeach
-</select>
-<select class="form-select" id="dataSelector">
-  <option selected disabled>Pilih Data</option>
-  @foreach($data as $item)
-    <option value="{{ $item['id'] }}">{{ strtoupper($item['val']) }}</option>
-  @endforeach
-</select>
+<div class="row mb-3">
+  <div class="col-md-4">
+    <select class="form-select" id="kelompokSelector">
+      <option selected disabled>Pilih Kelompok</option>
+      @foreach($kelompok as $key => $items)
+        <option value="{{ $key }}">{{ strtoupper($key) }}</option>
+      @endforeach
+    </select>
+  </div>
+  <div class="col-md-4">
+    <select class="form-select" id="dataSelector">
+      <option selected disabled>Pilih Data</option>
+      @foreach($data as $item)
+        <option value="{{ $item['id'] }}">{{ strtoupper($item['val']) }}</option>
+      @endforeach
+    </select>
+  </div>
+  <div class="col-md-4">
+    <select class="form-select" id="dataLabelSelector">
+      <option selected disabled>Pilih Operasi dari data</option>
+    </select>
+  </div>
+</div>
 
-opration
-<table id="chartAddTable">
-  <thead>
-    <tr>
-      <th>Labels</th>
-      <th>Data</th>
-      <th>Color</th>
-      <th>Border Color</th>
-    </tr>
-  </thead>
-  <tbody id="chartAdd">
-    <tr>
-      <td>
-        <select class="form-select" id="labelSelector">
-          <option selected disabled>Pilih label dari kelompok</option>
-        </select>
-      </td>
-      <td>
-        <select class="form-select" id="dataLabelSelector">
-          <option selected disabled>Pilih Opration dari data</option>
-        </select>
-      </td>
-      <td><input type="text" class="form-control"></td>
-      <td><input type="color" class="form-control"></td>
-      <td><input type="color" class="form-control"></td>
-    </tr>
-  </tbody>
-</table>
+<!-- Tabel Konfigurasi Chart -->
+<div class="table-responsive">
+  <table id="chartAddTable" class="table table-bordered table-striped">
+    <thead class="table-dark">
+      <tr>
+        <th>Labels</th> 
+        <th>Color</th>
+        <th>Border Color</th>
+        <th>Aksi</th>
+      </tr>
+    </thead>
+    <tbody id="chartAdd">
+      <tr>
+        <td>
+          <select class="form-select label-select">
+            <option selected disabled>Pilih label dari kelompok</option>
+          </select>
+        </td>
+        <td><input type="color" class="form-control form-control-color"></td>
+        <td><input type="color" class="form-control form-control-color"></td>
+        <td>
+          <span class="btn btn-danger btn-sm hapus-row">Hapus</span>
+          <span class="btn btn-outline-secondary btn-sm tambah-row">Tambah</span>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
 <script>
   const kelompokData = @json($kelompok);
   const dataData = @json($data);
 
-  document.getElementById('kelompokSelector').addEventListener('change', function() {
-    const selectedKelompok = this.value;
-    const labelSelect = document.getElementById('labelSelector');
-    
-    // Kosongkan dulu
-    labelSelect.innerHTML = '<option selected disabled>Pilih label dari kelompok</option>';
+  // Fungsi untuk mendapatkan label terpilih dari row lain
+  function getSelectedLabels(excludeRow) {
+    const selected = [];
+    document.querySelectorAll('#chartAdd tr').forEach(row => {
+      if (row !== excludeRow) {
+        const select = row.querySelector('.label-select');
+        if (select.value && select.value !== 'Pilih label dari kelompok') {
+          selected.push(select.value);
+        }
+      }
+    });
+    return selected;
+  }
 
-    // Isi dengan data yang sesuai
-    if (kelompokData[selectedKelompok]) {
-      kelompokData[selectedKelompok].forEach(item => {
-        const option = document.createElement('option');
-        option.value = item.val;
-        option.text = item.val;
-        labelSelect.appendChild(option);
+  // Fungsi update dropdown label per row
+  function updateRowLabelSelect(row) {
+    const kelompok = document.getElementById('kelompokSelector').value;
+    const select = row.querySelector('.label-select');
+    const currentValue = select.value;
+    
+    const availableLabels = kelompokData[kelompok] ? 
+      kelompokData[kelompok].map(item => item.val) : [];
+    const excludedLabels = getSelectedLabels(row);
+    
+    select.innerHTML = '<option selected disabled>Pilih label dari kelompok</option>';
+    
+    availableLabels.forEach(label => {
+      if (!excludedLabels.includes(label)) {
+        select.add(new Option(label, label));
+      }
+    });
+    
+    if (currentValue && availableLabels.includes(currentValue) && !excludedLabels.includes(currentValue)) {
+      select.value = currentValue;
+    } else {
+      select.value = 'Pilih label dari kelompok';
+    }
+  }
+
+  // Fungsi update semua dropdown
+  function updateAllLabelSelects() {
+    document.querySelectorAll('#chartAdd tr').forEach(row => {
+      updateRowLabelSelect(row);
+    });
+  }
+
+  // Event Listeners
+  document.getElementById('kelompokSelector').addEventListener('change', updateAllLabelSelects);
+  
+  document.getElementById('dataSelector').addEventListener('change', function() {
+    const selectedItem = dataData.find(item => item.id === this.value);
+    const dataLabelSelect = document.getElementById('dataLabelSelector');
+    
+    dataLabelSelect.innerHTML = '<option selected disabled>Pilih Operasi dari data</option>';
+    
+    if (selectedItem?.opration) {
+      selectedItem.opration.forEach(op => {
+        dataLabelSelect.add(new Option(op, op));
       });
     }
   });
-  document.getElementById('dataSelector').addEventListener('change', function() {
-  const selecteddata = this.value;
-  const labelSelect = document.getElementById('dataLabelSelector');
-  
-  // Kosongkan dulu
-  labelSelect.innerHTML = '<option selected disabled>Pilih Opration dari data</option>';
 
-  // Cari data yang dipilih
-  const selectedItem = dataData.find(item => item.id === selecteddata);
+  document.getElementById('chartAdd').addEventListener('click', function(e) {
+    const target = e.target;
+    const row = target.closest('tr');
+    
+    if (target.classList.contains('hapus-row')) {
+      if (document.querySelectorAll('#chartAdd tr').length > 1) {
+        row.remove();
+        updateAllLabelSelects();
+      } else {
+        alert('Minimal harus ada satu baris!');
+      }
+    } else if (target.classList.contains('tambah-row')) {
+      const newRow = row.cloneNode(true);
+      newRow.querySelector('.label-select').value = 'Pilih label dari kelompok';
+      newRow.querySelectorAll('.form-control-color').forEach(input => input.value = '#000000');
+      row.after(newRow);
+      updateAllLabelSelects();
+    }
+  });
 
-  if (selectedItem && selectedItem.opration) {
-    selectedItem.opration.forEach(opration => {
-      const option = document.createElement('option');
-      option.value = opration;
-      option.text = opration;
-      labelSelect.appendChild(option);
-    });
-  }
-});
-
+  document.getElementById('chartAdd').addEventListener('change', function(e) {
+    if (e.target.classList.contains('label-select')) {
+      updateAllLabelSelects();
+    }
+  });
 </script>
 
 
-  </tbody>
-</table>
+
+
+
+
+
+
+
+
+<style>
+  #chartAddTable th,
+  #chartAddTable td {
+    vertical-align: middle;
+    text-align: center;
+  }
+  
+  .form-control-color {
+    height: 38px;
+    padding: 3px;
+  }
+  
+  .btn-sm {
+    padding: 5px 10px;
+    margin: 2px;
+  }
+</style>
 
 
 <div id="sumberDataModal" style="z-index: 9999;" class="modal">
@@ -183,7 +270,7 @@ opration
       <span class="close" onclick="closeModal()">&times;</span>
     </div>
     <p>
-      <a class="btn btn-primary" data-bs-toggle="collapse" href="#Trnasaksi" role="button" aria-expanded="false" aria-controls="Trnasaksi">
+      <a class="btn btn-primary" data-bs-toggle="collapse" href="#Trnasaksi" role="span" aria-expanded="false" aria-controls="Trnasaksi">
         Transaksi
       </a>
     </p>
