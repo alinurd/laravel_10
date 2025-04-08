@@ -100,10 +100,15 @@
         @endforelse
         {{ $currentRoute}}
        </div>
-      @if(isset($costum) && $costum->isNotEmpty())
-      @include('components.form.costum.documenctferify')
-      @else
-      @endif
+        @if(!empty($costum))
+    @if($costum == 'chart')
+        @include('components.form.costum.chart')
+    @else
+        @include('components.form.costum.documenctferify')
+    @endif
+@endif
+
+ 
       
     </div>
 </form>

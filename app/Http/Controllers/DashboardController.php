@@ -27,7 +27,8 @@ class DashboardController extends Controller
         // dd($piutang);
         $data['piutangVendor']=$piutang;
         $data['TotalPiutangVendor'] = Piutang::where('jenis', 45)->sum('nominal');
-        return view('pages.dashboard.keuangan', $data);
+        // return view('pages.dashboard.keuangan', $data);
+        return view('pages.dashboard.charDinamis', $data);
 
      }
     public function index_(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)

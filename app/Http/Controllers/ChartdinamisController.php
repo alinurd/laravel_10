@@ -92,6 +92,8 @@ class ChartdinamisController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
+        $data['costum'] = "chart";
+
         return view('pages.index', $data);
     }
 
