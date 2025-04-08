@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Charts\MonthlyUsersChart;
 use App\Charts\SertifikatNominalChartline;
 use App\Charts\SertifikatTahunanChartBar;
+use App\Models\Chart;
 use App\Models\DocFerifyDetail;
 use App\Models\DocFerifyHeader;
 use App\Models\Piutang;
@@ -21,14 +22,26 @@ class DashboardController extends Controller
       * 
       * @return Type Returns data of type Type
       */
-     public function index()
+
+      public function index()
+      {
+         // Ambil semua chart dengan detailnya
+         $charts = Chart::with('details')
+         ->where('status', 1)
+         ->get();
+
+     return view('pages.dashboard.chartDinamis', [
+         'charts' => $charts
+     ]);
+      }
+      
+     public function index__()
      {
         $piutang = Piutang::getChartDataForPolarArea(); 
         // dd($piutang);
         $data['piutangVendor']=$piutang;
         $data['TotalPiutangVendor'] = Piutang::where('jenis', 45)->sum('nominal');
-        // return view('pages.dashboard.keuangan', $data);
-        return view('pages.dashboard.charDinamis', $data);
+        return view('pages.dashboard.keuangan', $data);
 
      }
     public function index_(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)

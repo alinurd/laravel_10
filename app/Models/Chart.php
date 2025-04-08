@@ -10,7 +10,7 @@ class Chart extends Model
 {
     use HasFactory;
 
-    protected $table = 'chart';  
+    protected $table = 'charts';  
     protected $fillable = ['name', 'jenis', 'status', 'jenis']; 
     public $timestamps = true;
     protected $keyType = 'int'; 
@@ -24,11 +24,10 @@ public function jenisCombo()
     return $this->belongsTo(Combo::class, 'jenis');
 }
  
-
-public function getDisplayNameAttribute()
-{
-    return $this->name . ' - ' . $this->pic . ' - ' . ($this->jenisCombo->data ?? '-');
-}
+public function details()
+    {
+        return $this->hasMany(ChartDetail::class, 'chart_id');
+    }
 
 
     protected static function boot()

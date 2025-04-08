@@ -5,7 +5,7 @@
 @section('content')
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://unpkg.com/lucide@latest"></script> 
+<script src="https://unpkg.com/lucide@latest"></script>
 
 <style>
   :root {
@@ -13,17 +13,20 @@
     --accent: #10b981;
     --bg: #f9fafb;
     --card-bg: #ffffff;
-    --shadow: 0 4px 10px rgba(0,0,0,0.05);
+    --shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
     --border-radius: 16px;
   }
+
   body {
     font-family: 'Segoe UI', sans-serif;
     background-color: var(--bg);
   }
+
   h2 {
     color: #111827;
     margin-bottom: 20px;
   }
+
   .top-cards {
     display: flex;
     gap: 20px;
@@ -32,18 +35,22 @@
     margin-bottom: 30px;
     scroll-snap-type: x mandatory;
   }
+
   .top-cards .card {
     flex: 0 0 auto;
     min-width: 220px;
     scroll-snap-align: start;
   }
+
   .top-cards::-webkit-scrollbar {
     height: 8px;
   }
+
   .top-cards::-webkit-scrollbar-thumb {
     background-color: #cbd5e1;
     border-radius: 10px;
   }
+
   .top-cards::-webkit-scrollbar-track {
     background-color: transparent;
   }
@@ -53,6 +60,7 @@
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
   }
+
   .card {
     background: var(--card-bg);
     border-radius: var(--border-radius);
@@ -61,26 +69,31 @@
     position: relative;
     transition: transform 0.2s ease;
   }
+
   .card:hover {
     transform: translateY(-4px);
   }
+
   .card h4 {
     margin: 0;
     font-size: 16px;
     color: #374151;
   }
+
   .value {
     font-size: 24px;
     font-weight: 600;
     margin-top: 5px;
     color: var(--primary);
   }
+
   .icon {
     position: absolute;
     top: 15px;
     right: 15px;
     color: #9ca3af;
   }
+
   canvas {
     margin-top: 10px;
   }
@@ -111,10 +124,10 @@
     <div class="icon" data-lucide="hand-coins"></div>
   </div>
   <div class="card">
-  <h4>Total Ops Eksternal</h4>
+    <h4>Total Ops Eksternal</h4>
     <div class="value">Rp 45 Juta</div>
     <div class="icon" data-lucide="activity"></div>
-     
+
   </div>
   <div class="card">
     <h4>Gaji Karyawan</h4>
@@ -143,8 +156,8 @@
     <canvas id="pengeluaranChart"></canvas>
   </div>
   <div class="card">
-    <h4>Total Ops Eksternal</h4> 
-    <canvas id="opsEksternalChartx" ></canvas>
+    <h4>Total Ops Eksternal</h4>
+    <canvas id="opsEksternalChartx"></canvas>
   </div>
   <div class="card">
     <h4>Pinjaman Vendor</h4>
@@ -156,75 +169,73 @@
   </div>
 </div>
 <script>
-const ctxSlope = document.getElementById('opsEksternalChartx').getContext('2d');
-new Chart(ctxSlope, {
-  type: 'line',
-  data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
-    datasets: [
-      {
-        label: '2023',
-        data: [10, 15, 20, 18, 25, 22, 28, 26, 12, 32, 35, 40],
-        borderColor: '#3b82f6',
-        backgroundColor: 'transparent',
-        tension: 0.4
-      },
-      {
-        label: '2024',
-        data: [80, 25, 27, 35, 40, 42, 38, 36, 80, 48, 50, 55],
-        borderColor: '#10b981',
-        backgroundColor: 'transparent',
-        tension: 0.4
-      },
-      {
-        label: '2025',
-        data: [30, 32, 35, 37, 43, 10, 50, 52, 55, 60, 62, 65],
-        borderColor: '#f59e0b',
-        backgroundColor: 'transparent',
-        tension: 0.4
-      }
-    ]
-  },
-  options: {
-    responsive: true,
-    plugins: {
-      legend: {
-        position: 'bottom',
-        labels: {
-          usePointStyle: true
+  const ctxSlope = document.getElementById('opsEksternalChartx').getContext('2d');
+  new Chart(ctxSlope, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun', 'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des'],
+      datasets: [{
+          label: '2023',
+          data: [10, 15, 20, 18, 25, 22, 28, 26, 12, 32, 35, 40],
+          borderColor: '#3b82f6',
+          backgroundColor: 'transparent',
+          tension: 0.4
+        },
+        {
+          label: '2024',
+          data: [80, 25, 27, 35, 40, 42, 38, 36, 80, 48, 50, 55],
+          borderColor: '#10b981',
+          backgroundColor: 'transparent',
+          tension: 0.4
+        },
+        {
+          label: '2025',
+          data: [30, 32, 35, 37, 43, 10, 50, 52, 55, 60, 62, 65],
+          borderColor: '#f59e0b',
+          backgroundColor: 'transparent',
+          tension: 0.4
+        }
+      ]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: {
+          position: 'bottom',
+          labels: {
+            usePointStyle: true
+          }
+        },
+        tooltip: {
+          mode: 'index',
+          intersect: false
+        },
+        title: {
+          display: false
         }
       },
-      tooltip: {
-        mode: 'index',
+      interaction: {
+        mode: 'nearest',
+        axis: 'x',
         intersect: false
       },
-      title: {
-        display: false
-      }
-    },
-    interaction: {
-      mode: 'nearest',
-      axis: 'x',
-      intersect: false
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Jumlah Ops Eks (juta)'
-        }
-      },
-      x: {
-        title: {
-          display: true,
-          text: 'Bulan'
+      scales: {
+        y: {
+          beginAtZero: true,
+          title: {
+            display: true,
+            text: 'Jumlah Ops Eks (juta)'
+          }
+        },
+        x: {
+          title: {
+            display: true,
+            text: 'Bulan'
+          }
         }
       }
     }
-  }
-});
-
+  });
 </script>
 
 <script>
@@ -239,8 +250,16 @@ new Chart(ctxSlope, {
       }]
     },
     options: {
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true } }
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
   });
 
@@ -255,8 +274,16 @@ new Chart(ctxSlope, {
       }]
     },
     options: {
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true } }
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
   });
 
@@ -271,8 +298,16 @@ new Chart(ctxSlope, {
       }]
     },
     options: {
-      plugins: { legend: { display: false } },
-      scales: { y: { beginAtZero: true } }
+      plugins: {
+        legend: {
+          display: false
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
     }
   });
 
@@ -293,10 +328,14 @@ new Chart(ctxSlope, {
     },
     options: {
       plugins: {
-        legend: { display: false }
+        legend: {
+          display: false
+        }
       },
       scales: {
-        y: { beginAtZero: true }
+        y: {
+          beginAtZero: true
+        }
       }
     }
   });
@@ -312,30 +351,36 @@ new Chart(ctxSlope, {
       }]
     },
     options: {
-      plugins: { legend: { position: 'bottom' } }
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
     }
   });
   const piutangVendorChart = @json($piutangVendor);
 
-const labels = piutangVendorChart.map(item => item.stackholder);
-const data = piutangVendorChart.map(item => item.total_nominal);
+  const labels = piutangVendorChart.map(item => item.stackholder);
+  const data = piutangVendorChart.map(item => item.total_nominal);
 
-new Chart(document.getElementById('pinjamanVendorChart'), {
-  type: 'polarArea',
-  data: {
-    labels: labels,
-    datasets: [{
-      label: 'Pinjaman',
-      data: data,
-      backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#f87171']
-    }]
-  },
-  options: {
-    plugins: {
-      legend: { position: 'bottom' }
+  new Chart(document.getElementById('pinjamanVendorChart'), {
+    type: 'polarArea',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Pinjaman',
+        data: data,
+        backgroundColor: ['#6366f1', '#10b981', '#f59e0b', '#f87171']
+      }]
+    },
+    options: {
+      plugins: {
+        legend: {
+          position: 'bottom'
+        }
+      }
     }
-  }
-});
+  });
 
   lucide.createIcons();
 </script>
