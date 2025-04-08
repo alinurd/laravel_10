@@ -7,6 +7,7 @@ use App\Models\Bank;
 use App\Models\Combo;
 use App\Models\Kategori;
 use App\Models\MenuItem;
+use App\Models\Stakeholder;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -28,9 +29,22 @@ class PiutangController extends _Controller
             true,
             ['where' => [['f' => 'status', 'v' => '1']]]
         );
-        $cboJenis = $this->_cbo(Combo::class, ['id', DB::raw("CONCAT(data) AS data")], true, ['where' => [['f' => 'categori', 'v' => 'jenisTransaksi'], ['f' => 'pid', 'v' => 'hp']] ]);
-        $cboKategori = $this->_cbo(Kategori::class, ['id', DB::raw("CONCAT(nama) AS data")], true, ['where' => [['f' => 'status', 'v' => '1']] ]);
+        // $cboKategori = $this->_cbo(
+        //     Stakeholder::with('jenisCombo'),
+        //     ['id', DB::raw("CONCAT(name, ' - ', pic, ' - jenisCombo.data ', an) AS data")],
+        //     true,
+        //     ['where' => [['f' => 'status', 'v' => '1']]]
+        // );
 
+
+        // dd($cboRekening);
+$cboKategori = Stakeholder::with('jenisCombo')
+    ->where('status', 1)
+    ->get()
+    ->map(fn ($item) => ['id' => $item->id, 'value' => $item->display_name])
+    ->toArray();
+        $cboJenis = $this->_cbo(Combo::class, ['id', DB::raw("CONCAT(data) AS data")], true, ['where' => [['f' => 'categori', 'v' => 'jenisTransaksi'], ['f' => 'pid', 'v' => 'hp']] ]);
+ 
        $this->list = [
             [
                 'field' => 'tgl',
@@ -53,7 +67,7 @@ class PiutangController extends _Controller
                 'multiple' => false,
             ],
             [
-                'field' => 'kategori',
+                'field' => 'stackholder',
                 'type' => 'select',
                 'filter' => true,
                 'position' => 'center',

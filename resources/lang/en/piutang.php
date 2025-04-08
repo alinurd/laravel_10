@@ -6,6 +6,7 @@ return [
 'fld_tgl' => 'Tanggal',
 'fld_jenis' => 'Jenis',
 'fld_kategori' => 'Kategori',
+'fld_stackholder' => 'Stackholder',
 'fld_nominal' => 'Nominal',
 'fld_deks' => 'Dkeskripsi',
 'fld_file' => 'Upload File',

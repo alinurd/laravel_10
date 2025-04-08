@@ -10,12 +10,25 @@ class Stakeholder extends Model
 {
     use HasFactory;
 
-    protected $table = 'Stakeholder';  
+    protected $table = 'stakeholders';  
     protected $fillable = ['name', 'pic', 'status', 'jenis']; 
     public $timestamps = true;
     protected $keyType = 'int'; 
  
 
+
+// app/Models/Stakeholder.php
+
+public function jenisCombo()
+{
+    return $this->belongsTo(Combo::class, 'jenis');
+}
+ 
+
+public function getDisplayNameAttribute()
+{
+    return $this->name . ' - ' . $this->pic . ' - ' . ($this->jenisCombo->data ?? '-');
+}
 
 
     protected static function boot()
