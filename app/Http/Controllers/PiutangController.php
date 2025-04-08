@@ -21,7 +21,7 @@ class PiutangController extends _Controller
     public function __construct()
     {
         $this->modulName = "piutang";
-        $this->modelMaster = "App\Models\Transaksi";
+        $this->modelMaster = "App\Models\Piutang";
         $cboRekening = $this->_cbo(
             Bank::class,
             ['id', DB::raw("CONCAT(nama, ': ', norek, ' - A/N ', an) AS data")],
