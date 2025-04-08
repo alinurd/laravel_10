@@ -11,7 +11,7 @@ use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\DB;
-class TransaksiController extends _Controller
+class PiutangController extends _Controller
 {
     protected $modulName = '';
     protected $_SETCORE = '';
@@ -20,7 +20,7 @@ class TransaksiController extends _Controller
     protected $modelMaster = '';
     public function __construct()
     {
-        $this->modulName = "transaksi";
+        $this->modulName = "piutang";
         $this->modelMaster = "App\Models\Transaksi";
         $cboRekening = $this->_cbo(
             Bank::class,
@@ -28,7 +28,7 @@ class TransaksiController extends _Controller
             true,
             ['where' => [['f' => 'status', 'v' => '1']]]
         );
-        $cboJenis = $this->_cbo(Combo::class, ['id', DB::raw("CONCAT(data) AS data")], true, ['where' => [['f' => 'categori', 'v' => 'jenisTransaksi'], ['f' => 'pid', 'v' => 'trans']] ]);
+        $cboJenis = $this->_cbo(Combo::class, ['id', DB::raw("CONCAT(data) AS data")], true, ['where' => [['f' => 'categori', 'v' => 'jenisTransaksi'], ['f' => 'pid', 'v' => 'hp']] ]);
         $cboKategori = $this->_cbo(Kategori::class, ['id', DB::raw("CONCAT(nama) AS data")], true, ['where' => [['f' => 'status', 'v' => '1']] ]);
 
        $this->list = [
