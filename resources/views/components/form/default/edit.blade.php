@@ -6,7 +6,7 @@
     <div class="card-header border-bottom-dashed align-items-center d-flex">
       <div class="row w-100">
         <div class="d-flex gap-2">
-        <x-dashboard.ActionHeader1 currentRoute="{{$currentRoute}}" mode="edit" /> 
+          <x-dashboard.ActionHeader1 currentRoute="{{$currentRoute}}" mode="edit" />
         </div>
       </div>
     </div>
@@ -64,28 +64,55 @@
           @endforeach
           <!-- Rupiah Input -->
           @elseif($l['input'] === 'rupiah')
-    @php
-        $val = isset($field[$l['field']]) ? str_replace(['.', ','], ['', '.'], $field[$l['field']]) : '';
-    @endphp
-    <div class="input-group mb-3">
-        <span class="input-group-text" id="basic-addon1">Rp</span>
-        <input type="text"
-            name="{{ $l['field'] }}"
-            placeholder="{{ $l['label'] }}"
-            aria-label="{{ $l['field'] }}"
-            class="form-control rupiah inputRupiah"
-            id="{{ $l['field'] }}"
-            value="{{ old($l['field'], $val) }}"
-            @if($l['required']) required @endif
-            aria-describedby="{{ $l['field'] }}Help"
-            oninput="_formatRupiah(this)">
-    </div>
+          @php
+          $val = isset($field[$l['field']]) ? str_replace(['.', ','], ['', '.'], $field[$l['field']]) : '';
+          @endphp
+          <div class="input-group mb-3">
+            <span class="input-group-text" id="basic-addon1">Rp</span>
+            <input type="text"
+              name="{{ $l['field'] }}"
+              placeholder="{{ $l['label'] }}"
+              aria-label="{{ $l['field'] }}"
+              class="form-control rupiah inputRupiah"
+              id="{{ $l['field'] }}"
+              value="{{ old($l['field'], $val) }}"
+              @if($l['required']) required @endif
+              aria-describedby="{{ $l['field'] }}Help"
+              oninput="_formatRupiah(this)">
+          </div>
 
           @elseif($l['type'] === 'textarea')
           <div class="input-group mb-3">
-          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
-          aria-describedby="{{ $l['field'] }}Help"></textarea>
+            <textarea type="text" class="form-control" id="{{ $l['field'] }}" placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+              aria-describedby="{{ $l['field'] }}Help">{{ old($l['field'], $val) }}</textarea>
           </div>
+
+          <!-- input file -->
+          @elseif($l['type'] === 'file')
+          @php
+          $fileJson = $field[$l['field']] ?? null;
+          $fileData = $fileJson ? json_decode($fileJson, true) : null;
+          $fileKosong = empty($fileData['random_name']);
+          @endphp
+
+          <div class="input-group mb-3">
+            <input type="file"
+              name="{{ $l['field'] }}"
+              class="form-control"
+              id="{{ $l['field'] }}"
+              @if($l['required']) required @endif
+              aria-describedby="{{ $l['field'] }}Help">
+            @if(!$fileKosong)
+            <button type="button"
+              class="btn btn-outline-primary ShowLampiran"
+              data-file="{{ $fileData['random_name'] }}"
+              data-original="{{ $fileData['original_name'] }}">
+              Lihat {{ $fileData['original_name'] }}
+            </button>
+            @endif
+          </div>
+
+
           <!-- Text Input -->
           @else
           <input type="{{ $l['type'] }}"
@@ -110,7 +137,7 @@
 
 
         @if(isset($costum) && $costum->isNotEmpty())
-         @include('components.form.costum.documenctferify')
+        @include('components.form.costum.documenctferify')
         @else
         @endif
 

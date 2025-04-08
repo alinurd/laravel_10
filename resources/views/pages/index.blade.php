@@ -97,47 +97,7 @@
                             data-original="{{ $fileData['original_name'] ?? '' }}">
                             {{ $fileData['original_name'] ?? 'Tidak ada file' }}
                         </span>
-
-                        <div class="modal fade" id="modalLampiran" tabindex="-1" aria-labelledby="modalLampiranLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-fullscreen">
-                                <div class="modal-content">
-                                    <div class="modal-header align-items-center">
-                                        <h5 class="modal-title mb-0" id="modalLampiranLabel">Lampiran</h5>
-                                        <div class="ms-auto d-flex align-items-center gap-2">
-                                            <a id="downloadFile" href="" target="_blank" class="btn btn-success btn-sm d-none">
-                                                Download File
-                                            </a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
-                                                Close
-                                            </button>
-                                        </div>
-
-                                    </div>
-
-                                    <div class="modal-body text-center">
-
-                                        <p id="fileName" class="mt-2"></p>
-                                        <div id="previewFile" class="my-2" style="height: 80vh;"><!-- nanti iframe-nya akan menyesuaikan --></div>
-                                        <img id="previewImage" src="" class="img-fluid d-none" alt="Lampiran">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <style>
-                            #previewFile iframe {
-                                width: 100%;
-                                height: 100%;
-                            }
-
-                            #previewImage {
-                                max-height: 80vh;
-                                object-fit: contain;
-                            }
-                        </style>
-
-
-
-
+ 
 
 
 
