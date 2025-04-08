@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CRUDRequest;
 use App\Models\Chart;
 use App\Models\MenuItem;
+use App\Models\Transaksi;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -184,7 +185,8 @@ class ChartdetailController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
-        $data['costum'] = "chart";
+        $x= Transaksi::generateChrat(); 
+           $data['costum'] = ["chart", $x];
 
         return view('pages.index', $data);
     }

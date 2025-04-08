@@ -105,7 +105,7 @@
         @endforelse 
        </div>
         @if(!empty($costum))
-    @if($costum == 'chart')
+    @if($costum[0] == 'chart')
         @include('components.form.costum.chart')
     @else
         @include('components.form.costum.documenctferify')
