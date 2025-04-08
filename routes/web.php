@@ -25,6 +25,7 @@ use App\Http\Controllers\kategoriController;
 use App\Http\Controllers\bankController;
 use App\Http\Controllers\PiutangController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\StakeholderController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -68,6 +69,8 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('stakeholder', StakeholderController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
     Route::resource('transaksi', TransaksiController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
     Route::resource('piutang', PiutangController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
