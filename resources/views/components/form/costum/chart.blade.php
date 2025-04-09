@@ -350,6 +350,17 @@
        operasi: document.getElementById('dataLabelSelector').value,
        datasets: []
      };
+     const resetForm = {
+       judul: document.getElementById('judul').value,
+       label: document.getElementById('label').value,
+       parent: document.getElementById('parent').value,
+       jenis: document.getElementById('jenis').value,
+       module: document.getElementById('modueSelector').value,
+       kelompok: document.getElementById('kelompokSelector').value,
+       data: document.getElementById('dataSelector').value,
+       operasi: document.getElementById('dataLabelSelector').value,
+       datasets: []
+     };
 
      document.querySelectorAll('#chartAdd tr').forEach(row => {
        const labelSelect = row.querySelector('.label-select');
@@ -377,6 +388,7 @@
      return true;
    }
 
+   
    // Tombol Simpan
    document.getElementById('simpanBtn').addEventListener('click', async () => {
      const simpanBtn = document.getElementById('simpanBtn');
@@ -397,7 +409,7 @@
 
        const response = await window.axios.post('/simpan-chart-config', config);
        alert('Berhasil disimpan! ID: ' + response.data.id);
-
+       window.location.href = '/chacrtdetail';
      } catch (error) {
        console.error('Error:', error);
        alert('Error: ' + (error.response?.data?.message || error.message));
