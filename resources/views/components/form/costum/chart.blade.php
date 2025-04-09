@@ -84,11 +84,7 @@
  $data=$chartGenerate['transaksi']['data'];
  @endphp
  <!-- Control spans dan Dropdown -->
- <div class="mb-5">
-   <span class="btn btn-primary me-2" id="showChartBtn">Lihat Chart</span>
-   <span class="btn btn-success me-2" id="simpanBtn">Simpan Konfigurasi</span>
-   <span class="btn btn-secondary" id="sumberData">Sumber Data</span>
- </div>
+ 
 
 
  <div class="row mb-2">
