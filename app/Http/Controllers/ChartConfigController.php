@@ -11,6 +11,7 @@ class ChartConfigController extends Controller
     {
         $validated = $request->validate([
             'kelompok' => 'required|string',
+            'module' => 'required|string',
             'data' => 'required|string',
             // 'data' => 'required|exists:data,id', // Sesuaikan dengan nama tabel data Anda
             'operasi' => 'required|string',

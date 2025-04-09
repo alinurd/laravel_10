@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
 use App\Models\Chart;
+use App\Models\ChartConfig;
 use App\Models\MenuItem;
 use App\Models\Transaksi;
 use App\Services\CRUDService;
@@ -18,11 +19,13 @@ class ChartdetailController extends _Controller
     protected $list = '';
     protected $setFrom = '';
     protected $modelMaster = '';
+    protected $cboType = '';
+    protected $cboJenis = '';
     public function __construct()
     {
         $this->modulName = "chacrtdetail";
         $this->modelMaster = "App\Models\ChartDetail";
-        $cboType = [
+        $this->cboType = [
             ['id' => "line", 'value' => 'Line'],
             ['id' => "bar", 'value' => 'Bar'],
             ['id' => "polarArea", 'value' => 'Polar Area'],
@@ -30,20 +33,19 @@ class ChartdetailController extends _Controller
         ];
         // ['id', DB::raw("CONCAT(nama, ': ', norek, ' - A/N ', an) AS data")],
 
-        $cboJenis = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,);
-        $this->list = [];
-        $this->listx = [
-
+        $this->cboJenis = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,);
+        // $this->list = [];
+        $this->list = [
             [
                 'field' => 'type',
                 'type' => 'select',
                 'filter' => true,
                 'position' => false,
                 'showList' => true,
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'where' => null,
-                'option' => $cboType,
+                'option' => $this->cboType,
                 'multiple' => false,
             ],
             [
@@ -52,10 +54,10 @@ class ChartdetailController extends _Controller
                 'filter' => true,
                 'position' => false,
                 'showList' => true,
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'where' => null,
-                'option' => $cboJenis,
+                'option' => $this->cboJenis,
                 'multiple' => false,
             ],
             [
@@ -64,85 +66,35 @@ class ChartdetailController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'showList' => true,
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'rules' => array(
                     0 => 'required',
                     1 => 'string',
                 )
             ],
-            // [
-            //     'field' => 'type',
-            //     'type' => 'json',
-            //     'filter' => false,
-            //     'position' => false,
-            //     'showList' => true,
-            //     'show' => true,
-            //     'required' => true,
-            //     'rules' => array(
-            //         0 => 'required',
-            //         1 => 'string',
-            //     )
-            // ],
-            // [
-            //     'field' => 'data_chart',
-            //     'type' => 'json',
-            //     'filter' => false,
-            //     'position' => false,
-            //     'showList' => false,
-            //     'show' => true,
-            //     'required' => true,
-            //     'rules' => array(
-            //         0 => 'required',
-            //         1 => 'string',
-            //     )
-            // ],
+           
             [
                 'field' => 'label',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'showList' => true,
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'rules' => array(
                     0 => 'required',
                     1 => 'string',
                 )
             ],
-            // [
-            //     'field' => 'color',
-            //     'type' => 'json',
-            //     'filter' => false,
-            //     'position' => false,
-            //     'showList' => false,
-            //     'show' => true,
-            //     'required' => true,
-            //     'rules' => array(
-            //         0 => 'required',
-            //         1 => 'string',
-            //     )
-            // ],
-            // [
-            //     'field' => 'border_color',
-            //     'type' => 'json',
-            //     'filter' => false,
-            //     'position' => false,
-            //     'showList' => false,
-            //     'show' => true,
-            //     'required' => true,
-            //     'rules' => array(
-            //         0 => 'required',
-            //         1 => 'string',
-            //     )
-            // ],
+            
             [
                 'field' => 'fill',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'showList' => false,
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'rules' => array(
                     0 => 'required',
@@ -155,7 +107,7 @@ class ChartdetailController extends _Controller
                 'filter' => false,
                 'position' => false,
                 'showList' => false,
-                'show' => true,
+                'show' => false,
                 'required' => true,
                 'rules' => array(
                     0 => 'required',
@@ -185,10 +137,11 @@ class ChartdetailController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
-        $x= Transaksi::generateChrat(); 
-           $data['costum'] = ["chart", $x];
-
-        return view('pages.index', $data);
+        $x= ChartConfig::generateChrat(); 
+        $f['form']['cboType']=$this->cboType;
+        $f['form']['cboJenis']=$this->cboJenis;
+           $data['costum'] = ["chart", $x, $f];
+         return view('pages.index', $data);
     }
 
 
