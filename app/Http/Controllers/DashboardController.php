@@ -6,6 +6,7 @@ use App\Charts\MonthlyUsersChart;
 use App\Charts\SertifikatNominalChartline;
 use App\Charts\SertifikatTahunanChartBar;
 use App\Models\Chart;
+use App\Models\ChartConfig;
 use App\Models\DocFerifyDetail;
 use App\Models\DocFerifyHeader;
 use App\Models\Piutang;
@@ -36,7 +37,26 @@ class DashboardController extends Controller
       }
       public function chartBuilder()
       {
-         // Ambil semua chart dengan detailnya
+       $ChartConfig=ChartConfig::where('kelompok', 'kategori')->get();
+       foreach($ChartConfig as $config){
+
+       }
+
+
+    //    "id" => 5
+    //    "module" => "piutang"
+    //    "kelompok" => "kategori"
+    //    "data_id" => "nominal"
+    //    "operasi" => "AVERAGE"
+    //    "datasets" => "[{"label": "pembayaran karyawan", "borderColor": "#000000", "backgroundColor": "#000000"}]"
+    //    "jenis" => "2"
+    //    "parent" => "bar"
+    //    "judul" => "uuyu"
+    //    "label" => "uyuyu"
+    //    "created_at" => "2025-04-09 03:05:21"
+    //    "updated_at" => "2025-04-09 03:05:21"
+    //  ]
+       dd($ChartConfig);
          $charts = Chart::with('details')
          ->where('status', 1)
          ->get();

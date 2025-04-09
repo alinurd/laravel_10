@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Traits\GlobalDataTrait;
+use Illuminate\Support\Facades\DB;
 
 class ChartConfig extends Model
 {
@@ -74,4 +75,23 @@ class ChartConfig extends Model
         ];
     }
     
+
+    public static function getChartDataForPolarArea($data=[])
+{
+    return self::where($data['module'].$data['kelompok'], 45)
+        ->join('stakeholders', 'piutang.stackholder', '=', 'stakeholders.id')
+        ->select(
+            DB::raw('stakeholders.name as stakeholder_name'),
+            DB::raw('stakeholders.pic as stakeholder_pic'),
+            DB::raw('SUM(nominal) as total_nominal')
+        )
+        ->groupBy('piutang.stackholder', 'stakeholders.name', 'stakeholders.pic')
+        ->get()
+        ->map(function ($item) {
+            return [
+                'stackholder' => $item->stakeholder_name ?? $item->stakeholder_pic ?? 'Unknown',
+                'total_nominal' => (int) $item->total_nominal,
+            ];
+        });
+}
 }
