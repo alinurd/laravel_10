@@ -30,9 +30,20 @@ class DashboardController extends Controller
          ->where('status', 1)
          ->get();
 
-     return view('pages.dashboard.chartDinamis', [
-         'charts' => $charts
-     ]);
+        return view('pages.dashboard.chartDinamis', [
+            'charts' => $charts
+        ]);
+      }
+      public function chartBuilder()
+      {
+         // Ambil semua chart dengan detailnya
+         $charts = Chart::with('details')
+         ->where('status', 1)
+         ->get();
+
+        return view('pages.dashboard.chartBuilder', [
+            'charts' => $charts
+        ]);
       }
       
      public function index__()

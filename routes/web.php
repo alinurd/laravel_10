@@ -121,7 +121,9 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     
     // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
  
-    Route::get('/chart-builder', [ChartController::class, 'index'])->name('chart.builder');
+    Route::get('/chart-builder', [DashboardController::class, 'chartBuilder'])->name('chart.builder');
+    Route::get('/chart-sync', [DashboardController::class, 'sync'])->name('chart.builder');
+    // Route::get('/chart-builder', [ChartController::class, 'index'])->name('chart.builder');
 Route::post('/chart-data', [ChartController::class, 'getData'])->name('chart.data');
 
 Route::post('/simpan-chart-config', [ChartConfigController::class, 'store'])
