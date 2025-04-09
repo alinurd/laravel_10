@@ -14,8 +14,13 @@ class ChartConfig extends Model
 
     
     protected $fillable = [
+        'jenis',
+        'parent',
+        'judul',
+        'module',
+        'label',
         'kelompok',
-        'data_id',
+        'data_id',  
         'operasi',
         'datasets'
     ];

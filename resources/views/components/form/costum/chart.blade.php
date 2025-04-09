@@ -83,22 +83,22 @@
  $kelompok=$chartGenerate['transaksi']['kelompok'];
  $data=$chartGenerate['transaksi']['data'];
  @endphp
- <!-- Control spans dan Dropdown
+ <!-- Control spans dan Dropdown -->
  <div class="mb-5">
    <span class="btn btn-primary me-2" id="showChartBtn">Lihat Chart</span>
    <span class="btn btn-success me-2" id="simpanBtn">Simpan Konfigurasi</span>
    <span class="btn btn-secondary" id="sumberData">Sumber Data</span>
- </div> -->
+ </div>
 
 
  <div class="row mb-2">
    <div class="col-md-6">
      <label for="">Judul</label>
-     <input type="text" name="Judul" id="Judul" class="form-control" placeholder="Judul  Chart" aria-label="Judul  Chart">
+     <input type="text" name="Judul" id="judul" class="form-control" placeholder="Judul  Chart" aria-label="Judul  Chart">
    </div>
    <div class="col-md-6">
      <label for="">Label </label>
-     <input type="text" name="Label " id="Label " class="form-control" placeholder="Label   Chart" aria-label="Label   Chart">
+     <input type="text" name="Label " id="label" class="form-control" placeholder="Label   Chart" aria-label="Label   Chart">
    </div>
  </div>
  </div>
@@ -106,7 +106,7 @@
  <div class="row mb-3">
    <div class="col-md-4">
      <span>Parent</span>
-     <select class="form-control select2">
+     <select id="parent" class="form-control select2">
        <option selected disabled>Pilih Parent</option>
        @foreach($cbo['cboType'] as $k => $items)
        <option value="{{ $items['id'] }}">{{ strtoupper($items['value']) }}</option>
@@ -115,7 +115,7 @@
    </div>
    <div class="col-md-4">
      <span>Jenis Chart</span>
-     <select class="form-control select2">
+     <select id="jenis" class="form-control select2">
        <option selected disabled>Pilih Jenis</option>
        @foreach($cbo['cboJenis'] as $k => $items)
        <option value="{{ $items['id'] }}">{{ strtoupper($items['value']) }}</option>
@@ -124,7 +124,7 @@
    </div>
    <div class="col-md-4">
      <span>Status</span>
-     <select class="form-control select2">
+     <select id="status" class="form-control select2">
        <option selected disabled>Pilih Module</option>
        @foreach($cbo['cboJenis'] as $k => $items)
        <option value="{{ $items['id'] }}">{{ strtoupper($items['value']) }}</option>
@@ -135,8 +135,8 @@
 
 
 
-<hr>
-<h4>Configurasi Data</h4>
+ <hr>
+ <h4>Configurasi Data</h4>
 
 
  <div class="row mb-4">
@@ -340,6 +340,10 @@
    // Fungsi ambil konfigurasi chart
    function getChartConfig() {
      const config = {
+       judul: document.getElementById('judul').value,
+       label: document.getElementById('label').value,
+       parent: document.getElementById('parent').value,
+       jenis: document.getElementById('jenis').value,
        module: document.getElementById('modueSelector').value,
        kelompok: document.getElementById('kelompokSelector').value,
        data: document.getElementById('dataSelector').value,
@@ -530,7 +534,7 @@
 
  <script>
    // Modal control
-  //  document.getElementById('sumberData').addEventListener('click', sumberDataModal);
+   //  document.getElementById('sumberData').addEventListener('click', sumberDataModal);
 
    function sumberDataModal() {
      document.getElementById('sumberDataModal').style.display = 'flex';
