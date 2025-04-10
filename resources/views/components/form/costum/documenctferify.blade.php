@@ -48,7 +48,7 @@ if(isset($costum['header'])){
       <tfoot>
         <tr>
           <td class="fw-bold">Total:</td>
-          <td colspan="2"><span id="totalTermin">Rp 0</span></td>
+          <td colspan="2"><span class="fw-bold" id="totalTermin">Rp 0</span></td>
         </tr>
       </tfoot>
     </table> 
@@ -166,7 +166,11 @@ if(isset($costum['header'])){
       const row = document.createElement('tr');
       row.innerHTML = `
         <td>Termin ${index}</td>
-        <td><input name="termin[]" type="text" class="form-control nominal" value="0" placeholder="Contoh: 1.000,50"></td>
+        <td><input name="termin[]" type="text" class="form-control nominal" value="0" placeholder="Contoh: 1000,50">
+          <div id="${index}" class="form-text text-warning">
+            <i>hanya bisa angka dan komam " 1000000,50 "</i>
+          </div>
+        </td>
         <td><span name="nominalTermin[]" class="btn btn-danger btn-sm hapus-btn">Hapus</span></td>
       `;
       terminTable.appendChild(row);
@@ -182,13 +186,21 @@ if(isset($costum['header'])){
       }
     });
 
+//     terminTable.addEventListener('input', function(e) {
+//   if (e.target.classList.contains('nominal')) {
+//     const value = e.target.value.replace(/[^\d]/g, '');
+//     e.target.value = formatRupiah(value);
+//   }
+// });
+
     // Batasi input hanya angka dan koma
     terminTable.addEventListener('keypress', function(e) {
       if (e.target.classList.contains('nominal')) {
         const char = String.fromCharCode(e.which);
         const allowed = /[0-9,]/;
         if (!allowed.test(char)) {
-          e.preventDefault();
+          e.target.value = formatRupiah(value)
+          // e.preventDefault();
         }
       }
     });

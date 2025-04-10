@@ -37,6 +37,18 @@ class DocumenctferifyController extends _Controller
 
         $this->list = [
             [
+                'field' => 'kode',
+                'type' => 'text',
+                'filter' => true,
+                'position' => 'center',
+                'showList' => true,
+                'show' => false,
+                'required' => false,
+                'where' => null,
+                'option' => $cbo_pic,
+                'multiple' => false,
+            ],
+            [
                 'field' => 'pic',
                 'type' => 'select',
                 'filter' => true,
@@ -158,18 +170,21 @@ class DocumenctferifyController extends _Controller
     public function store(CRUDService $CRUDService, CRUDRequest $request)
     {
         DB::beginTransaction();
-        $arrTermin = [];
-
-        foreach($request['termin'] as $k => $termi) {
-            $arrTermin[] = [
-                'termin' => $k + 1,
-                'nominal' => $termi
-            ];
-        }
-        $kodeBaru = DocFerifyHeader::generateKode();
-        // dd($kodeBaru);
+        
+         
          try {
-            // Simpan header
+            $arrTermin = [];
+
+            if ($request['termin']){
+                foreach($request['termin'] as $k => $termi) {
+                    $arrTermin[] = [
+                        'termin' => $k + 1,
+                        'nominal' => $termi
+                    ];
+                }
+            }
+            $kodeBaru = DocFerifyHeader::generateKode();
+
             $headerData = $request->only(['pic', 'jenis_product', 'nilai', 'status']);
             $headerData['termin'] = json_encode($arrTermin);
             $headerData['kode'] = $kodeBaru;
@@ -209,16 +224,21 @@ class DocumenctferifyController extends _Controller
     public function update(CRUDRequest $request, string $id)
     {
         DB::beginTransaction();
-        $arrTermin = [];
-
-        foreach($request['termin'] as $k => $termi) {
-            $arrTermin[] = [
-                'termin' => $k + 1,
-                'nominal' => $termi
-            ];
-        }
+         
 
         try { 
+
+            $arrTermin = [];
+
+            if ($request['termin']){
+                foreach($request['termin'] as $k => $termi) {
+                    $arrTermin[] = [
+                        'termin' => $k + 1,
+                        'nominal' => $termi
+                    ];
+                }
+            }
+            
             $header = DocFerifyHeader::findOrFail($id);
             $headerData = $request->only(['pic', 'jenis_product', 'nilai', 'status']);
             $headerData['termin'] = json_encode($arrTermin); 

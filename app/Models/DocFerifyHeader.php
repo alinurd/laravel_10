@@ -20,23 +20,36 @@ class DocFerifyHeader extends Model
         return $this->hasMany(DocFerifyDetail::class, 'id_doc_ferify', 'id');
     }
 
+
     public static function generateKode()
-    {
-        $datePart = date('dm-y');
-        $prefix = 'DF-'.$datePart . '-';
+{
+    $datePart = date('dm');
+    $yearPart = date('y');
+    $prefix = 'DF-' . $datePart . '-' . $yearPart . '-';
 
-        $last = self::where('kode', 'like', $prefix . '%')
-            ->orderBy('kode', 'desc')
-            ->first();
+ 
+    $lastDaily = self::where('kode', 'like', $prefix . '%')
+        ->orderBy('kode', 'desc')
+        ->first();
 
-        if ($last) {
-            $lastNumber = (int) substr($last->kode, -3);
-            $newNumber = str_pad($lastNumber + 1, 3, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '001';
-        }
-
-        return $prefix . $newNumber;
+    if ($lastDaily) {
+        $lastDailyNumber = (int) substr($lastDaily->kode, -7, 3);
+        $newDailyNumber = str_pad($lastDailyNumber + 1, 3, '0', STR_PAD_LEFT);
+    } else {
+        $newDailyNumber = '001';
     }
+ 
+    $lastGlobal = self::orderBy('kode', 'desc')->first();
+
+    if ($lastGlobal) {
+        $lastGlobalNumber = (int) substr($lastGlobal->kode, -3); 
+        $newGlobalNumber = str_pad($lastGlobalNumber + 1, 3, '0', STR_PAD_LEFT);
+    } else {
+        $newGlobalNumber = '001';
+    }
+
+    return $prefix . $newDailyNumber . '-' . $newGlobalNumber;
+}
+
 
 }
