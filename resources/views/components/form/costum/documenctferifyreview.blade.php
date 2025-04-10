@@ -31,7 +31,7 @@ if(isset($costum['header'])){
         @foreach($arrTermin as $termin)
         <tr>
         <td>Termin {{ $termin->termin }}</td>
-        <td><input name="termin[]" type="text" class="form-control nominal" value="{{ $termin->nominal }}" placeholder="Contoh: 1.000,50"></td>
+        <td><input name="termin[]" type="text" readonly class="form-control nominal" value="{{ $termin->nominal }}" placeholder="Contoh: 1.000,50"></td>
         <td><span name="nominalTermin[]" class="btn btn-danger btn-sm hapus-btn">Hapus</span></td>
         </tr>
         @endforeach
