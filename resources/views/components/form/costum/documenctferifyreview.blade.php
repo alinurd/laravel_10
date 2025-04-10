@@ -1,3 +1,54 @@
+
+@php
+$arrTermin=false;
+if(isset($costum['header'])){
+  $arrTermin=json_decode($costum['header']['termin']);
+} 
+@endphp
+
+<div class="card">
+  <div class="card-header d-flex justify-content-between">
+
+    <span><strong>Input Termin</strong></span>
+    <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTermin" aria-expanded="false" aria-controls="collapseTermin">
+      <i class="ri-arrow-down-s-line"></i>
+    </button>
+  </div>
+  <div class="collapse" id="collapseTermin">
+    
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Termin</th>
+          <th>Nominal</th>
+          <th>
+            <span class="btn btn-dark btn-sm" id="tambahTermin">Tambah Termin</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody id="terminTable">
+        @if($arrTermin)
+        @foreach($arrTermin as $termin)
+        <tr>
+        <td>Termin {{ $termin->termin }}</td>
+        <td><input name="termin[]" type="text" class="form-control nominal" value="{{ $termin->nominal }}" placeholder="Contoh: 1.000,50"></td>
+        <td><span name="nominalTermin[]" class="btn btn-danger btn-sm hapus-btn">Hapus</span></td>
+        </tr>
+        @endforeach
+        @endif
+      </tbody>
+      <tfoot>
+        <tr>
+          <td class="fw-bold">Total:</td>
+          <td colspan="2"><span class="fw-bold" id="totalTermin">Rp 0</span></td>
+        </tr>
+      </tfoot>
+    </table> 
+  </div>
+</div> 
+
+
+
 @foreach($costum as $k=> $p)
 <div class="card">
   <div class="card-header d-flex justify-content-between">
@@ -10,7 +61,7 @@
   $x=auth();
   $auth=$x;
   $user = $x->user();
-  @endphp  
+  @endphp 
   <div class="collapse" id="collapse{{ $p->key1 }}">
     <div class="card-body">
       <table class="table" id="table-{{ $p->id }}">
@@ -95,3 +146,5 @@
 </div>
 @endforeach 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+

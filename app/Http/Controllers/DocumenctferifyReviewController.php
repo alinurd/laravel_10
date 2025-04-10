@@ -41,7 +41,7 @@ class DocumenctferifyReviewController extends _Controller
             'where' => null,
             'option' => $cbo_pic,
             'multiple' => false,
-        ],
+            ],
             [
                 'field' => 'pic',
                 'type' => 'select',
@@ -136,6 +136,7 @@ class DocumenctferifyReviewController extends _Controller
         $costum=$this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
         // $costum['view']='documenctferifyreview';
         $data['costum'] =$costum ;
+        $data['costum']['header'] = $this->modelMaster::find($id);
 
         return view('pages.index', $data);
     }
