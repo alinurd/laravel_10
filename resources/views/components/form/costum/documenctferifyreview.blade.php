@@ -4,12 +4,12 @@ $arrTermin=false;
 if(isset($costum['header'])){
   $arrTermin=json_decode($costum['header']['termin']);
 } 
+$couTermin=count($arrTermin);
 @endphp
 
 <div class="card">
   <div class="card-header d-flex justify-content-between">
-
-    <span><strong>Input Termin</strong></span>
+    <span><strong>Jumlah Termin: {{$couTermin}}</strong></span>
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTermin" aria-expanded="false" aria-controls="collapseTermin">
       <i class="ri-arrow-down-s-line"></i>
     </button>
@@ -32,7 +32,8 @@ if(isset($costum['header'])){
         <tr>
         <td>Termin {{ $termin->termin }}</td>
         <td><input name="termin[]" type="text" readonly class="form-control nominal" value="{{ $termin->nominal }}" placeholder="Contoh: 1.000,50"></td>
-        <td><span name="nominalTermin[]" class="btn btn-danger btn-sm hapus-btn">Hapus</span></td>
+        <td><span name="nominalTermin[]" class="btn btn-secondary btn-sm cetak-excel" style="font-size: medium;">
+        <i class="ri-file-pdf-2-line"></i> Cetak</span></td>
         </tr>
         @endforeach
         @endif

@@ -324,5 +324,17 @@ class DocumenctferifyReviewController extends _Controller
         // Jika data tidak ditemukan
         // return response()->json(['success' => true, 'message' => 'OK'], 200);
     }
+
+    /**
+     * Undefined function
+     * 
+     * @return Type Returns data of type Type
+     */
+    public function termin()
+    {
+        $data=[];
+        return view('pages.document.monitoring', $data);
+
+    }
     
 }
