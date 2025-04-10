@@ -335,7 +335,7 @@ class DocumenctferifyReviewController extends _Controller
         $kode = 'DF-1004-25-001-004-43';
         $bagian = explode('-', $kode);
         $id = (int) end($bagian); 
-        $header = $this->modelMaster::find($id);
+        $header = $this->modelMaster::with('getDetails')->find($id);
         $data=[];   
         $data['header']=$header;
         $data['terminid']=$terminid;
