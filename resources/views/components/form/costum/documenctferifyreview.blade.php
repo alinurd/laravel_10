@@ -33,7 +33,9 @@ $couTermin=count($arrTermin);
         <td>Termin {{ $termin->termin }}</td>
         <td><input name="termin[]" type="text" readonly class="form-control nominal" value="{{ $termin->nominal }}" placeholder="Contoh: 1.000,50"></td>
         <td><span name="nominalTermin[]" class="btn btn-secondary btn-sm cetak-excel" style="font-size: medium;">
-        <i class="ri-file-pdf-2-line"></i> Cetak</span></td>
+        <i class="ri-file-pdf-2-line"></i> Cetak</span>
+      <a href="http://127.0.0.1:8000/monitoring-termin/{{$costum['header']['kode']}}-{{$costum['header']['id']}}/{{ $termin->termin}}" > monitoring termin</a>
+      </td>
         </tr>
         @endforeach
         @endif

@@ -117,6 +117,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
-    // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
+    Route::get('/monitoring-termin/{kode}/{terminid}', [DocumenctferifyReviewController::class, 'termin'])->name('fre.builder');
+// Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
  
 });

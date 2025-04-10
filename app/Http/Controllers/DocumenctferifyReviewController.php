@@ -330,9 +330,15 @@ class DocumenctferifyReviewController extends _Controller
      * 
      * @return Type Returns data of type Type
      */
-    public function termin()
+    public function termin($kode, $terminid)
     {
-        $data=[];
+        $kode = 'DF-1004-25-001-004-43';
+        $bagian = explode('-', $kode);
+        $id = (int) end($bagian); 
+        $header = $this->modelMaster::find($id);
+        $data=[];   
+        $data['header']=$header;
+        $data['terminid']=$terminid;
         return view('pages.document.monitoring', $data);
 
     }
