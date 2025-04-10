@@ -10,7 +10,7 @@
   $x=auth();
   $auth=$x;
   $user = $x->user();
-  @endphp 
+  @endphp  
   <div class="collapse" id="collapse{{ $p->key1 }}">
     <div class="card-body">
       <table class="table" id="table-{{ $p->id }}">

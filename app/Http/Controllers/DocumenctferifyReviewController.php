@@ -30,7 +30,18 @@ class DocumenctferifyReviewController extends _Controller
                 
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
-        $this->list = [
+        $this->list = [ [
+            'field' => 'kode',
+            'type' => 'text',
+            'filter' => true,
+            'position' => 'center',
+            'showList' => true,
+            'show' => false,
+            'required' => false,
+            'where' => null,
+            'option' => $cbo_pic,
+            'multiple' => false,
+        ],
             [
                 'field' => 'pic',
                 'type' => 'select',
