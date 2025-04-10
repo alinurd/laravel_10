@@ -55,8 +55,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                     </div>
                 </div>
             </div>
-        </div>
-
+        </div> 
         <div class="card-body">
             <div class="tab-content text-muted">
                 <div class="accordion accordion-flush" id="todayExample">
@@ -78,7 +77,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                         </div>
                         <div id="collapseOne" class="accordion-collapse collapse" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
                             <div class="accordion-body ms-2 ps-5">
-                                Jumlah dokument: {{count($detail)}}, memiliki nilai product sebedar Rp. {{$header['nilai']}}, memiliki {{$couTermin}} termin dengan jumlah nominal keserulhan sebesar Rp. Rp {{ number_format($ttlNominalTermin, 0, ',', '.') }}
+                                Jumlah dokument: {{count($detail)}}, memiliki nilai product sebedar Rp. {{$header['nilai']}}, memiliki {{$couTermin}} termin dengan jumlah nominal keserulhan sebesar Rp. {{ number_format($ttlNominalTermin, 0, ',', '.') }}
                             </div>
                         </div>
                     </div>
@@ -658,7 +657,8 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Status</small>
                                                 <h4 class="mb-0">
-                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success">Terbayar</a>
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success"><i class="ri-bookmark-3-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Terbayar" 
+                                                    style="color: darkgreen; font-size: 24px;"></i><br>Terbayar</a>
                                                 </h4>
                                             </div>
                                         </div>

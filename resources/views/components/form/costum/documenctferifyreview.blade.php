@@ -5,6 +5,8 @@ if(isset($costum['header'])){
   $arrTermin=json_decode($costum['header']['termin']);
 } 
 $couTermin=count($arrTermin);
+$ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
+
 @endphp
 
 <div class="card">
@@ -22,7 +24,7 @@ $couTermin=count($arrTermin);
           <th>Termin</th>
           <th>Nominal</th>
           <th>
-            <span class="btn btn-dark btn-sm" id="tambahTermin">Tambah Termin</span>
+          <a href="http://127.0.0.1:8000/monitoring-termin/{{$costum['header']['kode']}}-{{$costum['header']['id']}}/2"  class="btn btn-dark btn-sm"> Monitoring Termin</a>
           </th>
         </tr>
       </thead>
@@ -30,11 +32,22 @@ $couTermin=count($arrTermin);
         @if($arrTermin)
         @foreach($arrTermin as $termin)
         <tr>
-        <td>Termin {{ $termin->termin }}</td>
+        <td>
+    <div class="d-flex justify-content-between align-items-center">
+        <span>Termin {{ $termin->termin }}</span>
+        <i class="ri-bookmark-3-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Terbayar" 
+           style="color: darkgreen; font-size: 24px;"></i>
+    </div>
+</td>
+
         <td><input name="termin[]" type="text" readonly class="form-control nominal" value="{{ $termin->nominal }}" placeholder="Contoh: 1.000,50"></td>
-        <td><span name="nominalTermin[]" class="btn btn-secondary btn-sm cetak-excel" style="font-size: medium;">
+        <td>
+          <span>
+          
+          </span>
+          <span name="nominalTermin[]" class="btn btn-secondary btn-sm cetak-excel" style="font-size: medium;">
         <i class="ri-file-pdf-2-line"></i> Cetak</span>
-      <a href="http://127.0.0.1:8000/monitoring-termin/{{$costum['header']['kode']}}-{{$costum['header']['id']}}/{{ $termin->termin}}" > monitoring termin</a>
+      
       </td>
         </tr>
         @endforeach
@@ -43,7 +56,7 @@ $couTermin=count($arrTermin);
       <tfoot>
         <tr>
           <td class="fw-bold">Total:</td>
-          <td colspan="2"><span class="fw-bold" id="totalTermin">Rp 0</span></td>
+          <td colspan="2"><span class="fw-bold" id="totalTermin">Rp. {{ number_format($ttlNominalTermin, 0, ',', '.') }}</span></td>
         </tr>
       </tfoot>
     </table> 
