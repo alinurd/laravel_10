@@ -626,65 +626,65 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                 </div>
 
                 <div class="tab-pane active" id="termin1" role="tabpanel">
-    <div class="profile-timeline">
-        <div class="accordion accordion-flush" id="monthlyExample">
-            <div id="collapse11" class="accordion-collapse collapse show align-items-center" aria-labelledby="heading11" data-bs-parent="#accordionExample">
-                <div class="accordion-body px-4">
+                    <div class="profile-timeline">
+                        <div class="accordion accordion-flush" id="monthlyExample">
+                            <div id="collapse11" class="accordion-collapse collapse show align-items-center" aria-labelledby="heading11" data-bs-parent="#accordionExample">
+                                <div class="accordion-body px-4">
 
-                    {{-- Informasi Termin --}}
-                    <div class="row g-3 justify-content-center mb-4">
-                        <div class="col-auto">
-                            <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
-                                <small class="text-muted">Termin</small>
-                                <h4 class="mb-0">
-                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-dark">Termin 1</a>
-                                </h4>
-                            </div>
-                        </div>
+                                    {{-- Informasi Termin --}}
+                                    <div class="row g-3 justify-content-center mb-4">
+                                        <div class="col-auto">
+                                            <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
+                                                <small class="text-muted">Termin</small>
+                                                <h4 class="mb-0">
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-dark">Termin 1</a>
+                                                </h4>
+                                            </div>
+                                        </div>
 
-                        <div class="col-auto">
-                            <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
-                                <small class="text-muted">Nominal</small>
-                                <h4 class="mb-0">
-                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-dark">Rp. 1.333</a>
-                                </h4>
-                            </div>
-                        </div>
+                                        <div class="col-auto">
+                                            <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
+                                                <small class="text-muted">Nominal</small>
+                                                <h4 class="mb-0">
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-dark">Rp. 1.333</a>
+                                                </h4>
+                                            </div>
+                                        </div>
 
-                        <div class="col-auto">
-                            <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
-                                <small class="text-muted">Status</small>
-                                <h4 class="mb-0">
-                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success">Terbayar</a>
-                                </h4>
+                                        <div class="col-auto">
+                                            <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
+                                                <small class="text-muted">Status</small>
+                                                <h4 class="mb-0">
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success">Terbayar</a>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Textarea & File Upload --}}
+                                    <div class="row g-3 justify-content-center">
+                                        <div class="col-md-6">
+                                            <div class="border border-dashed p-3 rounded">
+                                                <label for="catatan" class="form-label">Catatan Tambahan</label>
+                                                <textarea id="catatan" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="border border-dashed p-3 rounded">
+                                                <label for="upload" class="form-label">Upload Dokumen</label>
+                                                <input type="file" id="upload" class="form-control" multiple>
+                                                <div id="preview" class="mt-3 d-flex gap-2 flex-wrap"></div>
+                                            </div>
+                                        </div>
+                                        <span class="btn btn-sm btn-primary   top-0 end-0"> Update Status Termin</span>
+
+                                    </div>
+
+                                </div> {{-- end accordion-body --}}
                             </div>
-                        </div>
+                        </div> {{-- end accordion --}}
                     </div>
-
-                    {{-- Textarea & File Upload --}}
-                    <div class="row g-3 justify-content-center">
-                        <div class="col-md-6">
-                            <div class="border border-dashed p-3 rounded">
-                                <label for="catatan" class="form-label">Catatan Tambahan</label>
-                                <textarea id="catatan" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-    <div class="border border-dashed p-3 rounded">
-        <label for="upload" class="form-label">Upload Dokumen</label>
-        <input type="file" id="upload" class="form-control" multiple>
-        <div id="preview" class="mt-3 d-flex gap-2 flex-wrap"></div>
-    </div>
-</div>
-
-
-                    </div>
-
-                </div> {{-- end accordion-body --}}
-            </div>
-        </div> {{-- end accordion --}}
-    </div>
-</div>
+                </div>
 
             </div>
         </div><!-- end card body -->
@@ -695,61 +695,61 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 </div> <!-- END TERMIN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-    const uploadInput = document.getElementById('upload');
-    const preview = document.getElementById('preview');
-    let selectedFiles = [];
+    document.addEventListener('DOMContentLoaded', () => {
+        const uploadInput = document.getElementById('upload');
+        const preview = document.getElementById('preview');
+        let selectedFiles = [];
 
-    uploadInput.addEventListener('change', () => {
-        selectedFiles = Array.from(uploadInput.files); // simpan ke array
-        showPreview();
-    });
+        uploadInput.addEventListener('change', () => {
+            selectedFiles = Array.from(uploadInput.files); // simpan ke array
+            showPreview();
+        });
 
-    function showPreview() {
-        preview.innerHTML = '';
-        selectedFiles.forEach((file, index) => {
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                const wrapper = document.createElement('div');
-                wrapper.className = 'position-relative border rounded p-1';
-                wrapper.style.width = '100px';
+        function showPreview() {
+            preview.innerHTML = '';
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'position-relative border rounded p-1';
+                    wrapper.style.width = '100px';
 
-                const removeBtn = document.createElement('button');
-                removeBtn.innerHTML = '&times;';
-                removeBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0';
-                removeBtn.style.zIndex = '10';
-                removeBtn.type = 'button';
-                removeBtn.onclick = () => {
-                    selectedFiles.splice(index, 1);
-                    showPreview();
-                };
+                    const removeBtn = document.createElement('button');
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0';
+                    removeBtn.style.zIndex = '10';
+                    removeBtn.type = 'button';
+                    removeBtn.onclick = () => {
+                        selectedFiles.splice(index, 1);
+                        showPreview();
+                    };
 
-                let content;
-                if (file.type.startsWith('image/')) {
-                    content = document.createElement('img');
-                    content.src = e.target.result;
-                    content.className = 'img-thumbnail';
-                    content.style.width = '100%';
-                    content.style.height = '80px';
-                    content.style.objectFit = 'cover';
-                } else {
-                    content = document.createElement('div');
-                    content.className = 'text-center';
-                    content.innerHTML = `
+                    let content;
+                    if (file.type.startsWith('image/')) {
+                        content = document.createElement('img');
+                        content.src = e.target.result;
+                        content.className = 'img-thumbnail';
+                        content.style.width = '100%';
+                        content.style.height = '80px';
+                        content.style.objectFit = 'cover';
+                    } else {
+                        content = document.createElement('div');
+                        content.className = 'text-center';
+                        content.innerHTML = `
                         <i class="bi bi-file-earmark-text" style="font-size: 2rem;"></i>
                         <div class="small">${file.name}</div>
                     `;
-                }
+                    }
 
-                wrapper.appendChild(removeBtn);
-                wrapper.appendChild(content);
-                preview.appendChild(wrapper);
-            };
-            reader.readAsDataURL(file);
-        });
-    }
- 
-});
+                    wrapper.appendChild(removeBtn);
+                    wrapper.appendChild(content);
+                    preview.appendChild(wrapper);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+    });
 </script>
 
 
