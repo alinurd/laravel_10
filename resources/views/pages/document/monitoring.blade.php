@@ -25,10 +25,13 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                 <div class="card-header align-items-center d-flex flex-column align-items-start">
                     <h5 class="card-title">Termin Activity {{$couTermin}} Termin</h5>
                     <div class="progress animated-progress custom-progress progress-label w-100 mt-2" style="z-index: 999;">
-                        <div class="progress-bar bg-danger" role="progressbar" style="width: 90%" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
+                        <div class="progress-bar text-white" role="progressbar"
+                            style="width: 10%; background: linear-gradient(to right, red, green);"
+                            aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
                             <div class="label">30%</div>
                         </div>
                     </div>
+
 
                     <div class="ms-auto mt-2">
                         <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
