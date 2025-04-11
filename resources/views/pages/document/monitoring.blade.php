@@ -183,9 +183,9 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
                                                 <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
-                                                <input type="hidden" name="termin" value="{{$termin->termin}}">
-                                                <input type="hidden" name="id" value="{{$header['id']}}">
-                                                <input type="hidden" name="kode" value="{{$header['kode']}}">
+                                                <input type="text" name="termin" value="{{$termin->termin}}">
+                                                <input type="text" name="id" value="{{$header['id']}}">
+                                                <input type="text" name="kode" value="{{$header['kode']}}">
                                                 <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini...">{{ $termin->catatan ?? 'Tidak ada catatan' }}</textarea>
                                             </div>
                                         </div>

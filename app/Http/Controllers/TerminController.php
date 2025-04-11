@@ -17,22 +17,22 @@ class TerminController extends Controller
 
     public function updateTermin(Request $request)
     {
-        // dd($request);
+        // dd($request); 
 
         $request->validate([
             'termin' => 'required',
             'kode' => 'required',
             'id' => 'required',
             'catatan' => 'nullable|string',
-            'file.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048'
+            // 'file.*' => 'nullable|file|mimes:jpg,jpeg,png,pdf,doc,docx|max:2048'
         ]);
         $terminId = (int) $request->termin;
-        $kode = (int) $request->kode;
-        $id = $request->id;
+         $id = $request->id;
+         $kode = $request->kode;
         $catatan = $request->catatan;
-
+        
         $df = DocFerifyHeader::findOrFail($id);
-
+ 
         // Decode ke object
         $termins = json_decode($df->termin);
 
@@ -49,14 +49,12 @@ class TerminController extends Controller
 
         $df->termin = json_encode($termins);
         $df->save();
-
-
+        $fieldData='ok';
         // Simpan file (jika ada)
         if ($request->hasFile('file')) {
             foreach ($request->file('file') as $uploadedFile) {
         
-                if (isset($fieldData['input']) && $fieldData['input'] === 'file') {
-                    // Ambil ekstensi dan rules
+                     // Ambil ekstensi dan rules
                     $allowedExtensions = $fieldData['rules']['ekstensi'] ?? ['png', 'jpg', 'pdf'];
                     $allowedMimeTypes = [
                         'png'  => 'image/png',
@@ -71,25 +69,25 @@ class TerminController extends Controller
                     $fileSize = $uploadedFile->getSize();
         
                     // Validasi ekstensi
-                    if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
-                        return redirect()->back()->withErrors([
-                            $fieldData['field'] => 'Format file tidak diizinkan. Hanya: ' . implode(', ', $allowedExtensions),
-                        ]);
-                    }
+                    // if (!in_array(strtolower($fileExtension), $allowedExtensions)) {
+                    //     return redirect()->back()->withErrors([
+                    //         $fieldData['field'] => 'Format file tidak diizinkan. Hanya: ' . implode(', ', $allowedExtensions),
+                    //     ]);
+                    // }
         
-                    // Validasi mime
-                    if (!in_array($fileMimeType, array_values($allowedMimeTypes))) {
-                        return redirect()->back()->withErrors([
-                            $fieldData['field'] => 'Tipe file tidak valid.',
-                        ]);
-                    }
+                    // // // Validasi mime
+                    // if (!in_array($fileMimeType, array_values($allowedMimeTypes))) {
+                    //     return redirect()->back()->withErrors([
+                    //         $fieldData['field'] => 'Tipe file tidak valid.',
+                    //     ]);
+                    // }
         
-                    // Validasi ukuran
-                    if ($fileSize > $maxSize) {
-                        return redirect()->back()->withErrors([
-                            $fieldData['field'] => 'Ukuran file maksimum adalah 2MB.',
-                        ]);
-                    }
+                    // // Validasi ukuran
+                    // if ($fileSize > $maxSize) {
+                    //     return redirect()->back()->withErrors([
+                    //         $fieldData['field'] => 'Ukuran file maksimum adalah 2MB.',
+                    //     ]);
+                    // }
         
                      $path = public_path('assets/upload/termin');
                         // Simpan file
@@ -111,15 +109,17 @@ class TerminController extends Controller
                     // Simpan ke DB
                     DokumenTermin::create([
                         'id_df'     => $id,
-                        'kode_df'   => $id,
+                        'kode_df'   => $kode,
                         'termin'    => $terminId,
                         'file_path' => $path,
                         'file_name' => $value,
                     ]);
                 }
             }
-        }
+        
+        dd($fieldData);
+        dd($request->hasFile('file'));
 
-        return back()->with('success', 'Status termin berhasil diperbarui!');
+        // return back()->with('success', 'Status termin berhasil diperbarui!');
     }
 }
