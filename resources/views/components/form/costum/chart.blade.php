@@ -84,11 +84,11 @@
  $data=$chartGenerate['transaksi']['data'];
  @endphp
  <!-- Control spans dan Dropdown -->
- <div class="mb-5">
+ <!-- <div class="mb-5">
    <span class="btn btn-primary me-2" id="showChartBtn">Lihat Chart</span>
    <span class="btn btn-success me-2" id="simpanBtn">Simpan Konfigurasi</span>
    <span class="btn btn-secondary" id="sumberData">Sumber Data</span>
- </div>
+ </div> -->
 
 
  <div class="row mb-2">
@@ -108,7 +108,7 @@
      <span>Parent</span>
      <select id="parent" class="form-control select2">
        <option selected disabled>Pilih Parent</option>
-       @foreach($cbo['cboType'] as $k => $items)
+       @foreach($cbo['cboJenis'] as $k => $items)
        <option value="{{ $items['id'] }}">{{ strtoupper($items['value']) }}</option>
        @endforeach
      </select>
@@ -117,7 +117,7 @@
      <span>Jenis Chart</span>
      <select id="jenis" class="form-control select2">
        <option selected disabled>Pilih Jenis</option>
-       @foreach($cbo['cboJenis'] as $k => $items)
+       @foreach($cbo['cboType'] as $k => $items)
        <option value="{{ $items['id'] }}">{{ strtoupper($items['value']) }}</option>
        @endforeach
      </select>
@@ -126,7 +126,7 @@
      <span>Status</span>
      <select id="status" class="form-control select2">
        <option selected disabled>Pilih Module</option>
-       @foreach($cbo['cboJenis'] as $k => $items)
+       @foreach($cbo['cboSts'] as $k => $items)
        <option value="{{ $items['id'] }}">{{ strtoupper($items['value']) }}</option>
        @endforeach
      </select>
