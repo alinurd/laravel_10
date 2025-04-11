@@ -332,10 +332,10 @@ class DocumenctferifyReviewController extends _Controller
      */
     public function termin($kode, $terminid)
     {
-        $kode = 'DF-1004-25-001-004-43';
+        // $kode = 'DF-1004-25-001-004-43';
         $bagian = explode('-', $kode);
         $id = (int) end($bagian); 
-        $header = $this->modelMaster::with('getDetails')->find($id);
+        $header = $this->modelMaster::with('getDetails', 'getDokumentTermin')->find($id);
         $data=[];   
         $data['header']=$header;
         $data['terminid']=$terminid;

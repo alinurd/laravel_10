@@ -19,6 +19,10 @@ class DocFerifyHeader extends Model
     { 
         return $this->hasMany(DocFerifyDetail::class, 'id_doc_ferify', 'id');
     }
+    public function getDokumentTermin()
+    { 
+        return $this->hasMany(DokumenTermin::class, 'id_df', 'id');
+    }
 
 
     public static function generateKode()

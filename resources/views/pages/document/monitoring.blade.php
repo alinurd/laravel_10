@@ -10,12 +10,12 @@
 
 @php
 $detail=$header['getDetails'];
+$getDokumentTermin=$header['getDokumentTermin'];
 if(isset($header['termin'])){
 $arrTermin=json_decode($header['termin']);
 }
 $couTermin=count($arrTermin);
 $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
-
 
 @endphp
 <div class="card">
@@ -108,7 +108,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="fs-14 mb-1">
-                                                    TERMIN {{$h->termin}} | @{{$h->by}}
+                                                    TERMIN {{$h->termin}} | @ {{$h->by}}
                                                 </h6>
                                                 <small class="text-muted">
                                                     {{ \Carbon\Carbon::parse($h->at)->diffForHumans() }} - {{ \Carbon\Carbon::parse($h->at)->format('d M Y H:i') }}
@@ -120,15 +120,40 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                 </div>
                                 <div id="his{{$h->termin}}" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                     <div class="accordion-body ms-2 ps-5 fst-italic">
-                                        Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak
+                                        {{$h->catatan}}
                                         <div class="row mt-2">
                                             <div class="col-xxl-6">
                                                 <div class="row border border-dashed gx-2 p-2">
-                                                    <div class="col-3">
-                                                        <img src="/assets/images/small/img-3.jpg" alt="" class="img-fluid rounded" />
+                                                    @foreach($getDokumentTermin as $doc)
+                                                    @if($doc->id_df == $header->id && $doc->termin == $h->termin)
+                                                    @php
+                                                    $fileData = json_decode($doc->file_name, true);
+                                                    $randomName = $fileData['random_name'] ?? null;
+                                                    $originalName = $fileData['original_name'] ?? 'file';
+                                                    $fileExtension = pathinfo($randomName, PATHINFO_EXTENSION);
+                                                    $fileUrl = asset('assets/upload/termin/' . $randomName);
+                                                    @endphp
+
+                                                    @if ($randomName)
+                                                    <div class="col-3 text-center">
+                                                        @if(in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png']))
+                                                        <img src="{{ $fileUrl }}" alt="{{ $originalName }}" class="img-fluid rounded mb-2" style="max-height: 150px;" />
+                                                        @else
+                                                        <div class="mb-2">
+                                                            <i class="bi bi-file-earmark-text fs-1 text-secondary"></i>
+                                                            <p class="small text-muted">{{ strtoupper($fileExtension) }} File</p>
+                                                        </div>
+                                                        @endif
+
+                                                        <a href="{{ $fileUrl }}" download="{{ $originalName }}" class="btn btn-sm btn-outline-primary">
+                                                            <i class="bi bi-download"></i> Download
+                                                        </a>
                                                     </div>
-                                                    <!--end col-->
+                                                    @endif
+                                                    @endif
+                                                    @endforeach
                                                 </div>
+
                                                 <!--end row-->
                                             </div>
                                         </div>
