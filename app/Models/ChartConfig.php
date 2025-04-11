@@ -67,8 +67,8 @@ class ChartConfig extends Model
                         ]
                     ],
                     'data' => [
-                        ['id' => 'nominal', 'val' => 'nominal', 'opration' => ['SUM', 'MAX', 'MIN', 'AVERAGE', 'COUNT']],
-                        ['id' => 'jumlah_ransaksi', 'val' => 'Jumlah Transaksi', 'opration' => ['COUNT']]
+                        ['id' => 'nominal', 'val' => 'nominal', 'opration' => [ 'AVERAGE', 'COUNT']],
+                        ['id' => 'jumlah_ransaksi', 'val' => 'Jumlah Transaksi', 'opration' => ['COUNT', 'COUNT', 'COUNT']]
                     ]
                 ]
             ]
