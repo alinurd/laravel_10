@@ -40,9 +40,18 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                 <a class="nav-link active" data-bs-toggle="tab" href="#history" role="tab">History</a>
                             </li>
                             @if($arrTermin)
-                            @foreach($arrTermin as $termin)
+                            @foreach($arrTermin as $i => $termin)
                             <li class="nav-item">
-                                <a class="nav-link" data-bs-toggle="tab" href="#termin{{$termin->termin}}" role="tab">Termin {{$termin->termin}}</a>
+                                <a class="nav-link "
+                                    data-bs-toggle="tab"
+                                    data-sts="{{ $header['status'] }}"
+                                    data-kode="{{ $header['kode'] }}"
+                                    data-termin="{{ $termin->termin }}"
+                                    data-nominal="{{ $termin->nominal }}"
+                                    href="#termin{{ $termin->termin }}"
+                                    role="tab">
+                                    Termin {{ $termin->termin }}
+                                </a>
                             </li>
                             @endforeach
                             @endif
@@ -79,17 +88,18 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                 </div>
 
 
+                <!-- history -->
+
                 <div class="tab-pane active" id="history" role="tabpanel">
                     <div class="profile-timeline">
                         <div class="text-muted" style="padding-left: 20px;padding-top: 15px;"><u>History pembayaran Termin</u></div>
-
                         <div class="accordion accordion-flush" id="historyExample">
                             <div class="accordion-item border-0">
                                 <div class="accordion-header" id="heading8">
                                     <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapse812" aria-expanded="true">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 avatar-xs">
-                                            <div class="avatar-title bg-light text-success rounded-circle">
+                                                <div class="avatar-title bg-light text-success rounded-circle">
                                                     <i class="ri-bookmark-3-fill"></i>
                                                 </div>
                                             </div>
@@ -120,51 +130,16 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                 </div>
                             </div>
                         </div>
-                        <div class="accordion accordion-flush" id="historyExample">
-                            <div class="accordion-item border-0">
-                                <div class="accordion-header" id="heading8">
-                                    <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapse8" aria-expanded="true">
-                                        <div class="d-flex">
-                                            <div class="flex-shrink-0 avatar-xs">
-                                            <div class="avatar-title bg-light text-success rounded-circle">
-                                                    <i class="ri-bookmark-3-fill"></i>
-                                                </div>
-                                            </div>
-                                            <div class="flex-grow-1 ms-3">
-                                                <h6 class="fs-14 mb-1">
-                                                    TERMIN 2 | @admin
-                                                </h6>
-                                                <small class="text-muted">54 hari yang lalu - 14 mei 2025 10:58:19 </small>
-                                            </div>
-                                        </div>
-                                    </a>
-                                </div>
-                                <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body ms-2 ps-5 fst-italic">
-                                        Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak
-                                        <div class="row mt-2">
-                                            <div class="col-xxl-6">
-                                                <div class="row border border-dashed gx-2 p-2">
-                                                    <div class="col-3">
-                                                        <img src="/assets/images/small/img-3.jpg" alt="" class="img-fluid rounded" />
-                                                    </div>
-                                                    <!--end col-->
-                                                </div>
-                                                <!--end row-->
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <!--end accordion-->
                     </div>
                 </div>
 
-                <div class="tab-pane " id="termin1" role="tabpanel">
+                @foreach($arrTermin as $i => $termin)
+                <div class="tab-pane fade {{ $i == 0 ? 'show  ' : '' }}" id="termin{{ $termin->termin }}" role="tabpanel">
+
                     <div class="profile-timeline">
                         <div class="accordion accordion-flush" id="monthlyExample">
-                            <div id="collapse11" class="accordion-collapse collapse show align-items-center" aria-labelledby="heading11" data-bs-parent="#accordionExample">
+                            <div id="collapse{{ $termin->termin }}" class="accordion-collapse collapse show align-items-center">
                                 <div class="accordion-body px-4">
 
                                     {{-- Informasi Termin --}}
@@ -172,18 +147,14 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         <div class="col-auto">
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Termin</small>
-                                                <h4 class="mb-0">
-                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-dark">Termin 1</a>
-                                                </h4>
+                                                <h4 class="mb-0">Termin {{ $termin->termin }}</h4>
                                             </div>
                                         </div>
 
                                         <div class="col-auto">
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Nominal</small>
-                                                <h4 class="mb-0">
-                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-dark">Rp. 1.333</a>
-                                                </h4>
+                                                <h4 class="mb-0">Rp. {{ number_format((float) str_replace(',', '.', $termin->nominal), 2, ',', '.') }}</h4>
                                             </div>
                                         </div>
 
@@ -191,8 +162,17 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Status</small>
                                                 <h4 class="mb-0">
-                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success"><i class="ri-bookmark-3-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Terbayar"
-                                                            style="color: darkgreen; font-size: 24px;"></i><br>Terbayar</a>
+                                                    @if($header['status'] == 1)
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success">
+                                                        <i class="ri-bookmark-3-line" style="font-size: 24px;" data-bs-toggle="tooltip" title="Terbayar"></i><br>
+                                                        Terbayar
+                                                    </a>
+                                                    @else
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-muted">
+                                                        <i class="ri-bookmark-3-line" style="font-size: 24px;" data-bs-toggle="tooltip" title="Belum Dibayar"></i><br>
+                                                        Belum Dibayar
+                                                    </a>
+                                                    @endif
                                                 </h4>
                                             </div>
                                         </div>
@@ -202,26 +182,27 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                     <div class="row g-3 justify-content-center">
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
-                                                <label for="catatan" class="form-label">Catatan Tambahan</label>
-                                                <textarea id="catatan" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
+                                                <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
+                                                <textarea id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
-                                                <label for="upload" class="form-label">Upload Dokumen</label>
-                                                <input type="file" id="upload" class="form-control" multiple>
-                                                <div id="preview" class="mt-3 d-flex gap-2 flex-wrap"></div>
+                                                <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
+                                                <input type="file" id="upload{{ $termin->termin }}" class="form-control" multiple>
+                                                <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap"></div>
                                             </div>
                                         </div>
-                                        <span class="btn btn-sm btn-primary   top-0 end-0"> Update Status Termin</span>
-
+                                        <div class="text-end">
+                                            <button class="btn btn-sm btn-primary">Update Status Termin</button>
+                                        </div>
                                     </div>
-
-                                </div> {{-- end accordion-body --}}
+                                </div>
                             </div>
                         </div> {{-- end accordion --}}
                     </div>
                 </div>
+                @endforeach
 
             </div>
         </div><!-- end card body -->
