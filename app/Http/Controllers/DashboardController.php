@@ -39,7 +39,6 @@ class DashboardController extends Controller
       {
        $ChartConfig=ChartConfig::where('kelompok', 'kategori')->get();
        foreach($ChartConfig as $config){
-
        }
 
 
