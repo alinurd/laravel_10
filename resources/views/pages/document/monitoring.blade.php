@@ -189,11 +189,13 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
                                                 <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
-                                                <input type="file" id="upload{{ $termin->termin }}" class="form-control" multiple>
-                                                <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap"></div>
+                                                <input type="file" class="form-control upload-file" data-preview="preview{{ $termin->termin }}" multiple>
+<div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
+
+ 
                                             </div>
                                         </div>
-                                        <div class="text-end">
+                                        <div class="text-center">
                                             <button class="btn btn-sm btn-primary">Update Status Termin</button>
                                         </div>
                                     </div>
@@ -213,18 +215,17 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 </div> <!-- END TERMIN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <script>
-    document.addEventListener('DOMContentLoaded', () => {
-        const uploadInput = document.getElementById('upload');
-        const preview = document.getElementById('preview');
-        let selectedFiles = [];
+document.addEventListener('DOMContentLoaded', () => {
+    const uploadInputs = document.querySelectorAll('.upload-file');
 
-        uploadInput.addEventListener('change', () => {
-            selectedFiles = Array.from(uploadInput.files); // simpan ke array
-            showPreview();
-        });
+    uploadInputs.forEach((input) => {
+        input.addEventListener('change', function () {
+            const previewId = this.dataset.preview;
+            const preview = document.getElementById(previewId);
+            const selectedFiles = Array.from(this.files);
 
-        function showPreview() {
-            preview.innerHTML = '';
+            preview.innerHTML = ''; // clear preview area
+
             selectedFiles.forEach((file, index) => {
                 const reader = new FileReader();
                 reader.onload = (e) => {
@@ -239,24 +240,17 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                     removeBtn.type = 'button';
                     removeBtn.onclick = () => {
                         selectedFiles.splice(index, 1);
-                        showPreview();
+                        showPreview(selectedFiles, preview);
                     };
 
                     let content;
                     if (file.type.startsWith('image/')) {
                         content = document.createElement('img');
                         content.src = e.target.result;
-                        content.className = 'img-thumbnail';
-                        content.style.width = '100%';
-                        content.style.height = '80px';
-                        content.style.objectFit = 'cover';
+                        content.className = 'img-fluid rounded';
                     } else {
                         content = document.createElement('div');
-                        content.className = 'text-center';
-                        content.innerHTML = `
-                        <i class="bi bi-file-earmark-text" style="font-size: 2rem;"></i>
-                        <div class="small">${file.name}</div>
-                    `;
+                        content.innerText = file.name;
                     }
 
                     wrapper.appendChild(removeBtn);
@@ -265,10 +259,48 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                 };
                 reader.readAsDataURL(file);
             });
-        }
+        });
 
+        function showPreview(files, previewElement) {
+            previewElement.innerHTML = '';
+            files.forEach((file, index) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const wrapper = document.createElement('div');
+                    wrapper.className = 'position-relative border rounded p-1';
+                    wrapper.style.width = '100px';
+
+                    const removeBtn = document.createElement('button');
+                    removeBtn.innerHTML = '&times;';
+                    removeBtn.className = 'btn btn-sm btn-danger position-absolute top-0 end-0';
+                    removeBtn.style.zIndex = '10';
+                    removeBtn.type = 'button';
+                    removeBtn.onclick = () => {
+                        files.splice(index, 1);
+                        showPreview(files, previewElement);
+                    };
+
+                    let content;
+                    if (file.type.startsWith('image/')) {
+                        content = document.createElement('img');
+                        content.src = e.target.result;
+                        content.className = 'img-fluid rounded';
+                    } else {
+                        content = document.createElement('div');
+                        content.innerText = file.name;
+                    }
+
+                    wrapper.appendChild(removeBtn);
+                    wrapper.appendChild(content);
+                    previewElement.appendChild(wrapper);
+                };
+                reader.readAsDataURL(file);
+            });
+        }
     });
+});
 </script>
+
 
 
 @endsection
