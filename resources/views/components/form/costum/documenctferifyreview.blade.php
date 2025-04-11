@@ -4,21 +4,39 @@ if(isset($costum['header'])){
 $arrTermin=json_decode($costum['header']['termin']);
 }
 $couTermin=count($arrTermin);
-$ttlNominalTermin = collect($arrTermin)->sum(function($item) {
-// Ubah "20.300.000,50" => "20300000.50"
-$nominal = str_replace(',', '.', str_replace('.', '', $item->nominal));
-// Ubah jadi sen: 20300000.50 * 100 = 2030000050
+$ttlNominalTermin = collect($arrTermin)->sum(function($item) { 
+$nominal = str_replace(',', '.', str_replace('.', '', $item->nominal)); 
 return (int) round(((float) $nominal) * 100);
 });
-
-// Setelah dijumlah, ubah kembali ke rupiah
+ 
 $ttlNominal = $ttlNominalTermin / 100;
 
+
+$paid = 0;
+ 
+foreach ($arrTermin as $item) {
+    if (isset($item->status) && (int)$item->status === 1) {
+        $paid++;
+    }
+}
+
+$percentPaid = $couTermin > 0 ? round(($paid / $couTermin) * 100, 2) : 0;
 @endphp
 
 <div class="card">
   <div class="card-header d-flex justify-content-between">
     <span><strong>Jumlah Termin: {{$couTermin}}</strong></span>
+
+
+    <div class="progress animated-progress custom-progress progress-label w-100 mt-2" style="z-index: 999;">
+                        <div class="progress-bar text-white" role="progressbar"
+                            style="width: {{$percentPaid}}%; background: linear-gradient(to right, red, green);"
+                            aria-valuenow="{{$percentPaid}}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="label">{{$percentPaid}}%</div>
+                        </div>
+                    </div>
+
+
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTermin" aria-expanded="false" aria-controls="collapseTermin">
       <i class="ri-arrow-down-s-line"></i>
     </button>
