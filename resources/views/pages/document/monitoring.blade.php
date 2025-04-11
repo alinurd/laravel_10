@@ -178,25 +178,27 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         </div>
                                     </div>
                                     {{-- Textarea & File Upload --}}
-                                    <div class="row g-3 justify-content-center">
+                                    <form action="{{ route('update.termin') }}" method="POST" enctype="multipart/form-data">                                    <div class="row g-3 justify-content-center">
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
                                                 <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
-                                                <textarea id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
+                                                <input type="text" name="id" value="{{$termin->termin}}">
+                                                <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
                                                 <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
-                                                <input type="file" class="form-control upload-file" data-preview="preview{{ $termin->termin }}" multiple>
+                                                <input type="file" class="form-control upload-file" name="file" data-preview="preview{{ $termin->termin }}" multiple>
                                                 <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
 
                                             </div>
                                         </div>
                                         <!-- <div class="text-center"> -->
-                                        <button class="btn   btn-primary">Update Status Termin {{ $termin->termin }}</button>
+                                        <button class="btn   btn-primary" id="btn-simpan">Update Status Termin {{ $termin->termin }}</button>
                                         <!-- </div> -->
                                     </div>
+                                </form>
                                 </div>
                             </div>
                         </div> {{-- end accordion --}}
@@ -213,7 +215,22 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 </div> <!-- END TERMIN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <script>
+
+
+
+
+
     document.addEventListener('DOMContentLoaded', () => {
+
+        function getDataForm() {
+      const config = {
+        judul: document.getElementById('judul').value, 
+       }; 
+      return config;
+    }
+
+
+
         const uploadInputs = document.querySelectorAll('.upload-file');
 
         uploadInputs.forEach((input) => {

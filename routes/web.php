@@ -118,6 +118,10 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
     Route::get('/monitoring-termin/{kode}/{terminid}', [DocumenctferifyReviewController::class, 'termin'])->name('fre.builder');
+
+    Route::post('/update-termin', [TerminController::class, 'updateTermin'])->name('update.termin');
+
 // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
+
  
 });
