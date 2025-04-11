@@ -35,10 +35,10 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 
                     <div class="ms-auto mt-2">
                         <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-                            
+
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#history" role="tab">History</a>
-                            </li> 
+                            </li>
                             @if($arrTermin)
                             @foreach($arrTermin as $termin)
                             <li class="nav-item">
@@ -50,10 +50,10 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                     </div>
                 </div>
             </div>
-        </div> 
+        </div>
         <div class="card-body">
-            <div class="tab-content text-muted"> 
-            <div class="accordion accordion-flush" id="todayExample">
+            <div class="tab-content text-muted">
+                <div class="accordion accordion-flush" id="todayExample">
                     <div class="accordion-item border-0">
                         <div class="accordion-header" id="headingOne">
                             <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapseOne" aria-expanded="true">
@@ -78,34 +78,33 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                     </div>
                 </div>
 
-                
+
                 <div class="tab-pane active" id="history" role="tabpanel">
                     <div class="profile-timeline">
+                        <div class="text-muted" style="padding-left: 20px;padding-top: 15px;"><u>History pembayaran Termin</u></div>
+
                         <div class="accordion accordion-flush" id="historyExample">
-                        <div class="accordion-item border-0">
+                            <div class="accordion-item border-0">
                                 <div class="accordion-header" id="heading8">
-                                    <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapse8" aria-expanded="true">
+                                    <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapse812" aria-expanded="true">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 avatar-xs">
-                                                <div class="avatar-title bg-light text-success rounded-circle">
-                                                    <i class="ri-home-3-line"></i>
+                                            <div class="avatar-title bg-light text-success rounded-circle">
+                                                    <i class="ri-bookmark-3-fill"></i>
                                                 </div>
                                             </div>
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="fs-14 mb-1">
-                                                    Velzon admin dashboard templates layout upload
+                                                    TERMIN 1 | @admin
                                                 </h6>
-                                                <small class="text-muted">We talked about a project on linkedin - 1 week Ago</small>
+                                                <small class="text-muted">4 hari yang lalu - 14 mei 2025 10:58:19</small>
                                             </div>
                                         </div>
                                     </a>
                                 </div>
-                                <div id="collapse8" class="accordion-collapse collapse show" aria-labelledby="heading8" data-bs-parent="#accordionExample">
+                                <div id="collapse812" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                     <div class="accordion-body ms-2 ps-5 fst-italic">
-                                        Powerful, clean & modern
-                                        responsive bootstrap 5 admin
-                                        template. The maximum file
-                                        size for uploads in this demo :
+                                        Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak
                                         <div class="row mt-2">
                                             <div class="col-xxl-6">
                                                 <div class="row border border-dashed gx-2 p-2">
@@ -113,16 +112,41 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                                         <img src="/assets/images/small/img-3.jpg" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <!--end col-->
+                                                </div>
+                                                <!--end row-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="accordion accordion-flush" id="historyExample">
+                            <div class="accordion-item border-0">
+                                <div class="accordion-header" id="heading8">
+                                    <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapse8" aria-expanded="true">
+                                        <div class="d-flex">
+                                            <div class="flex-shrink-0 avatar-xs">
+                                            <div class="avatar-title bg-light text-success rounded-circle">
+                                                    <i class="ri-bookmark-3-fill"></i>
+                                                </div>
+                                            </div>
+                                            <div class="flex-grow-1 ms-3">
+                                                <h6 class="fs-14 mb-1">
+                                                    TERMIN 2 | @admin
+                                                </h6>
+                                                <small class="text-muted">54 hari yang lalu - 14 mei 2025 10:58:19 </small>
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                                <div id="collapse8" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
+                                    <div class="accordion-body ms-2 ps-5 fst-italic">
+                                        Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak
+                                        <div class="row mt-2">
+                                            <div class="col-xxl-6">
+                                                <div class="row border border-dashed gx-2 p-2">
                                                     <div class="col-3">
-                                                        <img src="/assets/images/small/img-5.jpg" alt="" class="img-fluid rounded" />
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-3">
-                                                        <img src="/assets/images/small/img-7.jpg" alt="" class="img-fluid rounded" />
-                                                    </div>
-                                                    <!--end col-->
-                                                    <div class="col-3">
-                                                        <img src="/assets/images/small/img-9.jpg" alt="" class="img-fluid rounded" />
+                                                        <img src="/assets/images/small/img-3.jpg" alt="" class="img-fluid rounded" />
                                                     </div>
                                                     <!--end col-->
                                                 </div>
@@ -135,7 +159,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                         </div>
                         <!--end accordion-->
                     </div>
-                </div> 
+                </div>
 
                 <div class="tab-pane " id="termin1" role="tabpanel">
                     <div class="profile-timeline">
@@ -167,8 +191,8 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Status</small>
                                                 <h4 class="mb-0">
-                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success"><i class="ri-bookmark-3-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Terbayar" 
-                                                    style="color: darkgreen; font-size: 24px;"></i><br>Terbayar</a>
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success"><i class="ri-bookmark-3-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Terbayar"
+                                                            style="color: darkgreen; font-size: 24px;"></i><br>Terbayar</a>
                                                 </h4>
                                             </div>
                                         </div>
