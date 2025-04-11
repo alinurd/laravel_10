@@ -95,24 +95,30 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                         <div class="text-muted" style="padding-left: 20px;padding-top: 15px;"><u>History pembayaran Termin</u></div>
                         <div class="accordion accordion-flush" id="historyExample">
                             <div class="accordion-item border-0">
+                                @foreach($arrTermin as $h)
+                                @if(isset($h->status))
                                 <div class="accordion-header" id="heading8">
-                                    <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#collapse812" aria-expanded="true">
+                                    <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#his{{$h->termin}}" aria-expanded="true">
                                         <div class="d-flex">
                                             <div class="flex-shrink-0 avatar-xs">
                                                 <div class="avatar-title bg-light text-success rounded-circle">
                                                     <i class="ri-bookmark-3-fill"></i>
                                                 </div>
                                             </div>
+
                                             <div class="flex-grow-1 ms-3">
                                                 <h6 class="fs-14 mb-1">
-                                                    TERMIN 1 | @admin
+                                                    TERMIN {{$h->termin}} | @{{$h->by}}
                                                 </h6>
-                                                <small class="text-muted">4 hari yang lalu - 14 mei 2025 10:58:19</small>
+                                                <small class="text-muted">
+                                                    {{ \Carbon\Carbon::parse($h->at)->diffForHumans() }} - {{ \Carbon\Carbon::parse($h->at)->format('d M Y H:i') }}
+                                                </small>
                                             </div>
+
                                         </div>
                                     </a>
                                 </div>
-                                <div id="collapse812" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
+                                <div id="his{{$h->termin}}" class="accordion-collapse collapse" aria-labelledby="heading8" data-bs-parent="#accordionExample">
                                     <div class="accordion-body ms-2 ps-5 fst-italic">
                                         Lorem ipsum, atau ringkasnya lipsum, adalah teks standar yang ditempatkan untuk mendemostrasikan elemen grafis atau presentasi visual seperti font, tipografi, dan tata letak
                                         <div class="row mt-2">
@@ -128,6 +134,8 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         </div>
                                     </div>
                                 </div>
+                                @endif
+                                @endforeach
                             </div>
                         </div>
                         <!--end accordion-->
@@ -177,31 +185,31 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         </div>
                                     </div>
                                     {{-- Textarea & File Upload --}}
-                                    <form action="{{ route('free.termin') }}" method="POST" enctype="multipart/form-data"> 
-                                    @csrf
-                                                                       <div class="row g-3 justify-content-center">
-                                        <div class="col-md-6">
-                                            <div class="border border-dashed p-3 rounded">
-                                                <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
-                                                <input type="text" name="termin" value="{{$termin->termin}}">
-                                                <input type="text" name="id" value="{{$header['id']}}">
-                                                <input type="text" name="kode" value="{{$header['kode']}}">
-                                                <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini...">{{ $termin->catatan ?? 'Tidak ada catatan' }}</textarea>
+                                    <form action="{{ route('free.termin') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <div class="row g-3 justify-content-center">
+                                            <div class="col-md-6">
+                                                <div class="border border-dashed p-3 rounded">
+                                                    <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
+                                                    <input type="text" name="termin" value="{{$termin->termin}}">
+                                                    <input type="text" name="id" value="{{$header['id']}}">
+                                                    <input type="text" name="kode" value="{{$header['kode']}}">
+                                                    <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini...">{{ $termin->catatan ?? 'Tidak ada catatan' }}</textarea>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="border border-dashed p-3 rounded">
-                                                <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
-                                                <input type="file" class="form-control upload-file" name="file[]" data-preview="preview{{ $termin->termin }}" multiple>
-                                                <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
+                                            <div class="col-md-6">
+                                                <div class="border border-dashed p-3 rounded">
+                                                    <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
+                                                    <input type="file" class="form-control upload-file" name="file[]" data-preview="preview{{ $termin->termin }}" multiple>
+                                                    <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
 
+                                                </div>
                                             </div>
+                                            <!-- <div class="text-center"> -->
+                                            <button class="btn   btn-primary" id="btn-simpan">Update Status Termin {{ $termin->termin }}</button>
+                                            <!-- </div> -->
                                         </div>
-                                        <!-- <div class="text-center"> -->
-                                        <button class="btn   btn-primary" id="btn-simpan">Update Status Termin {{ $termin->termin }}</button>
-                                        <!-- </div> -->
-                                    </div>
-                                </form>
+                                    </form>
                                 </div>
                             </div>
                         </div> {{-- end accordion --}}
@@ -218,19 +226,14 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 </div> <!-- END TERMIN -->
 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
 <script>
-
-
-
-
-
     document.addEventListener('DOMContentLoaded', () => {
 
         function getDataForm() {
-      const config = {
-        judul: document.getElementById('judul').value, 
-       }; 
-      return config;
-    }
+            const config = {
+                judul: document.getElementById('judul').value,
+            };
+            return config;
+        }
 
 
 
