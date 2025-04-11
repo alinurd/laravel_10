@@ -15,27 +15,44 @@ if(isset($header['termin'])){
 $arrTermin=json_decode($header['termin']);
 }
 $couTermin=count($arrTermin);
-$ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
 
+
+$paid = 0;
+ 
+foreach ($arrTermin as $item) {
+    if (isset($item->status) && (int)$item->status === 1) {
+        $paid++;
+    }
+}
+
+$percentPaid = $couTermin > 0 ? round(($paid / $couTermin) * 100, 2) : 0;
+
+
+$ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
+  
 @endphp
 <div class="card">
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
+            <div class="text-end">
+            <a class="btn btn-outline-secondary" href="{{ url('documenctferifyreview/' . $header->id) }}" role="tab">
+        <i class="bi bi-arrow-left"></i> Kembali ke DFR
+    </a>
+            </div>
                 <div class="card-header align-items-center d-flex flex-column align-items-start">
                     <h5 class="card-title">Activity {{$couTermin}} Termin</h5>
                     <div class="progress animated-progress custom-progress progress-label w-100 mt-2" style="z-index: 999;">
                         <div class="progress-bar text-white" role="progressbar"
-                            style="width: 10%; background: linear-gradient(to right, red, green);"
-                            aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">
-                            <div class="label">30%</div>
+                            style="width: {{$percentPaid}}%; background: linear-gradient(to right, red, green);"
+                            aria-valuenow="{{$percentPaid}}" aria-valuemin="0" aria-valuemax="100">
+                            <div class="label">{{$percentPaid}}%</div>
                         </div>
                     </div>
 
 
                     <div class="ms-auto mt-2">
                         <ul class="nav justify-content-end nav-tabs-custom rounded card-header-tabs border-bottom-0" role="tablist">
-
                             <li class="nav-item">
                                 <a class="nav-link active" data-bs-toggle="tab" href="#history" role="tab">History</a>
                             </li>
@@ -54,7 +71,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                 </a>
                             </li>
                             @endforeach
-                            @endif
+                            @endif 
                         </ul>
                     </div>
                 </div>
