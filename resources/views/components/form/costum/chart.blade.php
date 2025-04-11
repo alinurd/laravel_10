@@ -142,7 +142,7 @@
  <div class="row mb-4">
    <div class="col-md-3">
      <span>Module</span>
-     <select class="form-select" id="modueSelector">
+     <select class="form-select select2" id="modueSelector">
        <option selected disabled>Pilih Module</option>
        @foreach($chartGenerate as $k => $items)
        <option value="{{ $k }}">{{ strtoupper($k) }}</option>
@@ -151,14 +151,14 @@
    </div>
    <div class="col-md-3">
      <span>Kelompok</span>
-     <select class="form-select" id="kelompokSelector">
+     <select class="form-select select2" id="kelompokSelector">
        <option selected disabled>Pilih Kelompok</option>
      </select>
    </div>
    <div class="col-md-3">
      <span>Data</span>
 
-     <select class="form-select" id="dataSelector">
+     <select class="form-select select2" id="dataSelector">
        <option selected disabled>Pilih Data</option>
        @foreach($data as $item)
        <option value="{{ $item['id'] }}">{{ strtoupper($item['val']) }}</option>
@@ -168,7 +168,7 @@
    <div class="col-md-3">
      <span>Opration</span>
 
-     <select class="form-select" id="dataLabelSelector">
+     <select class="form-select select2" id="dataLabelSelector">
        <option selected disabled>Pilih Operasi dari data</option>
      </select>
    </div>
@@ -188,7 +188,7 @@
      <tbody id="chartAdd">
        <tr>
          <td>
-           <select class="form-select label-select">
+           <select class="form-select select2 label-select">
              <option selected disabled>Pilih label dari kelompok</option>
            </select>
          </td>
