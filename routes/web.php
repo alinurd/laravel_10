@@ -28,6 +28,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\ChartdinamisController;
 use App\Http\Controllers\ChartdetailController;
+use App\Http\Controllers\TerminController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -119,7 +120,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     
     Route::get('/monitoring-termin/{kode}/{terminid}', [DocumenctferifyReviewController::class, 'termin'])->name('fre.builder');
 
-    Route::post('/update-termin', [TerminController::class, 'updateTermin'])->name('update.termin');
+    Route::post('/update-termin', [TerminController::class, 'updateTermin'])->name('free.termin');
 
 // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
 

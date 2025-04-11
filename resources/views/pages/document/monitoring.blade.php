@@ -44,7 +44,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                             <li class="nav-item">
                                 <a class="nav-link "
                                     data-bs-toggle="tab"
-                                    data-sts="{{ $header['status'] }}"
+                                    data-sts="{{ $termin->status ?? 0 }}"
                                     data-kode="{{ $header['kode'] }}"
                                     data-termin="{{ $termin->termin }}"
                                     data-nominal="{{ $termin->nominal }}"
@@ -157,12 +157,11 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                                 <h4 class="mb-0">Rp. {{ number_format((float) str_replace(',', '.', $termin->nominal), 2, ',', '.') }}</h4>
                                             </div>
                                         </div>
-
                                         <div class="col-auto">
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Status</small>
                                                 <h4 class="mb-0">
-                                                    @if($header['status'] == 1)
+                                                    @if(isset($termin->status))
                                                     <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success">
                                                         <i class="ri-bookmark-3-line" style="font-size: 24px;" data-bs-toggle="tooltip" title="Terbayar"></i><br>
                                                         Terbayar
@@ -178,18 +177,22 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                         </div>
                                     </div>
                                     {{-- Textarea & File Upload --}}
-                                    <form action="{{ route('update.termin') }}" method="POST" enctype="multipart/form-data">                                    <div class="row g-3 justify-content-center">
+                                    <form action="{{ route('free.termin') }}" method="POST" enctype="multipart/form-data"> 
+                                    @csrf
+                                                                       <div class="row g-3 justify-content-center">
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
                                                 <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
-                                                <input type="text" name="id" value="{{$termin->termin}}">
-                                                <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini..."></textarea>
+                                                <input type="hidden" name="termin" value="{{$termin->termin}}">
+                                                <input type="hidden" name="id" value="{{$header['id']}}">
+                                                <input type="hidden" name="kode" value="{{$header['kode']}}">
+                                                <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini...">{{ $termin->catatan ?? 'Tidak ada catatan' }}</textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="border border-dashed p-3 rounded">
                                                 <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
-                                                <input type="file" class="form-control upload-file" name="file" data-preview="preview{{ $termin->termin }}" multiple>
+                                                <input type="file" class="form-control upload-file" name="file[]" data-preview="preview{{ $termin->termin }}" multiple>
                                                 <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
 
                                             </div>

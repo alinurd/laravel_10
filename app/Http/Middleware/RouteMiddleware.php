@@ -73,7 +73,7 @@ public function handle($request, Closure $next)
                                 break;  
                             }
                         }
-                        // dd($type);
+                        dd($type);
                          $GroupsName = Groups::where('id', $groupUser->group_id)->first();                        
                         if($GroupsName->name=="Administrator" && $type=="updateStatus" || $type=="updateTree" || $type=="updateOrder" || $type=="updateDov" || $type=="free"){
                             $filteredPermissions = true;
