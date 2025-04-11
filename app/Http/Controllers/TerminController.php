@@ -116,10 +116,8 @@ class TerminController extends Controller
                     ]);
                 }
             }
-        
-        dd($fieldData);
-        dd($request->hasFile('file'));
+         
 
-        // return back()->with('success', 'Status termin berhasil diperbarui!');
+        return back()->with('success', 'Status termin berhasil diperbarui!');
     }
 }
