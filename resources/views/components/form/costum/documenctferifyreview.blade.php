@@ -60,7 +60,7 @@ $percentPaid = $couTermin > 0 ? round(($paid / $couTermin) * 100, 2) : 0;
           <td>
             <div class="d-flex justify-content-between align-items-center">
               <span>Termin {{ $termin->termin }}</span>
-              @if($termin->termin==1)
+              @if(isset($termin->status)&& $termin->status==1)
               <i class="ri-bookmark-3-line" data-bs-toggle="tooltip" data-bs-placement="top" title="Terbayar"
                 style="color: darkgreen; font-size: 24px;"></i>
                 @endif

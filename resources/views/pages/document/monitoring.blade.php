@@ -113,7 +113,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                         <div class="accordion accordion-flush" id="historyExample">
                             <div class="accordion-item border-0">
                                 @foreach($arrTermin as $h)
-                                @if(isset($h->status))
+                                @if(isset($h->status)&& $h->status==1)
                                 <div class="accordion-header" id="heading8">
                                     <a class="accordion-button p-2 shadow-none" data-bs-toggle="collapse" href="#his{{$h->termin}}" aria-expanded="true">
                                         <div class="d-flex">
@@ -211,7 +211,7 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                             <div class="d-flex flex-column border border-dashed p-3 rounded text-center">
                                                 <small class="text-muted">Status</small>
                                                 <h4 class="mb-0">
-                                                    @if(isset($termin->status))
+                                                @if(isset($termin->status)&& $termin->status==1)
                                                     <a href="javascript:void(0);" class="stretched-link text-decoration-none text-success">
                                                         <i class="ri-bookmark-3-line" style="font-size: 24px;" data-bs-toggle="tooltip" title="Terbayar"></i><br>
                                                         Terbayar
