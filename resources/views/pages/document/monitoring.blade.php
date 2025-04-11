@@ -217,8 +217,8 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                                         Terbayar
                                                     </a>
                                                     @else
-                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-muted">
-                                                        <i class="ri-bookmark-3-line" style="font-size: 24px;" data-bs-toggle="tooltip" title="Belum Dibayar"></i><br>
+                                                    <a href="javascript:void(0);" class="stretched-link text-decoration-none text-warning">
+                                                        <i class="ri-error-warning-line" style="font-size: 24px;" data-bs-toggle="tooltip" title="Belum Dibayar"></i><br>
                                                         Belum Dibayar
                                                     </a>
                                                     @endif
@@ -233,18 +233,55 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                             <div class="col-md-6">
                                                 <div class="border border-dashed p-3 rounded">
                                                     <label for="catatan{{ $termin->termin }}" class="form-label">Catatan Tambahan</label>
-                                                    <input type="text" name="termin" value="{{$termin->termin}}">
-                                                    <input type="text" name="id" value="{{$header['id']}}">
-                                                    <input type="text" name="kode" value="{{$header['kode']}}">
-                                                    <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini...">{{ $termin->catatan ?? 'Tidak ada catatan' }}</textarea>
+                                                    <input type="hidden" name="termin" value="{{$termin->termin}}">
+                                                    <input type="hidden" name="id" value="{{$header['id']}}">
+                                                    <input type="hidden" name="kode" value="{{$header['kode']}}">
+                                                    <textarea name="catatan" id="catatan{{ $termin->termin }}" class="form-control" rows="3" placeholder="Tulis catatan di sini..."@if(isset($termin->status) && $termin->status==1) readonly @endif>{{ $termin->catatan ?? 'Tidak ada catatan' }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="border border-dashed p-3 rounded">
+                                                <label for="upload{{ $termin->termin }}" class="form-label">
+    {{ (isset($termin->status) && $termin->status == 1) ? 'Dokument' : 'Upload Dokument' }}
+</label>
+
+                                                    @if(isset($termin->status)) 
+                                                    <div class="row border border-dashed gx-2 p-2">
+                                                    @foreach($getDokumentTermin as $doc)
+                                                    @if($doc->id_df == $header->id && $doc->termin == $termin->termin)
+                                                    @php
+                                                    $fileData = json_decode($doc->file_name, true);
+                                                    $randomName = $fileData['random_name'] ?? null;
+                                                    $originalName = $fileData['original_name'] ?? 'file';
+                                                    $fileExtension = pathinfo($randomName, PATHINFO_EXTENSION);
+                                                    $fileUrl = asset('assets/upload/termin/' . $randomName);
+                                                    @endphp
+                                                    @if ($randomName)
+                                                    <div class="col-3 text-center">
+                                                        @if(in_array(strtolower($fileExtension), ['jpg', 'jpeg', 'png']))
+                                                        <img src="{{ $fileUrl }}" alt="{{ $originalName }}" class="img-fluid rounded mb-2" style="max-height: 150px;" />
+                                                        <span>{{ $originalName }}</span>
+                                                        @else
+                                                        <div class="mb-2">
+                                                            <i class="bi bi-file-earmark-text fs-1 text-secondary"></i>
+                                                            <p class="small text-muted">{{ strtoupper($fileExtension) }} File</p>
+                                                        </div>
+                                                        @endif 
+                                                        <a href="{{ $fileUrl }}" download="{{ $originalName }}" class="btn btn-sm btn-outline-primary">
+                                                            <i class="bi bi-download"></i> Download
+                                                        </a>
+                                                    </div>
+                                                    @endif
+                                                    @endif
+                                                    @endforeach
+                                                </div>
+                                                @else
+
+
                                                     <label for="upload{{ $termin->termin }}" class="form-label">Upload Dokumen</label>
                                                     <input type="file" class="form-control upload-file" name="file[]" data-preview="preview{{ $termin->termin }}" multiple>
                                                     <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
-
+                                                    @endif
                                                 </div>
                                             </div>
                                             <!-- <div class="text-center"> -->
