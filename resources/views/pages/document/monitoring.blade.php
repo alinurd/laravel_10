@@ -177,7 +177,6 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                             </div>
                                         </div>
                                     </div>
-
                                     {{-- Textarea & File Upload --}}
                                     <div class="row g-3 justify-content-center">
                                         <div class="col-md-6">
@@ -192,12 +191,11 @@ $ttlNominalTermin = collect($arrTermin)->sum(fn($item) => (int) $item->nominal);
                                                 <input type="file" class="form-control upload-file" data-preview="preview{{ $termin->termin }}" multiple>
 <div id="preview{{ $termin->termin }}" class="mt-3 d-flex gap-2 flex-wrap preview-area"></div>
 
- 
                                             </div>
                                         </div>
-                                        <div class="text-center">
-                                            <button class="btn btn-sm btn-primary">Update Status Termin</button>
-                                        </div>
+                                        <!-- <div class="text-center"> -->
+                                            <button class="btn   btn-primary">Update Status Termin {{ $termin->termin }}</button>
+                                        <!-- </div> -->
                                     </div>
                                 </div>
                             </div>
