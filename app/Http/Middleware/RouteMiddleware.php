@@ -74,8 +74,9 @@ public function handle($request, Closure $next)
                             }
                         } 
                         // dd($type);
-                         $GroupsName = Groups::where('id', $groupUser->group_id)->first();                        
-                        if($GroupsName->name=="Administrator" && $type=="updateStatus" || $type=="updateTree" || $type=="updateOrder" || $type=="updateDov"|| $type=="builder"){
+                         $GroupsName = Groups::where('id', $groupUser->group_id)->first();keuangan
+                        if($GroupsName->name=="Administrator" && $type=="updateStatus" || $type=="updateTree" || $type=="updateOrder" || $type=="updateDov"|| $type=="builder" | || $type=="free"){
+
                             $filteredPermissions = true;
 
                         }

@@ -30,7 +30,18 @@ class DocumenctferifyReviewController extends _Controller
                 
         $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
-        $this->list = [
+        $this->list = [ [
+            'field' => 'kode',
+            'type' => 'text',
+            'filter' => true,
+            'position' => 'center',
+            'showList' => true,
+            'show' => false,
+            'required' => false,
+            'where' => null,
+            'option' => $cbo_pic,
+            'multiple' => false,
+            ],
             [
                 'field' => 'pic',
                 'type' => 'select',
@@ -125,6 +136,7 @@ class DocumenctferifyReviewController extends _Controller
         $costum=$this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
         // $costum['view']='documenctferifyreview';
         $data['costum'] =$costum ;
+        $data['costum']['header'] = $this->modelMaster::find($id);
 
         return view('pages.index', $data);
     }
@@ -311,6 +323,24 @@ class DocumenctferifyReviewController extends _Controller
     
         // Jika data tidak ditemukan
         // return response()->json(['success' => true, 'message' => 'OK'], 200);
+    }
+
+    /**
+     * Undefined function
+     * 
+     * @return Type Returns data of type Type
+     */
+    public function termin($kode, $terminid)
+    {
+        // $kode = 'DF-1004-25-001-004-43';
+        $bagian = explode('-', $kode);
+        $id = (int) end($bagian); 
+        $header = $this->modelMaster::with('getDetails', 'getDokumentTermin')->find($id);
+        $data=[];   
+        $data['header']=$header;
+        $data['terminid']=$terminid;
+        return view('pages.document.monitoring', $data);
+
     }
     
 }

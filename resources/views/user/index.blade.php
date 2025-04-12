@@ -53,10 +53,10 @@
                 </td>
 
                 <td>
-                    @if (!blank($user->email_verified_at))
+                    @if ($user->verified)
                     <span class="badge badge-soft-success">Verified</span>
                     @else
-                    <span class="badge badge-soft-danger">Not Verified</span>
+                    <span class="badge badge-soft-danger">Non Verified</span>
                     @endif
                 </td>
                 <td>

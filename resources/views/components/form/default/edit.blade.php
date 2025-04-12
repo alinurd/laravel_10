@@ -9,7 +9,12 @@
           <x-dashboard.ActionHeader1 currentRoute="{{$currentRoute}}" mode="edit" />
         </div>
       </div>
-    </div>
+      @if(!empty($field['kode']))
+  <span class="badge rounded-pill bg-info text-light" style="font-size: 15px;">
+    {{ $field['kode'] }}
+  </span> 
+@endif
+     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
         @forelse ($list as $l)

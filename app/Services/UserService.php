@@ -14,11 +14,10 @@ class UserService
 {
       $user = User::create([
       'password' => Hash::make(!blank($request->password) ? $request->password : '$$admin$$'),
-      'verified' => !blank($request->verified) ? 1 : 0, // pastikan ID valid
+      'verified' => (int) !blank($request->verified) ? 1 : 0, // pastikan ID valid
       'name' => $request->name, // pastikan ID valid
       'email' => $request->email, // pastikan ID valid
       'email_verified_at' => now()
-
      ]);
 
         if ($user) {  
@@ -34,6 +33,7 @@ class UserService
 
   public function update(Request $request, User $user): User|bool
   {
+    
   
     $g = Groups::where('name', $request->roles)->firstOrFail();
     if ($g) {
@@ -57,7 +57,9 @@ class UserService
       array(
         'email' => $email,
         'email_verified_at' => now(),
-        'verified' => !blank($request->verified) ? 1 : 0, // pastikan ID valid
+        'verified' => (int) !blank($request->verified),
+
+        // 'verified' => !blank($request->verified) ? 1 : 0, // pastikan ID valid
         'password' => !blank($request->password) ? Hash::make($request->password) : $user->password,
 
       )
