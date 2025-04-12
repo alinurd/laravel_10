@@ -30,7 +30,7 @@ class DashboardController extends Controller
           // Ambil APP_NAME dari config
           $appName = config('app.name'); // Pastikan APP_NAME diset di config/app.php atau di .env
       
-          if ($appName === 'keuangan') {
+          if ($appName === 'Keuangan') {
               $charts = Chart::with('details')
                   ->where('status', 1)
                   ->get();
