@@ -139,13 +139,19 @@ class _Controller extends BaseController
         $finalQuery = vsprintf(str_replace('?', '%s', $sql), $bindings);
      
         $data = $query->select($fields)->get();
-     
-        $dropdown = $data->map(function ($item) use ($fields) {
-            return [
-                'id' => $item->{$fields[0]},
-                'value' => $item->{$fields[1]}
-            ];
-        })->toArray();
+     $dropdown = $data->map(function ($item) use ($fields) {
+    return [
+        'id' => $item->{$fields[0]},
+        'value' => $item->data // Sesuaikan dengan alias yang digunakan
+    ];
+})->toArray();
+
+        // $dropdown = $data->map(function ($item) use ($fields) {
+        //     return [
+        //         'id' => $item->{$fields[0]},
+        //         'value' => $item->{$fields[1]}
+        //     ];
+        // })->toArray();
     
         // Optionally add an empty "Pilih Opsi" option at the top
         if ($includeEmpty) {

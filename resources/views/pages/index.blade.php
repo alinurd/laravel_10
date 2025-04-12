@@ -4,7 +4,7 @@
 @section('dataDetail', isset($dataDetail)??'')
 @section('mode', $mode = $mode ?? 'list')
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
- 
+
 @section('breadcrumb')
 <x-dashboard.breadcrumb title="{{ $page }}" page="{{$parentName}} > {{$title}}" active="{{ __('global.ket_' . $mode) }} " route="" />
 
@@ -78,6 +78,28 @@
                         @endif
                         @elseif($l['input'] == 'rupiah')
                         {{ format_rupiah($f[$l['field']]) }}
+
+                        @elseif($l['type'] == 'file')
+                        @php
+                        $fileData = json_decode($f[$l['field']], true);
+                        @endphp
+
+                        @php
+                        $fileData = json_decode($f[$l['field']], true);
+                        @endphp
+
+                        @php
+                        $fileKosong = empty($fileData['random_name']);
+                        @endphp
+
+                        <span class="btn {{ $fileKosong ? 'btn-warning' : 'btn-primary' }} ShowLampiran"
+                            data-file="{{ $fileData['random_name'] ?? '' }}"
+                            data-original="{{ $fileData['original_name'] ?? '' }}">
+                            {{ $fileData['original_name'] ?? 'Tidak ada file' }}
+                        </span>
+ 
+
+
 
                         @elseif($l['input'] == 'date')
                         {{ format_date($f[$l['field']]) }}

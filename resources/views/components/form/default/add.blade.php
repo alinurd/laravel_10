@@ -1,4 +1,4 @@
-<form action="{{ route($currentRoute . '.store') }}" method="POST">
+<form action="{{ route($currentRoute . '.store') }}" method="POST" enctype="multipart/form-data">
   @csrf
   <div class="card card-height-100 ">
     <!-- cardheader -->
@@ -65,14 +65,24 @@
               name="{{ $l['field'] }}"
               placeholder="{{ $l['label'] }}"
               aria-label="{{ $l['field'] }}"
-              class="form-control rupiah"
+              class="form-control rupiah inputRupiah"
               id="{{ $l['field'] }}"
               @if($l['required']) required @endif
               aria-describedby="{{ $l['field'] }}Help"
               oninput="_formatRupiah(this)">
           </div>
 
-
+          @elseif($l['type'] === 'textarea')
+          <div class="input-group mb-3">
+          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+          aria-describedby="{{ $l['field'] }}Help"></textarea>
+          </div>
+          @elseif($l['type'] === 'json')
+          <div class="input-group mb-3 bg">
+          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+          aria-describedby="{{ $l['field'] }}Help" readonly></textarea>
+          </div>
+ 
           @else
           <input type="{{ $l['type'] }}"
             name="{{ $l['field'] }}"
@@ -92,13 +102,18 @@
         </div>
         @endif
         @empty
-        @endforelse
+        @endforelse 
+       </div>
+        @if(!empty($costum))
+    @if($costum[0] == 'chart')
+        @include('components.form.costum.chart')
+    @else
+        @include('components.form.costum.documenctferify')
+    @endif
+@endif
 
-      </div>
-      @if(isset($costum) && $costum->isNotEmpty())
-      @include('components.form.costum.documenctferify')
-      @else
-      @endif
+ 
+      
     </div>
 </form>
 

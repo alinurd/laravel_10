@@ -33,7 +33,8 @@
   <link rel="stylesheet" href="https://cdn.datatables.net/2.1.8/css/dataTables.dataTables.css" />
   <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-
+<!-- Di dalam section head -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 
 <body>
@@ -144,6 +145,46 @@
   <button onclick="topFunction()" class="btn btn-danger btn-icon" id="back-to-top">
     <i class="ri-arrow-up-line"></i>
   </button>
+
+  <div class="modal fade" id="modalLampiran" tabindex="-1" aria-labelledby="modalLampiranLabel" aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content">
+            <div class="modal-header align-items-center">
+                <h5 class="modal-title mb-0" id="modalLampiranLabel">Lampiran</h5>
+                <div class="ms-auto d-flex align-items-center gap-2">
+                    <a id="downloadFile" href="" target="_blank" class="btn btn-success btn-sm d-none">
+                        Download File
+                    </a>
+                    <button type="button" class="btn btn-danger btn-sm" data-bs-dismiss="modal">
+                        Close
+                    </button>
+                </div>
+            </div>
+
+            <div class="modal-body text-center">
+                <p id="fileName" class="mt-2"></p>
+                <div id="previewFile" class="my-2" style="height: 80vh;"></div>
+                <img id="previewImage" src="" class="img-fluid d-none" alt="Lampiran">
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+  #modalLampiran{
+    z-index: 9999;
+  }
+    #previewFile iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    #previewImage {
+        max-height: 80vh;
+        object-fit: contain;
+    }
+</style>
+
   <!--end back-to-top-->
 
   <!-- <div class="customizer-setting d-none d-md-block">

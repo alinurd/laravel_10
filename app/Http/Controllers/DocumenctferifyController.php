@@ -37,6 +37,18 @@ class DocumenctferifyController extends _Controller
 
         $this->list = [
             [
+                'field' => 'kode',
+                'type' => 'text',
+                'filter' => true,
+                'position' => 'center',
+                'showList' => true,
+                'show' => false,
+                'required' => false,
+                'where' => null,
+                'option' => $cbo_pic,
+                'multiple' => false,
+            ],
+            [
                 'field' => 'pic',
                 'type' => 'select',
                 'filter' => true,
@@ -111,7 +123,7 @@ class DocumenctferifyController extends _Controller
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
         $data['costum'] = $this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
-        return view('pages.index', $data);
+         return view('pages.index', $data);
     }
 
 
@@ -127,6 +139,7 @@ class DocumenctferifyController extends _Controller
         $data['dataDetail'] = $details;
         $data['mode'] = 'show';
         $data['costum'] = $this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
+        $data['costum']['header'] = $this->modelMaster::find($id);
 
         return view('pages.index', $data);
     }
@@ -145,6 +158,7 @@ class DocumenctferifyController extends _Controller
         $data['dataDetail'] = $details;
         $data['mode'] = 'edit';
         $data['costum'] = $this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
+        $data['costum']['header'] = $this->modelMaster::find($id);
 
         return view('pages.index', $data);
     }
@@ -156,10 +170,24 @@ class DocumenctferifyController extends _Controller
     public function store(CRUDService $CRUDService, CRUDRequest $request)
     {
         DB::beginTransaction();
+        
+         
+         try {
+            $arrTermin = [];
 
-        try {
-            // Simpan header
+            if ($request['termin']){
+                foreach($request['termin'] as $k => $termi) {
+                    $arrTermin[] = [
+                        'termin' => $k + 1,
+                        'nominal' => $termi
+                    ];
+                }
+            }
+            $kodeBaru = DocFerifyHeader::generateKode();
+
             $headerData = $request->only(['pic', 'jenis_product', 'nilai', 'status']);
+            $headerData['termin'] = json_encode($arrTermin);
+            $headerData['kode'] = $kodeBaru;
              $header = DocFerifyHeader::create($headerData);
             $id_doc_ferify = $header->id;
             $customData = $request->input('custom');
@@ -196,10 +224,24 @@ class DocumenctferifyController extends _Controller
     public function update(CRUDRequest $request, string $id)
     {
         DB::beginTransaction();
+         
 
         try { 
+
+            $arrTermin = [];
+
+            if ($request['termin']){
+                foreach($request['termin'] as $k => $termi) {
+                    $arrTermin[] = [
+                        'termin' => $k + 1,
+                        'nominal' => $termi
+                    ];
+                }
+            }
+            
             $header = DocFerifyHeader::findOrFail($id);
             $headerData = $request->only(['pic', 'jenis_product', 'nilai', 'status']);
+            $headerData['termin'] = json_encode($arrTermin); 
              $header->update($headerData);
 
             $customData = $request->input('customEdit');

@@ -22,6 +22,15 @@ use App\Http\Controllers\DocumenctferifyController;
 use App\Http\Controllers\DocumenctferifyReviewController;
 use App\Http\Controllers\PTController;
 use App\Http\Controllers\kategoriController;
+use App\Http\Controllers\bankController;
+use App\Http\Controllers\ChartConfigController;
+use App\Http\Controllers\ChartController;
+use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\StakeholderController;
+use App\Http\Controllers\ChartdinamisController;
+use App\Http\Controllers\ChartdetailController;
+use App\Http\Controllers\TerminController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -65,6 +74,17 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('chartconfig', ChartdetailController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
+    Route::resource('chart', ChartdinamisController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
+    Route::resource('stakeholder', StakeholderController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
+    Route::resource('transaksi', TransaksiController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+    Route::resource('piutang', PiutangController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
+    Route::resource('bank', bankController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
     Route::resource('kategori', kategoriController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('pt', PTController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
@@ -97,9 +117,27 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('menu.item', MenuItemController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
 
     Route::resource('pelatihan', PelatihanController::class)->only('index');
+    Route::resource('chart-builder-dashboard', PelatihanController::class)->only('index');
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
-    // Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
+    Route::get('/monitoring-termin/{kode}/{terminid}', [DocumenctferifyReviewController::class, 'termin'])->name('fre.builder');
+
+    Route::post('/update-termin', [TerminController::class, 'updateTermin'])->name('free.termin');
+
+// Route::get('comboCreate',[ComboController::class, 'comboCreate'])->name('comboCreate');
+
  
+    Route::get('/chart-builder', [DashboardController::class, 'chartBuilder'])->name('chart.builder');
+    Route::get('/chart-sync', [DashboardController::class, 'sync'])->name('chart.builder');
+    // Route::get('/chart-builder', [ChartController::class, 'index'])->name('chart.builder');
+Route::post('/chart-data', [ChartController::class, 'getData'])->name('chart.data');
+
+Route::post('/simpan-chart-config', [ChartConfigController::class, 'store'])
+     ->name('chart.store');
+ 
+     Route::get('/chart-builder-dashboard', [ChartController::class, 'index'])->name('chart-builder-dashboard.index');
+Route::get('/chart/data/{id}', [ChartController::class, 'chartBuilderData'])->name('chart.builder');
+
+
 });
