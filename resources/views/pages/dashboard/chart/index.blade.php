@@ -142,22 +142,24 @@
         @foreach($charts as $i => $chart)
           <div class="chart-card">
             <h4>{{ $chart['options']['plugins']['title']['text'] ?? 'Chart' }}</h4>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper" style="width: 100%; height: 350px;"> 
               <canvas id="chart-{{ $parentName }}-{{ $i }}"></canvas>
             </div>
           </div>
-
           <script>
             document.addEventListener('DOMContentLoaded', function () {
-              const ctx = document.getElementById('chart-{{ $parentName }}-{{ $i }}');
-              const chartType = '{{ $chart["type"] }}';
-              const isCircular = ['doughnut', 'pie','line', 'bar','polarArea'].includes(chartType);
-
-              new Chart(ctx, {
-                type: chartType,
-                data: {!! json_encode($chart['data'], JSON_HEX_TAG) !!},
-                options: {!! json_encode($chart['options'], JSON_HEX_TAG) !!}
-              });
+              @foreach($defaultCharts as $parentName => $charts)
+                @foreach($charts as $i => $chart)
+                  const ctx_{{ $loop->parent->index }}_{{ $loop->index }} = document.getElementById('chart-{{ $parentName }}-{{ $i }}');
+                  if (ctx_{{ $loop->parent->index }}_{{ $loop->index }}) {
+                  new Chart(ctx_{{ $loop->parent->index }}_{{ $loop->index }}, {
+                  type: '{{ $chart["type"] }}',
+                  data: {!! json_encode($chart['data'], JSON_HEX_TAG) !!},
+                  options: {!! json_encode($chart['options'], JSON_HEX_TAG) !!}
+                    });
+                  }
+                @endforeach
+              @endforeach
             });
           </script>
         @endforeach
