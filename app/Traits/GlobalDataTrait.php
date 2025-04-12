@@ -8,18 +8,18 @@ trait GlobalDataTrait
     public static function getDataBulan($id = false)
     {
         $data = [
-            ['id' => 1, 'val' => 'Januari'],
-            ['id' => 2, 'val' => 'Februari'],
-            ['id' => 3, 'val' => 'Maret'],
+            ['id' => 1, 'val' => 'January'],
+            ['id' => 2, 'val' => 'February'],
+            ['id' => 3, 'val' => 'March'],
             ['id' => 4, 'val' => 'April'],
-            ['id' => 5, 'val' => 'Mei'],
-            ['id' => 6, 'val' => 'Juni'],
-            ['id' => 7, 'val' => 'Juli'],
-            ['id' => 8, 'val' => 'Agustus'],
+            ['id' => 5, 'val' => 'May'],
+            ['id' => 6, 'val' => 'June'],
+            ['id' => 7, 'val' => 'July'],
+            ['id' => 8, 'val' => 'August'],
             ['id' => 9, 'val' => 'September'],
-            ['id' => 10, 'val' => 'Oktober'],
+            ['id' => 10, 'val' => 'October'],
             ['id' => 11, 'val' => 'November'],
-            ['id' => 12, 'val' => 'Desember'],
+            ['id' => 12, 'val' => 'December'],
         ];
     
         if ($id != false) {
