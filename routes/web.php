@@ -116,6 +116,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('menu.item', MenuItemController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
 
     Route::resource('pelatihan', PelatihanController::class)->only('index');
+    Route::resource('chart-builder-dashboard', PelatihanController::class)->only('index');
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
@@ -129,7 +130,7 @@ Route::post('/chart-data', [ChartController::class, 'getData'])->name('chart.dat
 Route::post('/simpan-chart-config', [ChartConfigController::class, 'store'])
      ->name('chart.store');
  
-     Route::get('/chart', [ChartController::class, 'index'])->name('chart.index');
+     Route::get('/chart-builder-dashboard', [ChartController::class, 'index'])->name('chart-builder-dashboard.index');
 Route::get('/chart/data/{id}', [ChartController::class, 'chartBuilderData'])->name('chart.builder');
 
 
