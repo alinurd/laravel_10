@@ -32,8 +32,9 @@ class DocumenctferifyController extends _Controller
                 ['f' => 'categori', 'v' => 'sts']
             ]
         ]);
-                
-        $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
+        $cbo_pic = $this->_cbo(PIC::class, ['id', DB::raw("CONCAT(nama, ' - ', product) AS data")], true,); 
+
+        // $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
 
         $this->list = [
             [
