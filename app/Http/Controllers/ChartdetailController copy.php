@@ -21,11 +21,11 @@ class ChartdetailController extends _Controller
     protected $modelMaster = '';
     protected $cboType = '';
     protected $cboSts = '';
-    protected $cboParent = '';
+    protected $cboJenis = '';
     public function __construct()
     {
-        $this->modulName = "chartConfig";
-        $this->modelMaster = "App\Models\ChartConfig";
+        $this->modulName = "chacrtdetail";
+        $this->modelMaster = "App\Models\ChartDetail";
         $this->cboSts = [
             ['id' => 1, 'value' => 'Aktif'],
             ['id' => 2, 'value' => 'Tidak Aktif'],
@@ -38,23 +38,11 @@ class ChartdetailController extends _Controller
         ];
         // ['id', DB::raw("CONCAT(nama, ': ', norek, ' - A/N ', an) AS data")],
 
-        $this->cboParent = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,);
+        $this->cboJenis = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,);
         // $this->list = [];
         $this->list = [
             [
-                'field' => 'parent',
-                'type' => 'select',
-                'filter' => true,
-                'position' => false,
-                'showList' => true,
-                'show' => false,
-                'required' => true,
-                'where' => null,
-                'option' => $this->cboParent,
-                'multiple' => false,
-            ], 
-            [
-                'field' => 'jenis',
+                'field' => 'type',
                 'type' => 'select',
                 'filter' => true,
                 'position' => false,
@@ -64,7 +52,19 @@ class ChartdetailController extends _Controller
                 'where' => null,
                 'option' => $this->cboType,
                 'multiple' => false,
-            ], 
+            ],
+            [
+                'field' => 'chart_id',
+                'type' => 'select',
+                'filter' => true,
+                'position' => false,
+                'showList' => true,
+                'show' => false,
+                'required' => true,
+                'where' => null,
+                'option' => $this->cboJenis,
+                'multiple' => false,
+            ],
             [
                 'field' => 'judul',
                 'type' => 'text',
@@ -78,20 +78,47 @@ class ChartdetailController extends _Controller
                     1 => 'string',
                 )
             ],
+           
             [
-                'field' => 'status',
-                'type' => 'radio',
-                'filter' => true,
-                'position' => 'center',
+                'field' => 'label',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
                 'showList' => true,
                 'show' => false,
                 'required' => true,
-                'where' => null,
-                'option' => $this->cboSts,
-                'multiple' => false,
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
-           
-             
+            
+            [
+                'field' => 'fill',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'showList' => false,
+                'show' => false,
+                'required' => true,
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
+            ],
+            [
+                'field' => 'tension',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'showList' => false,
+                'show' => false,
+                'required' => true,
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
+            ]
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
