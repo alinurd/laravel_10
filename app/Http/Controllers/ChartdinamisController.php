@@ -20,7 +20,7 @@ class ChartdinamisController extends _Controller
     public function __construct()
     {
         $this->modulName = "chart";
-        $this->modelMaster = "App\Models\ChartConfig";
+        $this->modelMaster = "App\Models\Chart";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
@@ -38,17 +38,24 @@ class ChartdinamisController extends _Controller
                 'rules' => ['required', 'string']
             ], 
             [
-                'field' => 'judul',
+                'field' => 'name',
                 'type' => 'text',
                 'filter' => false,
                 'position' => false,
-                'showList' => false,
-                'show' => false,
+                'show' => true,
                 'required' => true,
                 'rules' => ['required', 'string']
             ],
 
-             
+            [
+                'field' => 'jenis',
+                'type' => 'text',
+                'filter' => false,
+                'position' => false,
+                'show' => true,
+                'required' => true,
+                'rules' => ['required', 'string']
+            ],
             
             [
                 'field' => 'status',
