@@ -10,7 +10,7 @@ class Bank extends Model
 {
     use HasFactory;
 
-    protected $table = 'Bank'; // Pastikan sesuai dengan nama tabel di database
+    protected $table = 'bank'; // Pastikan sesuai dengan nama tabel di database
         protected $fillable = ['nama', 'norek', 'an', 'status']; 
     public $timestamps = true;
     protected $keyType = 'int'; 

@@ -11,7 +11,7 @@ class Transaksi extends Model
 {
     use HasFactory, GlobalDataTrait;
 
-    protected $table = 'Transaksi';
+    protected $table = 'transaksi';
     protected $fillable = ['tgl', 'jenis', 'kategori', 'nominal', 'deks', 'file', 'rekening'];
     public $timestamps = true;
     protected $keyType = 'int';

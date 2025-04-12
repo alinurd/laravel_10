@@ -11,7 +11,7 @@ class Piutang extends Model
 {
     use HasFactory;
 
-    protected $table = 'Piutang';  
+    protected $table = 'piutang';  
         protected $fillable = ['tgl', 'jenis', 'kategori', 'nominal', 'deks', 'file', 'rekening', 'stackholder']; 
     public $timestamps = true;
     protected $keyType = 'int'; 
