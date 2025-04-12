@@ -72,13 +72,13 @@ class DashboardController extends Controller
           }
        
         $data = DB::table('transaksi')
-        ->select([
-            DB::raw($labelFormat . ' as label'),
-            DB::raw(strtoupper($operasi) . "($dataId) as value")
-        ])
-        ->groupBy(DB::raw($labelFormat)) // pakai labelFormat, bukan MONTH()
-        ->orderBy(DB::raw($labelFormat))
-        ->get();
+    ->select([
+        DB::raw($labelFormat . ' as label'),
+        DB::raw(strtoupper($operasi) . "($dataId) as value")
+    ])
+    ->groupBy(DB::raw($labelFormat)) // pakai labelFormat, bukan MONTH()
+    ->orderBy(DB::raw($labelFormat))
+    ->get();
 
       
           $labels = $data->pluck('label');

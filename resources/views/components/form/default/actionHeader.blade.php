@@ -1,7 +1,11 @@
+
+{{dd($$currentRoute)}}
+@if($currentRoute!="chacrtdetail")
 <a href=" {{ route($currentRoute.'.create') }} " class="btn btn-primary btn-md">
     <i class="ri-add-line"></i>
     {{ __('global.add_new') }}
 </a>
+@endif
 <button type="button" class="btn btn-info btn-md" data-bs-toggle="modal" data-bs-target="#modal-form-print">
     <i class="ri-printer-line"></i>
     {{ __('global.print') }}
