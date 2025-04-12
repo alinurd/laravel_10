@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use App\Models\Chart;
 use Illuminate\Support\Facades\DB;
 use App\Models\ChartConfig;
 
@@ -9,7 +10,8 @@ class ChartController extends Controller
     public function index()
     {
         $configs = ChartConfig::all();
-        return view('pages.dashboard.chart.index', compact('configs'));
+        $defaultCharts = ChartConfig::getDefaultCharts();
+        return view('pages.dashboard.chart.index', compact('configs', 'defaultCharts'));
     }
 
     public function chartBuilderData($id)

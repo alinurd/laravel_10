@@ -26,6 +26,7 @@ class ChartConfig extends Model
         'datasets'
     ];
 
+  
     protected $casts = [
         'datasets' => 'array'
     ];
@@ -73,8 +74,111 @@ class ChartConfig extends Model
                 ]
             ]
         ];
+    } 
+
+
+
+    public function getparent()
+{
+    return $this->belongsTo(Chart::class, 'parent'); // atau Chart::class jika relasi ke model lain
+}
+
+public static function getDefaultCharts($w = [], $val = [])
+{
+    $where = [ 
+        ["w" => "module", "v" => "transaksi"]
+    ];
+
+    $query = ChartConfig::with('getparent');
+    foreach ($where as $q) {
+        $query->where($q['w'], $q['v']);
     }
-    
+
+    $chartConfigs = $query->get();  
+
+    if ($chartConfigs->isEmpty()) {
+        abort(404, "Chart config tidak ditemukan");
+    }
+
+    $chartData = [];
+
+    foreach ($chartConfigs as $chartConfig) {
+        $operasi = strtolower($chartConfig->operasi);
+        $kelompok = $chartConfig->kelompok;
+        $dataId = $chartConfig->data_id;
+
+        switch ($kelompok) {
+            case 'bulan':
+                $groupBy = DB::raw('MONTH(tgl)');
+                $labelFormat = 'DATE_FORMAT(tgl, "%M")';
+                break;
+            case 'tahun':
+                $groupBy = DB::raw('YEAR(tgl)');
+                $labelFormat = 'YEAR(tgl)';
+                break;
+            default:
+                $groupBy = DB::raw($kelompok);
+                $labelFormat = $kelompok;
+        }
+
+        $data = DB::table('transaksi')
+            ->select([
+                DB::raw($labelFormat . ' as label'),
+                DB::raw(strtoupper($operasi) . "($dataId) as value")
+            ])
+            ->groupBy(DB::raw($labelFormat))
+            ->orderBy(DB::raw($labelFormat))
+            ->get();
+
+        $labels = $data->pluck('label');
+        $values = $data->pluck('value');
+        $datasetConfig = is_string($chartConfig->datasets)
+        ? json_decode($chartConfig->datasets, true)
+        : $chartConfig->datasets;
+     
+$backgroundColors = collect($datasetConfig)->pluck('backgroundColor')->toArray();
+$borderColors = collect($datasetConfig)->pluck('borderColor')->toArray();
+
+
+        
+$chart = [
+    'type' => $chartConfig->jenis,
+    'data' => [
+        'labels' => $labels,
+        'datasets' => [[
+            'label' => $chartConfig->label ?? 'Dataset',
+            'data' => $values,
+            'backgroundColor' => $backgroundColors,
+            'borderColor' => $borderColors,
+            'borderWidth' => 1,
+        ]]
+    ],
+    'options' => [
+        'responsive' => true,
+        'plugins' => [
+            'legend' => ['position' => 'top'],
+            'title' => [
+                'display' => true,
+                'text' => $chartConfig->judul ?? 'Judul Grafik',
+            ],
+        ],
+    ]
+];
+
+
+        $key = $chartConfig->getparent
+            ? $chartConfig->getparent->name . ' - ' . $chartConfig->getparent->jenis
+            : 'Tanpa Parent';
+
+        $chartData[$key][] = $chart;
+    }
+
+    return $chartData;
+}
+
+
+
+
 
     public static function getChartDataForPolarArea($data=[])
 {
