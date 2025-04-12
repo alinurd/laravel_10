@@ -10,6 +10,7 @@ use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\Combo;
+use Illuminate\Support\Facades\DB;
 
 class ClientandproductController extends _Controller
 {
@@ -23,8 +24,9 @@ class ClientandproductController extends _Controller
         $this->modulName = "clientandproduct";
         $this->modelMaster = "App\Models\ClientProduct";
        
-        $cbo_pt = $this->_cbo(PT::class, ['id', 'nama'], true);
-        $cbo_pic = $this->_cbo(PIC::class, ['id', 'nama'], true);
+        $cbo_pt = $this->_cbo(PIC::class, ['id', DB::raw("CONCAT(nama, ' - ', product) AS data")], true,); 
+        $cbo_pic = $this->_cbo(PIC::class, ['id', DB::raw("CONCAT(nama, ' - ', product) AS data")], true,); 
+
         $this->list = [
             [
                 'field' => 'pt_id',
