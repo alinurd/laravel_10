@@ -7,4 +7,5 @@ return [
     'fld_kode' => 'Kode DF',
     'fld_jenis_product' => 'Jenis Product Yang Dinilai',
     'fld_nilai' => 'Nilai Product',
+    'fld_status' => 'Status',
 ];
