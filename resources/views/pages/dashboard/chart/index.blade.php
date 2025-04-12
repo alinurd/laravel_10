@@ -118,16 +118,32 @@
 </style>
 
 <div class="dashboard-container">
-    <h2>📊 Dashboard Keuangan</h2>
+  
+<div class="container my-4">
+  <h2 class="mb-4">📊 Dashboard Keuangan</h2>
 
-    <label for="configSelect">Pilih Konfigurasi Chart:</label>
-    <select id="configSelect">
-        <option value="">-- Pilih --</option>
-        @foreach ($configs as $config)
-            <option value="{{ $config->id }}">{{ $config->judul }}</option>
-        @endforeach
+  <!-- Dropdown untuk memilih konfigurasi chart -->
+  <div class="mb-3">
+    <label for="configSelect" class="form-label fw-semibold">Pilih Konfigurasi Chart:</label>
+    <select id="configSelect" class="form-select">
+      <option value="">-- Pilih --</option>
+      @foreach ($configs as $config)
+        <option value="{{ $config->id }}">{{ $config->judul }}</option>
+      @endforeach
     </select>
- 
+  </div>
+
+  <!-- Spinner untuk loading -->
+  <div id="loadingSpinner" class="alert alert-primary d-flex align-items-center justify-content-center d-none" role="alert">
+    <div class="spinner-border" style="width: 2rem; height: 2rem;" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <span class="ms-2">Memuat grafik...</span>
+  </div> 
+</div>
+
+
+    
     @foreach($defaultCharts as $parentName => $charts)
   <div class="chart-group">
     <div class="chart-header" onclick="toggleChartGroup(this)">
@@ -146,7 +162,7 @@
               <canvas id="chart-{{ $parentName }}-{{ $i }}"></canvas>
             </div>
           </div>
-          <script>
+          <script> 
             document.addEventListener('DOMContentLoaded', function () {
               @foreach($defaultCharts as $parentName => $charts)
                 @foreach($charts as $i => $chart)
@@ -180,20 +196,35 @@
 <script>
     let popupChart;
 
-    document.getElementById('configSelect').addEventListener('change', function () {
-        const configId = this.value;
-        if (!configId) return;
+    document.getElementById('configSelect').addEventListener('change', async function () {
+    const configSelect = this;
+    const configId = configSelect.value;
+    const spinner = document.getElementById('loadingSpinner');
 
-        fetch(`/chart/data/${configId}`)
-            .then(res => res.json())
-            .then(chartData => {
-                const ctx = document.getElementById('popupChart').getContext('2d');
-                if (popupChart) popupChart.destroy();
-                popupChart = new Chart(ctx, chartData);
-                openModal();
-            })
-            .catch(err => console.error("Chart load error:", err));
-    });
+    if (!configId) return;
+
+    configSelect.disabled = true;
+    spinner.classList.remove('d-none'); // tampilkan spinner
+
+    try {
+        const response = await fetch(`/chart/data/${configId}`);
+        const chartData = await response.json();
+
+        const ctx = document.getElementById('popupChart').getContext('2d');
+        if (popupChart) popupChart.destroy();
+        popupChart = new Chart(ctx, chartData);
+
+        openModal();
+    } catch (err) {
+        console.error("Chart load error:", err);
+        alert("Gagal memuat chart.");
+    } finally {
+        spinner.classList.add('d-none'); // sembunyikan spinner
+        configSelect.disabled = false;
+    }
+});
+
+
 
     function openModal() {
         document.getElementById('chartModal').style.display = 'flex';
