@@ -21,10 +21,10 @@ class ChartdetailController extends _Controller
     protected $modelMaster = '';
     protected $cboType = '';
     protected $cboSts = '';
-    protected $cboParent = '';
+     protected $cboJenis = '';
     public function __construct()
     {
-        $this->modulName = "chartConfig";
+        $this->modulName = "chartconfig";
         $this->modelMaster = "App\Models\ChartConfig";
         $this->cboSts = [
             ['id' => 1, 'value' => 'Aktif'],
@@ -35,10 +35,9 @@ class ChartdetailController extends _Controller
             ['id' => "bar", 'value' => 'Bar'],
             ['id' => "polarArea", 'value' => 'Polar Area'],
             ['id' => "doughnut", 'value' => 'Doughnut'],
-        ];
-        // ['id', DB::raw("CONCAT(nama, ': ', norek, ' - A/N ', an) AS data")],
+        ]; 
 
-        $this->cboParent = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,);
+        $this->cboJenis = $this->_cbo(Chart::class, ['id', DB::raw("CONCAT(name, ' - ', jenis) AS data")], true,); 
         // $this->list = [];
         $this->list = [
             [
@@ -50,7 +49,7 @@ class ChartdetailController extends _Controller
                 'show' => false,
                 'required' => true,
                 'where' => null,
-                'option' => $this->cboParent,
+                'option' => $this->cboJenis,
                 'multiple' => false,
             ], 
             [
