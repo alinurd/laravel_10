@@ -148,14 +148,22 @@ trait ChartTrait
       }
 
       // Query data transaksi dengan filter berdasarkan pilihan
-      $rawData = DB::table('transaksi')
-          ->select([
-              DB::raw("$labelFormat as label"),
-              DB::raw(strtoupper($operasi) . "($dataId) as value"),
-              DB::raw("MIN(tgl) as tgl_urutan")
-          ])
-          ->groupBy(DB::raw($labelFormat))
-          ->orderBy(DB::raw($orderFormat));
+      $subQuery = DB::table('transaksi')
+                ->select([
+                    DB::raw("$labelFormat as label"),
+                    DB::raw(strtoupper($operasi) . "($dataId) as value"),
+                    DB::raw("MIN(tgl) as tgl_urutan")
+                ])
+                ->when(isset($val['year']), fn($q) => $q->whereYear('tgl', $val['year']))
+                ->when(isset($val['category']), fn($q) => $q->where('kategori', $val['category']))
+                ->groupBy(DB::raw($labelFormat));
+    
+            // Bungkus subquery
+            $rawData = DB::table(DB::raw("({$subQuery->toSql()}) as sub"))
+                ->mergeBindings($subQuery)
+                ->orderByRaw($orderFormat)
+                ->get()
+                ->keyBy('label');
 
       // Jika ada parameter pilihan data (misalnya tahun atau kategori)
       if (isset($val['year'])) {
