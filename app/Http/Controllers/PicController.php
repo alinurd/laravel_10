@@ -18,7 +18,7 @@ class PicController extends _Controller
     public function __construct()
     {
         $this->modulName = "pic";
-        $this->modelMaster = "App\Models\Pic";
+        $this->modelMaster = "App\Models\PIC";
         $option = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
