@@ -9,16 +9,20 @@ class DokumentClientController extends Controller
 {
     public function index()
     {
-        
+        // dd("JALAN");
+
         $token = '123456';
 
-        $response = Http::withToken($token)->get('http://127.0.0.1:8000/api/dokument');
+        $response = Http::withHeaders([
+            'x-api-key' => '123456',
+        ])->get('https://apps.banyushandanaabhipraya.co.id/api/dokument');
 
         if ($response->successful()) {
             $data = $response->json();
-
-            return view('document.integrasi.index', ['dokuments' => $data]);
+            
+            return view('pages.document.integrasi.index', ['dokuments' => $data]);
         } else {
+            dd($response);
             // Kalau error
             return redirect()->back()->with('error', 'Gagal mengambil data dari API');
         }
