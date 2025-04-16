@@ -70,4 +70,10 @@ class Kernel extends HttpKernel
         // custom by developer
         'route.permission' => \App\Http\Middleware\RouteMiddleware::class,
     ];
+
+    protected $routeMiddleware = [
+        // Middleware lainnya...
+        'api.key' => \App\Http\Middleware\ApiKeyMiddleware::class,
+    ];
+    
 }
