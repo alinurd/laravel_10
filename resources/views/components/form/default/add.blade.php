@@ -11,6 +11,36 @@
     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
+    
+      @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
+    <div class="mb-4">
+        <label for="integrasiDokument" class="form-label fw-bold">
+            Integrasi Dokument
+        </label>
+
+        <div class="d-flex align-items-center gap-2 flex-nowrap">
+            {{-- Select2 Dropdown --}}
+            <select id="integrasiDokument"
+                    class="form-select form-select-lg select2"
+                    style="width: 100px;"
+                    aria-label="Pilih dokumen integrasi">
+                <option selected disabled>Pilih dokumen...</option>
+                <option value="1">Dokumen Satu</option>
+                <option value="2">Dokumen Dua</option>
+                <option value="3">Dokumen Tiga</option>
+            </select>
+
+            {{-- Tombol-tombol --}}
+            <button type="button" class="btn btn-outline-primary">
+                Lihat
+            </button>
+            <button type="button" class="btn btn-outline-secondary">
+                Sync
+            </button>
+        </div>
+    </div>
+@endif
+
         <!-- form add -->
         @forelse ($list as $l)
         @if($l['show'])
