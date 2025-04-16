@@ -30,6 +30,7 @@ use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\ChartdinamisController;
 use App\Http\Controllers\ChartdetailController;
+use App\Http\Controllers\DokumentClientController;
 use App\Http\Controllers\TerminController;
 use Illuminate\Support\Facades\Route;
 
@@ -138,6 +139,8 @@ Route::post('/simpan-chart-config', [ChartConfigController::class, 'store'])
  
      Route::get('/chart-builder-dashboard', [ChartController::class, 'index'])->name('chart-builder-dashboard.index');
 Route::get('/chart/data/{id}', [ChartController::class, 'chartBuilderData'])->name('free.builder');
+
+Route::get('/client-dokument', [DokumentClientController::class, 'index'])->name('free.builder');
 
 
 });
