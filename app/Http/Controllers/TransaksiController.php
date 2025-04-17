@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
 use App\Models\Bank;
+use App\Models\ClientDokument;
 use App\Models\Combo;
 use App\Models\Kategori;
 use App\Models\MenuItem;
@@ -18,6 +19,7 @@ class TransaksiController extends _Controller
     protected $list = '';
     protected $setFrom = '';
     protected $modelMaster = '';
+    protected $cboDokument = '';
     public function __construct()
     {
         $this->modulName = "transaksi";
@@ -25,6 +27,12 @@ class TransaksiController extends _Controller
         $cboRekening = $this->_cbo(
             Bank::class,
             ['id', DB::raw("CONCAT(nama, ': ', norek, ' - A/N ', an) AS data")],
+            true,
+            ['where' => [['f' => 'status', 'v' => '1']]]
+        );
+        $this->cboDokument = $this->_cbo(
+            ClientDokument::class,
+            ['id', DB::raw("CONCAT(jenis_product, ' [ ', kode, ' ] ') AS data")],
             true,
             ['where' => [['f' => 'status', 'v' => '1']]]
         );
@@ -127,6 +135,8 @@ class TransaksiController extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
+        $data['dataDokument']['cbo'] = $this->cboDokument;
+        $data['dataDokument']["data"] = ClientDokument::all();
         return view('pages.index', $data);
     }
 

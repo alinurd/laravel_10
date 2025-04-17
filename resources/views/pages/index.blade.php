@@ -1,6 +1,7 @@
 @extends('components.layouts.app')
 @section('title', $title)
 @section('costum', isset($costum)??'')
+@section('dataDokument', isset($dataDokument)??'')
 @section('dataDetail', isset($dataDetail)??'')
 @section('mode', $mode = $mode ?? 'list')
 @section('sessionOK', $ses['sessionOK'] = $ses['sessionOK'] ?? "gajalan")
