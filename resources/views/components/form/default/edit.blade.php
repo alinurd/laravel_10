@@ -17,6 +17,33 @@
      </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
+      @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
+        <div class="mb-4">
+          <label for="integrasiDokument" class="form-label fw-bold">
+            Integrasi Dokument
+          </label>
+
+          <div class="d-flex align-items-center gap-2 flex-nowrap">
+            <select id="integrasiDokument"
+              class="form-select form-select-lg select2"
+              style="width: 100px;"
+              aria-label="Pilih dokumen integrasi">
+              <option selected disabled>Pilih dokumen...</option>
+              <option value="1">Dokumen Satu</option>
+              <option value="2">Dokumen Dua</option>
+              <option value="3">Dokumen Tiga</option>
+            </select>
+
+
+            <span type="span" data-bs-toggle="modal" data-bs-target="#showDoc" class="btn btn-outline-primary">
+              Lihat
+            </span>
+            <span type="span" id="sync" class="btn btn-outline-secondary">
+              Sync
+            </span>
+          </div>
+        </div>
+        @endif
         @forelse ($list as $l)
         @if($l['show'])
         <div class="mb-3">
@@ -151,5 +178,6 @@
   </div>
 </form>
 
+@include('components.form.modal.integrasi.show')
 
 <script src="{{ asset('assets/js/pages/custom/' .$currentRoute. '.js') }}"></script>

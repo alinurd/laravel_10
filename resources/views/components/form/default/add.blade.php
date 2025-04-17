@@ -5,41 +5,40 @@
     <div class="card-header border-bottom-dashed align-items-center d-flex">
       <div class="row w-100">
         <div class="d-flex gap-2">
-        <x-dashboard.ActionHeader1 currentRoute="{{$currentRoute}}" mode="add" /> 
+          <x-dashboard.ActionHeader1 currentRoute="{{$currentRoute}}" mode="add" />
         </div>
       </div>
     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
-    
-      @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
-    <div class="mb-4">
-        <label for="integrasiDokument" class="form-label fw-bold">
-            Integrasi Dokument
-        </label>
 
-        <div class="d-flex align-items-center gap-2 flex-nowrap">
-            {{-- Select2 Dropdown --}}
+        @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
+        <div class="mb-4">
+          <label for="integrasiDokument" class="form-label fw-bold">
+            Integrasi Dokument
+          </label>
+
+          <div class="d-flex align-items-center gap-2 flex-nowrap">
             <select id="integrasiDokument"
-                    class="form-select form-select-lg select2"
-                    style="width: 100px;"
-                    aria-label="Pilih dokumen integrasi">
-                <option selected disabled>Pilih dokumen...</option>
-                <option value="1">Dokumen Satu</option>
-                <option value="2">Dokumen Dua</option>
-                <option value="3">Dokumen Tiga</option>
+              class="form-select form-select-lg select2"
+              style="width: 100px;"
+              aria-label="Pilih dokumen integrasi">
+              <option selected disabled>Pilih dokumen...</option>
+              <option value="1">Dokumen Satu</option>
+              <option value="2">Dokumen Dua</option>
+              <option value="3">Dokumen Tiga</option>
             </select>
 
-            {{-- Tombol-tombol --}}
-            <button type="button" class="btn btn-outline-primary">
-                Lihat
-            </button>
-            <button type="button" class="btn btn-outline-secondary">
-                Sync
-            </button>
+
+            <span type="span" data-bs-toggle="modal" data-bs-target="#showDoc" class="btn btn-outline-primary">
+              Lihat
+            </span>
+            <span type="span" id="sync" class="btn btn-outline-secondary">
+              Sync
+            </span>
+          </div>
         </div>
-    </div>
-@endif
+        @endif
 
         <!-- form add -->
         @forelse ($list as $l)
@@ -104,15 +103,15 @@
 
           @elseif($l['type'] === 'textarea')
           <div class="input-group mb-3">
-          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
-          aria-describedby="{{ $l['field'] }}Help"></textarea>
+            <textarea type="text" class="form-control" id="{{ $l['field'] }}" placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+              aria-describedby="{{ $l['field'] }}Help"></textarea>
           </div>
           @elseif($l['type'] === 'json')
           <div class="input-group mb-3 bg">
-          <textarea type="text" class="form-control"  id="{{ $l['field'] }}"  placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
-          aria-describedby="{{ $l['field'] }}Help" readonly></textarea>
+            <textarea type="text" class="form-control" id="{{ $l['field'] }}" placeholder="{{ $l['label'] }}" name="{{ $l['field'] }}" @if($l['required']) required @endif
+              aria-describedby="{{ $l['field'] }}Help" readonly></textarea>
           </div>
- 
+
           @else
           <input type="{{ $l['type'] }}"
             name="{{ $l['field'] }}"
@@ -132,20 +131,21 @@
         </div>
         @endif
         @empty
-        @endforelse 
-       </div>
-        @if(!empty($costum))
-    @if($costum[0] == 'chart')
-        @include('components.form.costum.chart')
-    @else
-        @include('components.form.costum.documenctferify')
-    @endif
-@endif
+        @endforelse
+      </div>
+      @if(!empty($costum))
+      @if($costum[0] == 'chart')
+      @include('components.form.costum.chart')
+      @else
+      @include('components.form.costum.documenctferify')
+      @endif
+      @endif
 
- 
-      
+
+
     </div>
 </form>
+@include('components.form.modal.integrasi.show')
+
 
 <script src="{{ asset('assets/js/pages/custom/' . $currentRoute . '.js') }}"></script>
-
