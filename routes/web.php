@@ -142,5 +142,7 @@ Route::get('/chart/data/{id}', [ChartController::class, 'chartBuilderData'])->na
 
 Route::get('/client-dokument', [DokumentClientController::class, 'index'])->name('free.builder');
 
-
+// routes/web.php
+Route::post('/sync-document', [DokumentClientController::class, 'syncDocument']);
+// Route::post('/sync-document', [DokumentClientController::class, 'synDoc'])->name('updateDov');
 });
