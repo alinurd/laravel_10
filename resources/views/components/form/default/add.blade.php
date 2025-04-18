@@ -11,32 +11,27 @@
     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
-  @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
+      @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
         <div class="mb-4">
           <label for="integrasiDokument" class="form-label fw-bold">
             Integrasi Dokument
           </label>
 
-          <div class="d-flex align-items-center gap-2 flex-nowrap">
+          <div class="d-flex align-items-center gap-3 flex-nowrap">
             <select id="integrasiDokument"
               class="form-select form-select-lg select2"
-              style="width: 100px;"
+              style="width: 90px;"
               aria-label="Pilih dokumen integrasi">
                @foreach($dataDokument['cbo'] as $opt)
-            <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
-            @endforeach
+                    <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
+                @endforeach
             </select>
             <span type="button"
-      data-bs-toggle="modal"
-      data-dokument='@json($dataDokument["data"])'
-      data-bs-target="#showDoc"
-      class="btn btn-outline-primary">
-  Lihat
-</span>
-
- 
-            <span type="span" id="sync" class="btn btn-outline-secondary">
-              Sync
+                  data-bs-toggle="modal"
+                  data-dokument='@json($dataDokument["data"])'
+                  data-bs-target="#showDoc"
+                  class="btn btn-outline-primary">
+              data
             </span>
           </div>
         </div>
