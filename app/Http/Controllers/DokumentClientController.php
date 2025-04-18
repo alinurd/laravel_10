@@ -71,10 +71,12 @@ public function index()
 
 public function syncDocument()
 {
+    $key = env('API_SECRET_KEY');
+    $api = env('API_URL').'/dokument';
     try {
         $response = Http::withHeaders([
-            'x-api-key' => '123456',
-        ])->get('https://apps.banyushandanaabhipraya.co.id/api/dokument');
+            'x-api-key' =>$key,
+        ])->get($api);
 
         if (!$response->successful()) {
             throw new Exception('Gagal mengambil data dari API');
@@ -146,7 +148,7 @@ public function syncDocument()
 
         return response()->json([
             'success' => true,
-            'message' => 'Data berhasil disinkronisasi!',
+            'message' => 'Sinkronisasi berhasil!',
             'count' => [
                 'all' => count($data),
                 'inserted' => $inserted,

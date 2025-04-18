@@ -70,7 +70,7 @@
             throw new Error(result.message || 'Terjadi kesalahan tidak terduga');
           }
  
-          showToast('success', 'Berhasil!', `${result.message} Jumlah data: ${result.count.all}`);
+          showToast('success', 'Berhasil!', `${result.message} , dengan jumlah data: ${result.count.all}`);
           console.info(result.count);
           renderModalContent(result.data);  
 
