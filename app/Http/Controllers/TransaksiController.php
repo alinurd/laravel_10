@@ -32,7 +32,7 @@ class TransaksiController extends _Controller
         );
         $this->cboDokument = $this->_cbo(
             ClientDokument::class,
-            ['id', DB::raw("CONCAT(jenis_product, ' [ ', kode, ' ] ') AS data")],
+            ['id', DB::raw("CONCAT(kode, ' - ', jenis_product) AS data")],
             true,
             ['where' => [['f' => 'status', 'v' => '1']]]
         );
