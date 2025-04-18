@@ -27,13 +27,14 @@ class CRUDService
                 $file = $request->file($fieldData['field']);
 
                 // Ambil ekstensi yang diizinkan dari rules
-                $allowedExtensions = $fieldData['rules']['ekstensi'] ?? ['png', 'jpg', 'pdf'];
+                $allowedExtensions = $fieldData['rules']['ekstensi'] ?? ['png', 'jpg', 'pdf', 'JPG'];
                 $allowedMimeTypes = [
                     'png'  => 'image/png',
+                    'JPG'  => 'image/jpeg',
                     'jpg'  => 'image/jpeg',
                     'jpeg' => 'image/jpeg',
                     'pdf'  => 'application/pdf'
-                ];
+                ]; 
 
                 $maxSize = 2 * 1024 * 1024; // Maksimum 2MB
 
