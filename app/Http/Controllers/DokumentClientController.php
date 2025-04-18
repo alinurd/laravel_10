@@ -14,21 +14,6 @@ use Illuminate\Support\Facades\Http;
 {
 
 
-    public function syncDocument(Request $request)
-    {
-        // Simulasi proses sinkronisasi data
-        // Misal kamu fetch dari API eksternal atau generate ulang data
-
-        // Dummy jumlah data tersinkron
-        $syncedCount = rand(3, 10); // bisa diganti dengan real count dari proses sinkronisasi
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Sinkronisasi berhasil dilakukan.',
-            'count'   => $syncedCount,
-        ]);
-    }
-
     
 public function index()
 {
@@ -84,9 +69,7 @@ public function index()
     }
 }
 
-
-
- public function synDoc()
+public function syncDocument()
 {
     try {
         $response = Http::withHeaders([
@@ -98,12 +81,19 @@ public function index()
         }
 
         $data = $response->json();
-        
+
+        // Counter untuk tracking insert dan update
+        $inserted = 0;
+        $updated = 0;
+        $detailInserted = 0;
+        $detailUpdated = 0;
+
         // Transaction untuk menjaga konsistensi data
-        DB::transaction(function () use ($data) {
+        DB::transaction(function () use ($data, &$inserted, &$updated, &$detailInserted, &$detailUpdated) {
             foreach ($data as $item) {
-                // Simpan data utama
-                ClientDokument::updateOrCreate(
+                $existing = ClientDokument::find($item['id']);
+
+                $dok = ClientDokument::updateOrCreate(
                     ['id' => $item['id']],
                     [
                         'pic' => $item['pic'],
@@ -115,9 +105,18 @@ public function index()
                         'created_at' => Carbon::parse($item['created_at'])->toDateTimeString(),
                         'updated_at' => Carbon::parse($item['updated_at'])->toDateTimeString(),
                     ]
-                ); 
+                );
+
+                if ($existing) {
+                    $updated++;
+                } else {
+                    $inserted++;
+                }
+
                 if (isset($item['get_details'])) {
                     foreach ($item['get_details'] as $detail) {
+                        $existingDetail = ClientDokumentDetail::find($detail['id']);
+
                         ClientDokumentDetail::updateOrCreate(
                             ['id' => $detail['id']],
                             [
@@ -134,16 +133,30 @@ public function index()
                                 'updated_at' => Carbon::parse($detail['updated_at'])->toDateTimeString(),
                             ]
                         );
+
+                        if ($existingDetail) {
+                            $detailUpdated++;
+                        } else {
+                            $detailInserted++;
+                        }
                     }
-                } 
+                }
             }
         });
 
         return response()->json([
             'success' => true,
             'message' => 'Data berhasil disinkronisasi!',
-            'count' => count($data)
+            'count' => [
+                'all' => count($data),
+                'inserted' => $inserted,
+                'updated' => $updated,
+                'detail_inserted' => $detailInserted,
+                'detail_updated' => $detailUpdated,
+            ],
+            'data' => ClientDokument::all()
         ]);
+        
 
     } catch (\Exception $e) {
         return response()->json([
@@ -152,6 +165,7 @@ public function index()
         ], 500);
     }
 }
+
 
  
 
