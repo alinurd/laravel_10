@@ -113,8 +113,8 @@ class _Controller extends BaseController
                 }
             }
         }
-        $p = $p->get();
-        
+        $p = $p->orderBy('id', 'desc')->get();
+                
          return $p;
     }  
     
