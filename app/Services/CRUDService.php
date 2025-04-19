@@ -12,6 +12,7 @@ class CRUDService
   {
        $data = []; 
   foreach ($dataForm as $fieldData) {
+    
     if (isset($fieldData['field']) && $fieldData['show']) {
         $value = $request->input($fieldData['field'], null);
 

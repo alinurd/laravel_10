@@ -40,6 +40,18 @@ class TransaksiController extends _Controller
         $cboKategori = $this->_cbo(Kategori::class, ['id', DB::raw("CONCAT(nama) AS data")], true, ['where' => [['f' => 'status', 'v' => '1']] ]);
 
        $this->list = [
+
+[        'field' => 'ref_dokument',
+        'type' => 'select',
+        'filter' => true,
+        'position' => 'center',
+        'showList' => true,
+        'show' => false,
+        'required' => false,
+        'where' => null,
+        'option' => $this->cboDokument,
+        'multiple' => false,
+       ],
             [
                 'field' => 'tgl',
                 'type' => 'date',
@@ -173,7 +185,23 @@ class TransaksiController extends _Controller
 
      public function store(CRUDService $CRUDService, CRUDRequest $request)
      {
+        $this->setFrom[] = [
+            'label' => 'Referensi Dokumen',
+            'field' => 'ref_dokument',
+            'position' => 'center',
+            'show' => true,
+            'showList' => false,
+            'required' => true,
+            'filter' => true,
+            'type' => 'text', // atau bisa "select", tergantung kebutuhan
+            'option' => [],
+            'input' => [],
+            'multiple' => false,
+            'rules' => ['required'], // atur sesuai validasi yang dibutuhkan
+        ];
+        
          $rules = [];
+        //  dd($this->setFrom);
          foreach ($this->setFrom as $field) {
             if($field['show']){
                 $fieldName = $field['field'];
@@ -181,7 +209,7 @@ class TransaksiController extends _Controller
             }
              
          }     
-         $request->setRules($rules);
+         $request->setRules($rules); 
         return $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
      }
      

@@ -12,7 +12,7 @@ class Transaksi extends Model
     use HasFactory, GlobalDataTrait;
 
     protected $table = 'transaksi';
-    protected $fillable = ['tgl', 'jenis', 'kategori', 'nominal', 'deks', 'file', 'rekening'];
+    protected $fillable = ['tgl', 'jenis', 'kategori', 'nominal', 'deks', 'file', 'rekening', 'ref_dokument'];
     public $timestamps = true;
     protected $keyType = 'int';
     

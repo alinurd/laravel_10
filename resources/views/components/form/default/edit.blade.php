@@ -21,16 +21,24 @@
         <div class="mb-4">
           <label for="integrasiDokument" class="form-label fw-bold">
             Integrasi Dokument
-          </label>
-
+          </label> 
+          $field['ref_dokument']
           <div class="d-flex align-items-center gap-3 flex-nowrap">
-            <select id="integrasiDokument"
+             <select id="ref_dokument"
+            name="ref_dokument"
               class="form-select form-select-lg select2"
               style="width: 90px;"
               aria-label="Pilih dokumen integrasi">
-               @foreach($dataDokument['cbo'] as $opt)
-                    <option value="{{ $opt['id'] }}">{{ $opt['value'] }}</option>
-                @endforeach
+              @php
+                  $selected = $field['ref_dokument'] ?? ($selectedId ?? '');
+              @endphp
+
+              @foreach($dataDokument['cbo'] as $key => $opt)
+                  <option value="{{ $opt['id'] }}"
+                      {{ $selected == $opt['id'] ? 'selected' : '' }}>
+                      {{ $opt['value'] }}
+                  </option>
+              @endforeach
             </select>
             <span type="button"
                   data-bs-toggle="modal"

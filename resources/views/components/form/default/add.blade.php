@@ -18,7 +18,8 @@
           </label>
 
           <div class="d-flex align-items-center gap-3 flex-nowrap">
-            <select id="integrasiDokument"
+            <select id="ref_dokument"
+            name="ref_dokument"
               class="form-select form-select-lg select2"
               style="width: 90px;"
               aria-label="Pilih dokumen integrasi">

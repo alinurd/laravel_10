@@ -155,7 +155,7 @@ class _Controller extends BaseController
     
         // Optionally add an empty "Pilih Opsi" option at the top
         if ($includeEmpty) {
-            array_unshift($dropdown, ['id' => '', 'value' => 'Pilih Opsi']);
+            array_unshift($dropdown, ['id' => '', 'value' => '- Pilih -']);
         }
     
         // Return the resulting dropdown array
