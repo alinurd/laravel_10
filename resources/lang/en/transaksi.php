@@ -3,6 +3,7 @@
 return [
     'title' => 'Transaksi',
     'page' => 'Transaksi',
+'fld_ref_dokument' => 'Dokument',
 'fld_tgl' => 'Tanggal',
 'fld_jenis' => 'Jenis',
 'fld_kategori' => 'Kategori',
