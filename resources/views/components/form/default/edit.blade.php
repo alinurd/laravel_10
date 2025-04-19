@@ -21,8 +21,7 @@
         <div class="mb-4">
           <label for="integrasiDokument" class="form-label fw-bold">
             Integrasi Dokument
-          </label> 
-          $field['ref_dokument']
+          </label>  
           <div class="d-flex align-items-center gap-3 flex-nowrap">
              <select id="ref_dokument"
             name="ref_dokument"

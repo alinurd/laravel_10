@@ -30,6 +30,41 @@
     </div>
     <div class="card-footer ">
       <div class="table-responsive m-3">
+      @if(config('app.name') == 'Keuangan' && $currentRoute =="transaksi")
+        <div class="mb-4">
+          <label for="integrasiDokument" class="form-label fw-bold">
+            Integrasi Dokument
+          </label>  
+          <div class="d-flex align-items-center gap-3 flex-nowrap">
+             <select id="ref_dokument"
+            name="ref_dokument"
+              class="form-select form-select-lg select2"
+              style="width: 90px;"
+              aria-label="Pilih dokumen integrasi"
+              disabled>
+              @php
+                  $selected = $field['ref_dokument'] ?? ($selectedId ?? '');
+              @endphp
+
+              @foreach($dataDokument['cbo'] as $key => $opt)
+                  <option value="{{ $opt['id'] }}"
+                      {{ $selected == $opt['id'] ? 'selected' : '' }}>
+                      {{ $opt['value'] }}
+                  </option>
+              @endforeach
+            </select>
+            <span type="button"
+                  data-bs-toggle="modal"
+                  data-dokument='@json($dataDokument["data"])'
+                  data-bs-target="#showDoc"
+                  class="btn btn-outline-primary">
+              data
+            </span>
+          </div>
+        </div>
+        @endif
+
+
       @forelse ($list as $l)
 @if($l['show'])
 <div class="mb-3">
@@ -172,5 +207,6 @@
     </div>
   </div>
 </form>
+@include('components.form.modal.integrasi.show')
 
 <script src="{{ asset('assets/js/pages/custom/' . $currentRoute . '.js') }}"></script>

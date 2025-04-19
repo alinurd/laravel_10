@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
           <div class="d-flex justify-content-between align-items-center mb-4">
             <h3 class="text-primary mb-0">Dokumen Integrasi</h3>
             <button class="btn btn-primary btn-sm rounded-pill sync-button">
-              <i class="bi bi-arrow-repeat me-2"></i> Sync Now
+              <i class="ri-database-2-fill"></i> Sync
             </button>
           </div>
           <div class="document-list"></div>
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function () {
       } finally {
         btn.disabled = false;
         icon.style.animation = '';
-        btn.innerHTML = `<i class="bi bi-arrow-repeat me-2"></i> Sync Now`;
+        btn.innerHTML = `<i class="ri-database-2-fil"></i> Sync`;
       }
     }
   
@@ -83,7 +83,7 @@ document.addEventListener('DOMContentLoaded', function () {
           const terminData = JSON.parse(item.termin.replace(/^"|"$/g, '').replace(/\\"/g, '"'));
           const terminItems = terminData.map(t => `
             <div class="termin-item bg-light rounded-pill px-3 py-1 d-inline-flex align-items-center me-2 mb-2">
-              <span class="termin-badge bg-dark text-white rounded-pill me-2">${t.termin}</span>
+              <span class="badge bg-dark text-white rounded-pill me-2">${t.termin}</span>
               <span class="termin-value">Rp ${Number(t.nominal).toLocaleString()}</span>
             </div>
           `).join('');

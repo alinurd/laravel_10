@@ -161,6 +161,8 @@ class TransaksiController extends _Controller
         $data['id'] = $id;
         $data['field'] = $this->modelMaster::find($id);
         $data['mode'] = 'show';
+        $data['dataDokument']['cbo'] = $this->cboDokument;
+        $data['dataDokument']["data"] = ClientDokument::all();
         return view('pages.index', $data);
     }
 
