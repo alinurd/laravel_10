@@ -18,10 +18,14 @@ class KriteriaController extends _Controller
     public function __construct()
     {
         $this->modulName = "kriterium";
-        $this->modelMaster = "App\Models\Chanel";
-        $option = [
+        $this->modelMaster = "App\Models\Kriterium";
+        $sts = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
+        ];
+        $atribut = [
+            ['id' => 1, 'value' => 'Cost'],
+            ['id' => 2, 'value' => 'Benifit'],
         ];
 
        $this->list = [
@@ -40,7 +44,7 @@ class KriteriaController extends _Controller
             ],
             [
                 'field' => 'nama',
-                'type' => 'atribut',
+                'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'show' => true,
@@ -49,10 +53,21 @@ class KriteriaController extends _Controller
                     0 => 'required',
                     1 => 'string',
                 )
+            ], 
+            [
+                'field' => 'atribut',
+                'type' => 'radio',
+                'filter' => true,
+                'position' => 'center',
+                'show' => true,
+                'required' => true,
+                'where' => null,
+                'option' => $atribut,
+                'multiple' => false,
             ],
             [
                 'field' => 'bobot',
-                'type' => 'number',
+                'type' => 'text',
                 'filter' => false,
                 'position' => false,
                 'show' => true,
@@ -77,15 +92,14 @@ class KriteriaController extends _Controller
             [
                 'field' => 'status',
                 'type' => 'radio',
-                'filter' => false,
-                'position' => false,
+                'filter' => true,
+                'position' => 'center',
                 'show' => true,
-                'required' => true,
-                'rules' => array(
-                    0 => 'required',
-                    1 => 'string',
-                )
-            ]
+                'required' => false,
+                'where' => null,
+                'option' => $sts,
+                'multiple' => false,
+            ],
         ];
 
 
