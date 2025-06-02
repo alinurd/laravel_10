@@ -1,37 +1,38 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\PermissionController;
-use App\Http\Controllers\RoleController;
-use App\Http\Controllers\RouteController;
-use App\Http\Controllers\SettingController;
-use App\Http\Controllers\UserManagementController;
-use App\Http\Controllers\UserProfileController;
-use App\Http\Controllers\MenuGroupController;
-use App\Http\Controllers\MenuItemController;
-use App\Http\Controllers\PelatihanController;
-use App\Http\Controllers\IconController;
-use App\Http\Controllers\ComboController;
-use App\Http\Controllers\GroupController;
-use App\Http\Controllers\GroupPermissionController;
-use App\Http\Controllers\PicController;
+use App\Http\Controllers\ChanelController;
+use App\Http\Controllers\ChartConfigController;
+use App\Http\Controllers\ChartController;
+use App\Http\Controllers\ChartdetailController;
+use App\Http\Controllers\ChartdinamisController;
 use App\Http\Controllers\ClientandproductController;
-use App\Http\Controllers\MenuController;
+use App\Http\Controllers\ComboController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\DocferifyController;
 use App\Http\Controllers\DocumenctferifyController;
 use App\Http\Controllers\DocumenctferifyReviewController;
-use App\Http\Controllers\PTController;
-use App\Http\Controllers\kategoriController;
-use App\Http\Controllers\bankController;
-use App\Http\Controllers\ChartConfigController;
-use App\Http\Controllers\ChartController;
-use App\Http\Controllers\PiutangController;
-use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\StakeholderController;
-use App\Http\Controllers\ChartdinamisController;
-use App\Http\Controllers\ChartdetailController;
 use App\Http\Controllers\DokumentClientController;
+use App\Http\Controllers\GroupController;
+use App\Http\Controllers\GroupPermissionController;
+use App\Http\Controllers\IconController;
+use App\Http\Controllers\MenuController;
+use App\Http\Controllers\MenuGroupController;
+use App\Http\Controllers\MenuItemController;
+use App\Http\Controllers\PTController;
+use App\Http\Controllers\PelatihanController;
+use App\Http\Controllers\PermissionController;
+use App\Http\Controllers\PicController;
+use App\Http\Controllers\PiutangController;
+use App\Http\Controllers\RoleController;
+use App\Http\Controllers\RouteController;
+use App\Http\Controllers\SettingController;
+use App\Http\Controllers\StakeholderController;
 use App\Http\Controllers\TerminController;
+use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\UserManagementController;
+use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\bankController;
+use App\Http\Controllers\kategoriController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -75,6 +76,8 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('chanel', ChanelController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
     Route::resource('chartconfig', ChartdetailController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('chart', ChartdinamisController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
@@ -121,6 +124,9 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('chart-builder-dashboard', PelatihanController::class)->only('index');
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
+    
+    // skripsi
+    Route::resource('chanel', ChanelController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
     Route::get('/monitoring-termin/{kode}/{terminid}', [DocumenctferifyReviewController::class, 'termin'])->name('fre.builder');
 
