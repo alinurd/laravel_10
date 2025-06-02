@@ -67,19 +67,7 @@ class KriteriaController extends _Controller
             ],
             [
                 'field' => 'bobot',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
-                'show' => true,
-                'required' => true,
-                'rules' => array(
-                    0 => 'required',
-                    1 => 'string',
-                )
-            ],
-            [
-                'field' => 'kriteria',
-                'type' => 'text',
+                'type' => 'number',
                 'filter' => false,
                 'position' => false,
                 'show' => true,
