@@ -32,8 +32,8 @@
             <li class="nav-item {{ $isActive ? 'active' : '' }}">
                 <a href="{{ route($menu->url) }}" class="nav-link {{ $isActive ? 'active' : '' }}">
                     <i class="{{ $menu->icon }}"></i>
-                    <span>{{ ucwords($menu->name) }}</span>
-                </a>
+                        <span>{{ ucwords(__('' . $menu->name . '.title') !== $menu->name . '.title' ? __('' . $menu->name . '.title') : $menu->name) }}</span>
+                 </a>
             </li>
         @else
             <!-- Menu Item with Dropdown -->
@@ -43,7 +43,7 @@
                    data-bs-toggle="dropdown"
                    aria-expanded="{{ $isActive ? 'true' : 'false' }}">
                     <i class="{{ $menu->icon }}"></i>
-                    <span>{{ ucwords($menu->name) }}</span>
+                    <span>{{ ucwords(__('' . $menu->name . '.title') !== $menu->name . '.title' ? __('' . $menu->name . '.title') : $menu->name) }}</span>
                 </a>
                 <ul class="dropdown-menu {{ $isActive ? 'show' : '' }}">
                     @foreach ($menu['children'] as $child)

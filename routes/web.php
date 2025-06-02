@@ -15,6 +15,7 @@ use App\Http\Controllers\DokumentClientController;
 use App\Http\Controllers\GroupController;
 use App\Http\Controllers\GroupPermissionController;
 use App\Http\Controllers\IconController;
+use App\Http\Controllers\KriteriaController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\MenuGroupController;
 use App\Http\Controllers\MenuItemController;
@@ -76,8 +77,11 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
-    Route::resource('chanel', ChanelController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+    Route::resource('kriterium', KriteriaController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
+    Route::resource('chanel', ChanelController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+// end skripsi
+     
     Route::resource('chartconfig', ChartdetailController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('chart', ChartdinamisController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
@@ -125,8 +129,7 @@ Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
     Route::resource('icon', IconController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     Route::resource('combo', ComboController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
     
-    // skripsi
-    Route::resource('chanel', ChanelController::class)->only('index', 'store', 'update', 'destroy','create', 'edit','print', 'show');
+    
     
     Route::get('/monitoring-termin/{kode}/{terminid}', [DocumenctferifyReviewController::class, 'termin'])->name('fre.builder');
 
