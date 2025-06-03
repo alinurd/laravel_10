@@ -15,6 +15,8 @@ use App\Models\Kriterium;
 use App\Models\Piutang;
 use Illuminate\Http\Request;
 
+ use App\Models\SawModel;
+
 use Illuminate\Support\Facades\DB;
 class DashboardController extends Controller
 { 
@@ -70,6 +72,42 @@ class DashboardController extends Controller
       }
       
 
+public function showForm()
+{
+    $alternatif = Chanel::all()->toArray();
+    $kriteria = Kriterium::all()->toArray();
+
+    return view('pages.dashboard.saw.form', compact('alternatif', 'kriteria'));
+}
+
+public function prosesForm(Request $request)
+{
+    $nilaiInput = $request->input('nilai');
+
+    // Format jawaban
+    $jawaban = [];
+    foreach ($nilaiInput as $altId => $kriteriaList) {
+        foreach ($kriteriaList as $kritId => $nilai) {
+            $jawaban[] = [
+                'chanel_id' => $altId,
+                'kriteria_id' => $kritId,
+                'nilai' => floatval($nilai),
+            ];
+        }
+    }
+
+    // Ambil data ulang
+    $alternatif = Chanel::all()->toArray();
+    $kriteria = Kriterium::all()->map(function ($k) {
+        $k['bobot_normalisasi'] = $k->bobot / Kriterium::sum('bobot');
+        return $k;
+    })->toArray();
+
+    // Proses
+    $hasil = SawModel::hitungRanking($alternatif, $kriteria, $jawaban);
+
+    return redirect()->back()->with('hasil', $hasil);
+}
 
       /**
        * Undefined function
