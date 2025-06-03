@@ -15,7 +15,7 @@
                 <td>{{ $c['nama'] }}</td>
                 @foreach ($kriteria['data'] as $k)
                     <td class="text-center">
-                        {{ collect($jawaban)->firstWhere(fn($j) => $j['chanel_id'] == $c['id'] && $j['kriteria_id'] == $k['id'])['nilai'] ?? '-' }}
+                        {{ collect($jawaban)->firstWhere(fn($j) => $j['chanel_id'] == $c['id'] && $j['kriteria_id'] == $k['id'])['nilai'] ?? 0 }}
                     </td>
                 @endforeach
             </tr>
@@ -25,7 +25,7 @@
         <tr>
             <th>Pembagi</th>
             @foreach ($kriteria['data'] as $k)
-                <th class="text-center">{{ $pembagiKriteria[$k['id']] ?? '-' }}</th>
+                <th class="text-center">{{ $pembagiKriteria[$k['id']] ?? 0 }}</th>
             @endforeach
         </tr>
     </tfoot>

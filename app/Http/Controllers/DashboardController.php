@@ -77,7 +77,7 @@ public function showForm()
     $alternatif = Chanel::where('status',1)->get()->toArray();
     $kriteria = Kriterium::where('status',1)->get()->toArray();
 
-    return view('pages.dashboard.saw.form', compact('alternatif', 'kriteria'));
+    return view('pages.dashboard.saw.landing.index', compact('alternatif', 'kriteria'));
 }
 
 public function prosesForm(Request $request)

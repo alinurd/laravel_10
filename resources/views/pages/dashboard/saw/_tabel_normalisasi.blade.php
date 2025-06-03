@@ -13,7 +13,7 @@
                 <td>{{ $c['nama'] }}</td>
                 @foreach ($kriteria['data'] as $k)
                     <td class="text-center">
-                        {{ number_format($normalisasi[$c['id']][$k['id']] ?? 0, 4) }}
+                        {{ $normalisasi[$c['id']][$k['id']] ?? 0 }}
                     </td>
                 @endforeach
             </tr>
