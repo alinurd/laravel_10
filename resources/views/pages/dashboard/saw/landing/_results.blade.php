@@ -27,7 +27,7 @@
                             <div class="progress-wrapper w-75 mx-auto my-3">
                                 <div class="progress-info">
                                     <span>Skor:</span>
-                                    <span class="fw-bold">{{ number_format($r['skor'], 3) }}</span>
+                                    <span class="fw-bold">{{ $r['skor'] }}</span>
                                 </div>
                                 <div class="progress">
                                     <div class="progress-bar bg-{{ $i < 3 ? 'gradient-' : '' }}{{ $i < 3 ? ($i == 0 ? 'success' : ($i == 1 ? 'info' : 'warning')) : 'secondary' }}"
