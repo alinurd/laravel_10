@@ -1,115 +1,126 @@
 @extends('components.layouts.app')
 
 @section('title', 'Dashboard')
-
-@section('jSchart')
-<script src="{{ $chartBar->cdn() }}"></script>
-<script src="{{ $chartLine->cdn() }}"></script>
-{{ $chartBar->script() }}
-{{ $chartLine->script() }}
-@endsection
-
 @section('breadcrumb')
-<x-dashboard.breadcrumb
-    :title="'Dashboard'"
-    :page="'Dashboard'"
-    :active="'Dashboard'"
-    :route="route('dashboard.index')" />
+    <x-dashboard.breadcrumb :title="'Dashboard'" :page="'Dashboard'" :active="'Dashboard'" :route="route('dashboard.index')" />
 @endsection
 @section('content')
-<div class="card card-height-100 ">
-    <div class="card-body">
-             <form method="GET" action="{{ route('dashboard.index') }}">
-                <div class="input-group">
-                    <select name="year" class="form-select" id="inputGroupSelect04" aria-label="Example select2 with button addon">
-                        <option value="" disabled selected>Pilih Tahun...</option>
-                        <option value="2025" {{ request()->get('year') == '2025' ? 'selected' : '' }}>2025</option>
-                        <option value="2024" {{ request()->get('year') == '2024' ? 'selected' : '' }}>2024</option>
-                        <option value="2023" {{ request()->get('year') == '2023' ? 'selected' : '' }}>2023</option>
-                    </select>
-                    <button class="btn btn-outline-primary" type="submit">Search</button>
-                </div>
-            </form> 
-    </div>
-</div>
-</div>
-<div class="row row-cols-1 row-cols-md-2 g-4">
-    <div class="col">
-        <div class="card">
+    <div class="row">
+        <div class="col-3 card ">
             <div class="card-body">
-                <h5 class="card-title">Total Sertifikat Tahunan</h5>
-                <div class="p-6 m-20 bg-white rounded shadow">
-                    {!! $chartBar->container() !!}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col">
-        <div class="card">
-            <div class="card-body">
-                <div class="row row-cols-1 row-cols-md-2 g-4">
-                    <div class="col">
-                        <div class="card bg-primary text-white">
-                            <div class="card-body ">
-                                <span class="card-title">Total Sertifikat</span>
-                                <center>
-                                    <h3 class="card-text text-white"><strong>{{$totalSerti}}</strong></h3>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card bg-success text-white">
-                            <div class="card-body">
-                                <span class="card-title">Total Approved</span>
-                                <center>
-                                    <h3 class="card-text text-white"><strong>{{$totalApprv}}</strong></h3>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card bg-warning text-white">
-                            <div class="card-body">
-                                <span class="card-title">Total Review</span>
-                                <center>
-                                    <h3 class="card-text text-white"><strong>{{$totalReview}}</strong></h3>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="card bg-danger text-white">
-                            <div class="card-body">
-                                <span class="card-title">Total Reject</span>
-                                <center>
-                                    <h3 class="card-text text-white"><strong>{{$totalReject}}</strong></h3>
-                                </center>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="card">
-                        <div class="card-body">
-                        <h5 class="card-title">Total Nilai Barang {{ $year ? $year : '[all data]' }}</h5>
-                        <center>
-                                <h2 class="card-text"><strong>Rp. {{ number_format($totalNilaiProduct, 2, ',', '.') }}</strong></h2>
-                            </center>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="col">
-    <div class="card">
-        <div class="card-body">
-            <h5 class="card-title">Total Nominal Sertifikat Tahunan</h5>
-            {!! $chartLine->container() !!}
+                <h5 class="card-title">Table Data Alternatif</h5>
+                <table class="table table-hover table-nowrap mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Kode</th>
+                            <th scope="col">Nama</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $n = 1; @endphp
+                        @forelse ($chanel as $p)
+                            <tr>
+                                <td>{{ $n++ }}</td>
+                                <td>{{ $p['kode'] }}</td>
+                                <td>{{ $p['nama'] }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="text-center">Data kriteria tidak tersedia</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
 
+                </table>
+            </div>
+        </div>
+        <div class="col-9 card ">
+            <div class="card-body">
+                <h5 class="card-title">Table Bobot Kriteria</h5>
+                <table class="table table-hover table-nowrap mb-0">
+                    <thead>
+                        <tr>
+                            <th scope="col">No</th>
+                            <th scope="col">Kode</th>
+                            <th scope="col">Nama</th>
+                            <th scope="col">Atribut</th>
+                            <th scope="col">Bobot</th>
+                            <th scope="col">Bobot Normalisasi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @php $n = 1; @endphp
+                        @forelse ($kriteria['data'] as $p)
+                            <tr>
+                                <td>{{ $n++ }}</td>
+                                <td>{{ $p['kode'] }}</td>
+                                <td>{{ $p['nama'] }}</td>
+                                <td>{{ $p['atribut'] }}</td>
+                                <td>{{ $p['bobot'] }}</td>
+                                <td>{{ $p['bobot_normalisasi'] }}</td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="6" class="text-center">Data kriteria tidak tersedia</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                    <tfoot>
+                        <th scope="col" colspan="4" class="text-center">TOTAL : </th>
+                        <th scope="col">{{ collect($kriteria['data'])->sum('bobot') }}</th>
+                        <th scope="col">{{ collect($kriteria['data'])->sum('bobot_normalisasi') }}</th>
+
+                    </tfoot>
+                </table>
+            </div>
         </div>
     </div>
-</div>
+
+     <div class="card ">
+            <div class="card-body">
+                <h5 class="card-title">Table Detail</h5>
+               <table class="table table-hover table-nowrap mb-0">
+    <thead>
+        <tr>
+            <th></th>
+            @foreach ($kriteria['data'] as $p)
+                <th>{{ number_format($p['bobot_normalisasi'], 4) }}</th>
+            @endforeach
+        </tr>
+        <tr>
+            <th>Nama Alternatif</th>
+            @foreach ($kriteria['data'] as $p)
+                <th>{{ $p['nama'] }} <br>({{ $p['atribut'] }})</th>
+            @endforeach
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($chanel as $c)
+            <tr>
+                <td>{{ $c['nama'] }}</td>
+                @foreach ($kriteria['data'] as $p)
+                    @php
+                        $nilai = '-';
+                        foreach ($jawaban as $j) {
+                            if ($j['chanel_id'] == $c['id'] && $j['kriteria_id'] == $p['id']) {
+                                $nilai = $j['nilai'];
+                                break;
+                            }
+                        }
+                    @endphp
+                    <td>{{ $nilai }}</td>
+                @endforeach
+            </tr>
+        @empty
+            <tr>
+                <td colspan="{{ count($kriteria['data']) + 1 }}" class="text-center">Data kriteria tidak tersedia</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+
+            </div>
+        </div>
 @endsection

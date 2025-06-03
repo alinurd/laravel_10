@@ -5,31 +5,28 @@ namespace App\Http\Controllers;
 use App\Charts\MonthlyUsersChart;
 use App\Charts\SertifikatNominalChartline;
 use App\Charts\SertifikatTahunanChartBar;
+use App\Models\Chanel;
 use App\Models\Chart;
 use App\Models\ChartConfig;
 use App\Models\DocFerifyDetail;
 use App\Models\DocFerifyHeader;
+use App\Models\Jawaban;
+use App\Models\Kriterium;
 use App\Models\Piutang;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
-
 class DashboardController extends Controller
-{
-    /**
-     * Display a listing of the resource.
-     */
-
-     /**
-      * Undefined function
-      * 
-      * @return Type Returns data of type Type
-      */
-
+{ 
       public function index(SertifikatTahunanChartBar $chartBar, SertifikatNominalChartline $chartLine)
       {
           // Ambil APP_NAME dari config
           $appName = config('app.name'); // Pastikan APP_NAME diset di config/app.php atau di .env
-      
+           $data['kriteria']['count'] = Kriterium::getCountData();
+          $data['kriteria']['data'] = Kriterium::getNormalisasiBobot(); 
+          $data['chanel'] = Chanel::all(); 
+          $data['jawaban']=Jawaban::all();
+        //   \dd($data['kriteria']);
           if ($appName === 'Keuangan') {
               $charts = Chart::with('details')
                   ->where('status', 1)

@@ -21,4 +21,30 @@ class Kriterium extends Model
         'status',
         
     ];
+
+    public static function getCountData()
+    {
+        return self::where('status', 1)->count();
+    }
+
+ 
+    public static function getNormalisasiBobot()
+{
+
+
+   $data = self::all();
+
+    // Hitung total bobot
+        $totalBobot = $data->sum('bobot');
+
+    $data->transform(function ($item) use ($totalBobot) {
+    // Hindari pembagian dengan 0
+    $item->bobot_normalisasi = $totalBobot > 0 ? $item->bobot / $totalBobot : 0;
+    return $item;
+});
+
+    return $data;
+}
+
+
 }
