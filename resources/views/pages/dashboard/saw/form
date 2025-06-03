@@ -1,0 +1,201 @@
+@extends('components.layouts.auth.app')
+
+@section('title', 'SAW Method - Penilaian Alternatif')
+
+@section('content')
+    <div class="container-fluid py-4">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <!-- Header Card -->
+                <div class="card bg-gradient-primary shadow-lg mb-4">
+                    <div class="card-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div>
+                                <h2 class="text-dark mb-1">📊 Metode SAW (Simple Additive Weighting)</h2>
+                                <p class="text-dark opacity-8 mb-0">Sistem Pendukung Keputusan Pemilihan Alternatif Terbaik
+                                </p>
+                            </div>
+                            <div class="d-flex">
+                                <button class="btn btn-light btn-sm me-2" data-bs-toggle="modal"
+                                    data-bs-target="#tutorialModal">
+                                    <i class="fas fa-question-circle me-1"></i> Panduan
+                                </button>
+                                <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#formulaModal">
+                                    <i class="fas fa-square-root-variable me-1"></i> Rumus
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- User Info Section -->
+                <div class="card shadow-lg mb-4" id="crdIdentitas">
+                    <div class="card-header bg-white py-3">
+                        <h5 class="mb-0 text-primary"><i class="fas fa-user-circle me-2"></i>Identitas Pengguna</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userName" class="form-label">Nama Lengkap <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="userName" required
+                                        placeholder="Masukkan nama Anda">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userInstitution" class="form-label">Instansi/Perusahaan</label>
+                                    <input type="text" class="form-control" id="userInstitution" placeholder="Opsional">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <div class="mt-3">
+                                <button id="btnSubmitIdentitas" class="btn btn-primary">
+                                    <i class="fas fa-check-circle me-1"></i> Simpan Identitas
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Evaluation Form Card (Initially Hidden) -->
+                <div class="card shadow-lg mb-4" id="evaluationForm">
+                    <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0 text-primary">📝 Penilaian Alternatif Berdasarkan Kriteria</h5>
+                        <span class="badge bg-info">
+                            <i class="fas fa-user me-1"></i>
+                            <span id="userNameBadge"></span>
+                        </span>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('saw.proses') }}" method="POST" id="sawForm">
+                            @csrf
+                            <input type="hidden" name="user_name" id="formUserName">
+                            <input type="hidden" name="user_institution" id="formUserInstitution">
+
+                            @foreach ($kriteria as $index => $k)
+                                <div class="mb-4 pb-3 border-bottom">
+                                    <div class="d-flex align-items-center mb-3">
+                                        <div class="badge bg-primary rounded-circle me-3"
+                                            style="width: 30px; height: 30px; line-height: 30px;">
+                                            {{ $loop->iteration }}
+                                        </div>
+                                        <h6 class="fw-bold mb-0 text-dark">{{ $k['nama'] }}</h6>
+                                        <span
+                                            class="badge bg-{{ $k['atribut'] == 2 ? 'success' : 'danger' }} ms-auto">
+                                            {{ $k['atribut'] == 2 ? 'Benefit' : 'Cost' }}
+                                        </span>
+                                        <button type="button" class="btn btn-sm btn-link ms-2" data-bs-toggle="tooltip"
+                                            title="{{ $k['deskripsi'] ?? 'Tidak ada deskripsi' }}">
+                                            <i class="fas fa-info-circle"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="row g-3">
+                                        @foreach ($alternatif as $a)
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label
+                                                        class="form-label fw-semibold text-muted">{{ $a['nama'] }}</label>
+                                                    <select name="nilai[{{ $a['id'] }}][{{ $k['id'] }}]"
+                                                        class="form-select border-2" required>
+                                                        <option value="">-- Pilih Nilai --</option>
+                                                        @if ($k['atribut'] == 2)
+                                                            <option value="1">Mudah (1)</option>
+                                                            <option value="2">Sedang (2)</option>
+                                                            <option value="3">Sulit (3)</option>
+                                                        @else
+                                                            <option value="1">Murah (1)</option>
+                                                            <option value="2">Sedang (2)</option>
+                                                            <option value="3">Mahal (3)</option>
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+
+                            <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                                <button type="reset" class="btn btn-outline-secondary me-md-2">
+                                    <i class="fas fa-undo me-1"></i> Reset
+                                </button>
+                                <button type="submit" class="btn btn-success">
+                                    <i class="fas fa-calculator me-1"></i> Proses & Lihat Hasil
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                @if (session('hasil'))
+                    @php $ranking = session('hasil'); @endphp
+                    <div class="card shadow-lg mt-4 border-0" id="resultsSection">
+                        <div class="card-header bg-white py-3">
+                            <h5 class="mb-0 text-primary">🏆 Hasil Perhitungan & Ranking</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>
+                                Berikut adalah hasil perhitungan menggunakan metode SAW. Alternatif dengan skor tertinggi
+                                merupakan rekomendasi terbaik.
+                            </div>
+
+                            <div class="row">
+                                @foreach ($ranking as $i => $r)
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card border-0 shadow-sm h-100 hover-scale">
+                                            <div class="card-body text-center py-4">
+                                                <div class="position-relative">
+                                                    @if ($i == 0)
+                                                        <div class="ribbon ribbon-top-right"><span>TERBAIK</span></div>
+                                                    @endif
+                                                    <span
+                                                        class="badge bg-{{ $i < 3 ? 'primary' : 'secondary' }} mb-2 fs-6 px-3 py-2 rounded-pill">
+                                                        Ranking #{{ $i + 1 }}
+                                                    </span>
+                                                </div>
+                                                <h4 class="fw-bold mt-2">{{ $r['nama'] }}</h4>
+                                                <div class="progress-wrapper w-75 mx-auto my-3">
+                                                    <div class="progress-info">
+                                                        <span>Skor:</span>
+                                                        <span class="fw-bold">{{ number_format($r['skor'], 3) }}</span>
+                                                    </div>
+                                                    <div class="progress">
+                                                        <div class="progress-bar bg-{{ $i < 3 ? 'gradient-' : '' }}{{ $i < 3 ? ($i == 0 ? 'success' : ($i == 1 ? 'info' : 'warning')) : 'secondary' }}"
+                                                            role="progressbar"
+                                                            style="width: {{ ($r['skor'] / $ranking[0]['skor']) * 100 }}%">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="d-flex justify-content-center mt-2">
+                                                    @for ($star = 0; $star < 5 - $i; $star++)
+                                                        <i class="fas fa-star text-warning mx-1"></i>
+                                                    @endfor
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+
+                            <div class="mt-4">
+                                <h6 class="fw-bold text-dark mb-3">📈 Grafik Perbandingan Alternatif</h6>
+                                <div class="chart-container" style="height: 300px;">
+                                    <canvas id="rankingChart"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                @endif
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutorial Modal -->
+    
+@endsection
