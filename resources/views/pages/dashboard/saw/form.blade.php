@@ -29,34 +29,34 @@
                 </div>
 
                 <!-- User Info Section -->
-                <div class="card shadow-lg mb-4">
+                <div class="card shadow-lg mb-4" id="crdIdentitas">
                     <div class="card-header bg-white py-3">
                         <h5 class="mb-0 text-primary"><i class="fas fa-user-circle me-2"></i>Identitas Pengguna</h5>
                     </div>
                     <div class="card-body">
-                        
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="userName" class="form-label">Nama Lengkap <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="userName" required
-                                            placeholder="Masukkan nama Anda">
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                        <label for="userInstitution" class="form-label">Instansi/Perusahaan</label>
-                                        <input type="text" class="form-control" id="userInstitution"
-                                            placeholder="Opsional">
-                                    </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userName" class="form-label">Nama Lengkap <span
+                                            class="text-danger">*</span></label>
+                                    <input type="text" class="form-control" id="userName" required
+                                        placeholder="Masukkan nama Anda">
                                 </div>
                             </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label for="userInstitution" class="form-label">Instansi/Perusahaan</label>
+                                    <input type="text" class="form-control" id="userInstitution" placeholder="Opsional">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
                             <div class="mt-3">
-                                <span id="btnSubmitIdentitas" class="btn btn-primary">
+                                <button id="btnSubmitIdentitas" class="btn btn-primary">
                                     <i class="fas fa-check-circle me-1"></i> Simpan Identitas
                                 </button>
-                            </div> 
+                            </div>
+                        </div>
                     </div>
                 </div>
 
@@ -400,54 +400,77 @@
             </script>
         @endpush
     @endif
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Tangani pengiriman identitas
-        document.getElementById('btnSubmitIdentitas').addEventListener('click', function() {
-            const userName = document.getElementById('userName').value.trim();
-            const userInstitution = document.getElementById('userInstitution').value.trim();
-            
-            if (!userName) {
-                alert('Nama lengkap wajib diisi!');
-                return;
-            }
-            
-            // Simpan data ke form evaluasi
-            document.getElementById('formUserName').value = userName;
-            document.getElementById('formUserInstitution').value = userInstitution;
-            document.getElementById('userNameBadge').textContent = userName;
-            
-            // Tampilkan form evaluasi dan sembunyikan card identitas
-            document.getElementById('evaluationForm').style.display = 'block';
-            
-            // Beri feedback visual
-            this.innerHTML = '<i class="fas fa-check-circle me-1"></i> Identitas Tersimpan';
-            this.classList.add('btn-success');
-            this.classList.remove('btn-primary');
-            
-            // Scroll ke form evaluasi
-            document.getElementById('evaluationForm').scrollIntoView({ behavior: 'smooth' });
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tangani pengiriman identitas
+            document.getElementById('btnSubmitIdentitas').addEventListener('click', function() {
+                const userName = document.getElementById('userName').value.trim();
+                const userInstitution = document.getElementById('userInstitution').value.trim();
+
+                if (!userName) {
+                    alert('Nama lengkap wajib diisi!');
+                    return;
+                }
+
+                // Simpan data ke form evaluasi
+                document.getElementById('formUserName').value = userName;
+                document.getElementById('formUserInstitution').value = userInstitution;
+                document.getElementById('userNameBadge').textContent = userName;
+
+                // Tampilkan form evaluasi dan sembunyikan card identitas
+                document.getElementById('evaluationForm').style.display = 'block';
+                document.getElementById('crdIdentitas').style.display = 'none';
+
+                this.innerHTML = '<i class="fas fa-check-circle me-1"></i> Identitas Tersimpan';
+                this.classList.add('btn-success');
+                this.classList.remove('btn-primary');
+
+
+                // document.getElementById('evaluationForm').scrollIntoView({
+                //     behavior: 'smooth'
+                // });
+            });
+
+
+            const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+            tooltipTriggerList.map(function(tooltipTriggerEl) {
+                return new bootstrap.Tooltip(tooltipTriggerEl);
+            });
         });
 
-        // Inisialisasi tooltip
-        const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
-        tooltipTriggerList.map(function(tooltipTriggerEl) {
-            return new bootstrap.Tooltip(tooltipTriggerEl);
-        });
-    });
-
-    // Jika ada hasil, scroll ke bagian hasil
-    @if (session('hasil'))
-        window.onload = function() {
-            document.getElementById('resultsSection').scrollIntoView({ behavior: 'smooth' });
-        };
-    @endif
-</script>
+        @if (session('hasil'))
+            window.onload = function() {
+                document.getElementById('resultsSection').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            };
+        @endif
+    </script>
     <style>
-        /* Pastikan form evaluasi hidden secara default */
+        /* Animasi untuk transisi */
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
         #evaluationForm {
             display: none;
+            animation: slideDown 0.5s ease-out forwards;
         }
+
+        /* Style untuk tombol yang sudah diklik */
+        .btn-saved {
+            background-color: #28a745 !important;
+            border-color: #28a745 !important;
+        }
+ 
 
         /* Style untuk visual feedback */
         .form-saved {
