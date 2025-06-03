@@ -17,7 +17,8 @@
                 ->filter();
 
             $pembagiKriteria[$k['id']] = $nilaiKriteria->isNotEmpty()
-                ? ($k['atribut'] == 1 ? $nilaiKriteria->min() : $nilaiKriteria->max())
+                ? ($k['atribut'] == 1 ? 1 : 3)
+                // ? ($k['atribut'] == 1 ? $nilaiKriteria->min() : $nilaiKriteria->max())
                 : 1; // fallback 1 jika tidak ada data
         }
 

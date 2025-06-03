@@ -28,7 +28,8 @@
             </tbody>
             <tfoot class="table-light">
                 <tr>
-                    <th>Pembagi</th>
+                    <th>Pembagi <br>
+                    defult nlai pembagi Cost:1 Benefit:3</th>
                     @foreach ($kriteria['data'] as $k)
                         <th class="text-center">{{ $pembagiKriteria[$k['id']] ?? 0 }}</th>
                     @endforeach
