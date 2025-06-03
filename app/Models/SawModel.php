@@ -11,9 +11,9 @@ class SawModel
      * @param array $jawaban => list nilai jawaban (alternatif_id, kriteria_id, nilai)
      * @return array
      */
-    public static function hitungRanking(array $alternatif, array $kriteria, array $jawaban): array
+    public static function hitungRanking(array $alternatif, array $kriteria, array $jawaban, string $user=null): array
     {
-        // Hitung nilai pembagi tiap kriteria
+        
         $pembagiKriteria = [];
         foreach ($kriteria as $k) {
             $nilai = collect($jawaban)->where('kriteria_id', $k['id'])->pluck('nilai')->filter()->all();
@@ -21,16 +21,27 @@ class SawModel
                 ? ($k['atribut'] == 1 ? min($nilai) : max($nilai))
                 : 1;
         }
-
-        // Hitung skor tiap alternatif
+ 
         $hasil = [];
         foreach ($alternatif as $alt) {
             $skor = 0;
             foreach ($kriteria as $k) {
                 $nilai = collect($jawaban)->first(fn ($j) => $j['chanel_id'] == $alt['id'] && $j['kriteria_id'] == $k['id'])['nilai'] ?? 0;
-                $normalisasi = $k['atribut'] == 1
-                    ? ($pembagiKriteria[$k['id']] != 0 ? $pembagiKriteria[$k['id']] / $nilai : 0)
-                    : ($pembagiKriteria[$k['id']] != 0 ? $nilai / $pembagiKriteria[$k['id']] : 0);
+                // $normalisasi = $k['atribut'] == 1
+                //     ? ($pembagiKriteria[$k['id']] != 0 ? $pembagiKriteria[$k['id']] / $nilai : 0)
+                //     : ($pembagiKriteria[$k['id']] != 0 ? $nilai / $pembagiKriteria[$k['id']] : 0);
+                $normalisasi = 0;
+
+if ($k['atribut'] == 1) { // cost
+    if ($nilai != 0) {
+        $normalisasi = $pembagiKriteria[$k['id']] / $nilai;
+    }
+} else { // benefit
+    if ($pembagiKriteria[$k['id']] != 0) {
+        $normalisasi = $nilai / $pembagiKriteria[$k['id']];
+    }
+}
+
 
                 $skor += $normalisasi * $k['bobot_normalisasi'];
             }
@@ -40,7 +51,7 @@ class SawModel
             ];
         }
 
-        // Urutkan berdasarkan skor menurun
+         
         return collect($hasil)->sortByDesc('skor')->values()->all();
     }
 }
