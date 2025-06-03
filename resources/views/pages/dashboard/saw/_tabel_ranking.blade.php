@@ -9,6 +9,7 @@
                     <th>Ranking</th>
                     <th>Nama Alternatif</th>
                     <th>Skor Akhir</th>
+                                <th>Rumus Perhitungan</th>
                 </tr>
             </thead>
             <tbody>
@@ -17,10 +18,12 @@
                         <td>{{ $i + 1 }}</td>
                         <td>{{ $r['nama'] }}</td>
                         <td>{{ $r['skor'] }}</td>
+                                        <td>{!! $r['rumus'] !!}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+        
             @include('pages.dashboard.saw.landing._rangking')
 
     </div>

@@ -51,19 +51,33 @@
                     ];
                 }
             }
+            
 
             $hasilSkor = [];
-            foreach ($chanel as $c) {
-                $totalSkor = 0;
-                foreach ($kriteria['data'] as $k) {
-                    $nilaiNormalisasi = $normalisasi[$c['id']][$k['id']]['val'] ?? 0;
-                    $totalSkor += $nilaiNormalisasi * $k['bobot_normalisasi'];
-                }
-                $hasilSkor[] = [
-                    'nama' => $c['nama'],
-                    'skor' => round($totalSkor, 4),
-                ];
-            }
+
+foreach ($chanel as $c) {
+    $detailRumus = [];
+    $totalSkor = 0;
+
+    foreach ($kriteria['data'] as $k) {
+        $nilaiNormalisasi = $normalisasi[$c['id']][$k['id']]['val'] ?? 0;
+        $bobot = $k['bobot_normalisasi'];
+        $hasil = $nilaiNormalisasi * $bobot;
+
+        $totalSkor += $hasil;
+        $detailRumus[] = "({$nilaiNormalisasi} × {$bobot}) = {$hasil}";
+    }
+
+    $hasilSkor[] = [
+        'nama' => $c['nama'],
+        'skor' => $totalSkor,
+        'rumus' => implode('<br>', $detailRumus) . '<br><strong>Total Skor:</strong> ' . $totalSkor,
+    ];
+}
+
+
+
+
 
             $ranking = collect($hasilSkor)->sortByDesc('skor')->values()->all();
         @endphp
