@@ -12,6 +12,9 @@
                 <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#formulaModal">
                     <i class="fas fa-square-root-variable me-1"></i> Rumus
                 </button>
+                <a href="http://127.0.0.1:8000/login" class="btn btn-light btn-sm">
+                    <i class="fas fa-square-root-variable me-1"></i> Login
+                </a>
             </div>
         </div>
     </div>

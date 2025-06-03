@@ -58,6 +58,7 @@
     @include('pages.dashboard.saw._tabel_normalisasi')
     @include('pages.dashboard.saw._tabel_ranking')
     @include('pages.dashboard.saw._penjelasan')
+            @include('pages.dashboard.saw.landing._css')
 
 </div>
 @endsection
