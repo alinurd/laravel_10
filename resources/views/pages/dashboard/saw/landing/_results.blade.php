@@ -55,3 +55,5 @@
         </div>
     </div>
 </div>
+
+ @include('pages.dashboard.saw.landing._scripts')

@@ -1,75 +1,34 @@
  @if (session('hasil'))
-        @push('scripts')
-            <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-            <script>
-                document.addEventListener('DOMContentLoaded', function() {
-                    const ctx = document.getElementById('rankingChart').getContext('2d');
-                    const rankingData = @json($ranking);
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const ctx = document.getElementById('rankingChart').getContext('2d');
 
-                    const labels = rankingData.map(item => item.nama);
-                    const scores = rankingData.map(item => item.skor);
-                    const backgroundColors = [];
+            const dataLabels = @json(array_column(session('hasil'), 'nama'));
+            const dataScores = @json(array_map(fn($r) => $r['skor'], session('hasil')));
 
-                    for (let i = 0; i < rankingData.length; i++) {
-                        if (i === 0) {
-                            backgroundColors.push('rgba(40, 167, 69, 0.8)');
-                        } else if (i === 1) {
-                            backgroundColors.push('rgba(23, 162, 184, 0.8)');
-                        } else if (i === 2) {
-                            backgroundColors.push('rgba(255, 193, 7, 0.8)');
-                        } else {
-                            backgroundColors.push('rgba(108, 117, 125, 0.8)');
-                        }
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: dataLabels,
+                    datasets: [{
+                        label: 'Skor Alternatif',
+                        data: dataScores,
+                        backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: { beginAtZero: true }
                     }
+                }
+            });
+        });
+    </script>
+@endif
 
-                    new Chart(ctx, {
-                        type: 'bar',
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: 'Skor SAW',
-                                data: scores,
-                                backgroundColor: backgroundColors,
-                                borderColor: backgroundColors.map(color => color.replace('0.8', '1')),
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            responsive: true,
-                            maintainAspectRatio: false,
-                            scales: {
-                                y: {
-                                    beginAtZero: true,
-                                    title: {
-                                        display: true,
-                                        text: 'Skor'
-                                    }
-                                },
-                                x: {
-                                    title: {
-                                        display: true,
-                                        text: 'Alternatif'
-                                    }
-                                }
-                            },
-                            plugins: {
-                                legend: {
-                                    display: false
-                                },
-                                tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            return 'Skor: ' + context.raw.toFixed(3);
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                });
-            </script>
-        @endpush
-    @endif
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             // Tangani pengiriman identitas
