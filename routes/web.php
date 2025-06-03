@@ -78,7 +78,8 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 Route::get('/saw/form', [DashboardController::class, 'showForm'])->name('saw.form');
 Route::post('/saw/proses', [DashboardController::class, 'prosesForm'])->name('saw.proses');
-
+// routes/web.php
+Route::post('/saw/proses', [DashboardController::class, 'prosesForm'])->name('saw.proses');
  
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {

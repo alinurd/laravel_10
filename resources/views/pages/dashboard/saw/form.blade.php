@@ -84,8 +84,8 @@
                                         </div>
                                         <h6 class="fw-bold mb-0 text-dark">{{ $k['nama'] }}</h6>
                                         <span
-                                            class="badge bg-{{ $k['atribut'] == 'benefit' ? 'success' : 'danger' }} ms-auto">
-                                            {{ $k['atribut'] == 'benefit' ? 'Benefit' : 'Cost' }}
+                                            class="badge bg-{{ $k['atribut'] == 2 ? 'success' : 'danger' }} ms-auto">
+                                            {{ $k['atribut'] == 2 ? 'Benefit' : 'Cost' }}
                                         </span>
                                         <button type="button" class="btn btn-sm btn-link ms-2" data-bs-toggle="tooltip"
                                             title="{{ $k['deskripsi'] ?? 'Tidak ada deskripsi' }}">
@@ -102,7 +102,7 @@
                                                     <select name="nilai[{{ $a['id'] }}][{{ $k['id'] }}]"
                                                         class="form-select border-2" required>
                                                         <option value="">-- Pilih Nilai --</option>
-                                                        @if ($k['atribut'] == 'benefit')
+                                                        @if ($k['atribut'] == 2)
                                                             <option value="1">Mudah (1)</option>
                                                             <option value="2">Sedang (2)</option>
                                                             <option value="3">Sulit (3)</option>
@@ -197,136 +197,7 @@
     </div>
 
     <!-- Tutorial Modal -->
-    <div class="modal fade" id="tutorialModal" tabindex="9999" aria-labelledby="tutorialModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title" id="tutorialModalLabel"><i class="fas fa-graduation-cap me-2"></i>Panduan
-                        Penggunaan</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="accordion" id="tutorialAccordion">
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    <i class="fas fa-user-check me-2"></i> Langkah 1: Masukkan Identitas
-                                </button>
-                            </h2>
-                            <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne"
-                                data-bs-parent="#tutorialAccordion">
-                                <div class="accordion-body">
-                                    <p>Isi nama lengkap Anda dan instansi/perusahaan (opsional) sebelum memulai proses
-                                        penilaian.</p>
-                                    <img src="https://via.placeholder.com/800x400?text=Identitas+Pengguna"
-                                        class="img-fluid rounded mb-3" alt="Identitas Pengguna">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    <i class="fas fa-list-check me-2"></i> Langkah 2: Penilaian Kriteria
-                                </button>
-                            </h2>
-                            <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
-                                data-bs-parent="#tutorialAccordion">
-                                <div class="accordion-body">
-                                    <p>Untuk setiap kriteria, berikan penilaian pada semua alternatif:</p>
-                                    <ul>
-                                        <li>Kriteria <strong>Benefit</strong>: Nilai lebih tinggi lebih baik</li>
-                                        <li>Kriteria <strong>Cost</strong>: Nilai lebih rendah lebih baik</li>
-                                    </ul>
-                                    <img src="https://via.placeholder.com/800x400?text=Form+Penilaian"
-                                        class="img-fluid rounded mb-3" alt="Form Penilaian">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="accordion-item">
-                            <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                    data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    <i class="fas fa-chart-line me-2"></i> Langkah 3: Lihat Hasil
-                                </button>
-                            </h2>
-                            <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree"
-                                data-bs-parent="#tutorialAccordion">
-                                <div class="accordion-body">
-                                    <p>Setelah mengisi semua penilaian, klik tombol <strong>"Proses & Lihat Hasil"</strong>
-                                        untuk melihat ranking alternatif.</p>
-                                    <p>Hasil akan menampilkan:</p>
-                                    <ul>
-                                        <li>Peringkat alternatif dari terbaik hingga terburuk</li>
-                                        <li>Skor SAW masing-masing alternatif</li>
-                                        <li>Visualisasi grafik perbandingan</li>
-                                    </ul>
-                                    <img src="https://via.placeholder.com/800x400?text=Hasil+Perhitungan"
-                                        class="img-fluid rounded" alt="Hasil Perhitungan">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Formula Modal -->
-    <div class="modal fade" id="formulaModal" tabindex="9999" aria-labelledby="formulaModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-info text-white">
-                    <h5 class="modal-title" id="formulaModalLabel"><i class="fas fa-square-root-variable me-2"></i>Rumus
-                        Metode SAW</h5>
-                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
-                        aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <h5><i class="fas fa-ruler me-2"></i>Normalisasi Matriks</h5>
-                            <p>Untuk kriteria benefit:</p>
-                            <div class="bg-light p-3 rounded mb-3">
-                                <code>r<sub>ij</sub> = x<sub>ij</sub> / max(x<sub>j</sub>)</code>
-                            </div>
-                            <p>Untuk kriteria cost:</p>
-                            <div class="bg-light p-3 rounded">
-                                <code>r<sub>ij</sub> = min(x<sub>j</sub>) / x<sub>ij</sub></code>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <h5><i class="fas fa-calculator me-2"></i>Perhitungan Skor</h5>
-                            <p>Skor akhir dihitung dengan:</p>
-                            <div class="bg-light p-3 rounded">
-                                <code>V<sub>i</sub> = Σ (w<sub>j</sub> × r<sub>ij</sub>)</code>
-                            </div>
-                            <p>Keterangan:</p>
-                            <ul class="small">
-                                <li><code>r<sub>ij</sub></code>: Nilai normalisasi</li>
-                                <li><code>x<sub>ij</sub></code>: Nilai asli alternatif i kriteria j</li>
-                                <li><code>w<sub>j</sub></code>: Bobot kriteria j</li>
-                                <li><code>V<sub>i</sub></code>: Skor akhir alternatif i</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="mt-4">
-                        <h5><i class="fas fa-diagram-project me-2"></i>Diagram Alur Metode SAW</h5>
-                        <img src="https://via.placeholder.com/800x400?text=SAW+Flow+Diagram" class="img-fluid rounded"
-                            alt="Diagram Alur SAW">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div>
+    
 
     @if (session('hasil'))
         @push('scripts')
