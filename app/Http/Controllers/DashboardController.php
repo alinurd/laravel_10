@@ -25,10 +25,11 @@ class DashboardController extends Controller
           // Ambil APP_NAME dari config
           $appName = config('app.name'); // Pastikan APP_NAME diset di config/app.php atau di .env
            $data['kriteria']['count'] = Kriterium::getCountData();
-          $data['kriteria']['data'] = Kriterium::getNormalisasiBobot(); 
-          $data['chanel'] = Chanel::all(); 
-          $data['jawaban']=Jawaban::all();
-        //   \dd($data['kriteria']);
+           $kriteria = Kriterium::where('status', 1)->get(); 
+            $data['kriteria']['data'] = $this->getNormalisasiBobot($kriteria);  
+
+          $data['chanel'] = Chanel::where('status',1)->get(); 
+          $data['jawaban']=Jawaban::all(); 
           if ($appName === 'Keuangan') {
               $charts = Chart::with('details')
                   ->where('status', 1)
@@ -71,6 +72,17 @@ class DashboardController extends Controller
           }
       }
       
+     function getNormalisasiBobot($kriteria)
+{
+    // contoh normalisasi: total bobot jadi 1
+    $total = $kriteria->sum('bobot');
+
+    return $kriteria->map(function ($item) use ($total) {
+        $item->bobot_normalisasi = $total > 0 ? $item->bobot / $total : 0;
+        return $item;
+    });
+}
+
 
 public function showForm()
 {
