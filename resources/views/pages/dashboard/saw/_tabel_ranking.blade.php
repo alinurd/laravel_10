@@ -1,6 +1,6 @@
 <div class="card shadow-lg">
     <div class="card-header bg-white py-3">
-        <h5 class="mb-0 text-primary"><i class="fas fa-user-circle me-2"></i>Daftar Bobot Kriteria</h5>
+        <h5 class="mb-0 text-primary"><i class="fas fa-user-circle me-2"></i>Result Perhitungan </h5>
     </div>
     <div class="card-body">
         <table class="table table-bordered table-hover mb-4 mt-4">
