@@ -52,7 +52,7 @@
                                 <td>{{ $p['nama'] }}</td>
                                 <td>{{ $p['atribut'] == 1 ? 'Cost' : 'Benefit' }}</td>
                                 <td>{{ $p['bobot'] }}</td>
-                                <td>{{ number_format($p['bobot_normalisasi'], 0) }}</td>
+                                <td>{{ $p['bobot_normalisasi'] }}</td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -60,7 +60,7 @@
                         <tr>
                             <th colspan="4" class="text-center">TOTAL</th>
                             <th>{{ collect($kriteria['data'])->sum('bobot') }}</th>
-                            <th>{{ number_format(collect($kriteria['data'])->sum('bobot_normalisasi'), 0) }}</th>
+                            <th>{{ $p['bobot_normalisasi'] }}</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -135,10 +135,10 @@
                                 @php
                                     $nilai = collect($jawaban)->firstWhere(fn($j) => $j['chanel_id'] == $c['id'] && $j['kriteria_id'] == $p['id'])['nilai'] ?? 0;
                                     $nilaiKriteria = collect($jawaban)->where('kriteria_id', $p['id'])->pluck('nilai')->filter();
-                                    $pembagi = $p['atribut'] == 1 ? $nilaiKriteria->min() : $nilaiKriteria->max();
+                                    $pembagi = $p['atribut'] == 1 ? 1 : 3;
                                     $normalisasi = $pembagi ? ($p['atribut'] == 1 ? $pembagi / $nilai : $nilai / $pembagi) : 0;
                                 @endphp
-                                <td>{{ number_format($normalisasi, 1) }}</td>
+                                <td>{{ $normalisasi }}</td>
                             @endforeach
                         </tr>
                     @endforeach
