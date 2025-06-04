@@ -23,7 +23,7 @@
                         <th width="40%"  class="text-center">Keterangan</th>
                         <th width="20%"  class="text-center">Nilai</th>
                         <th width="10%"  class="text-center">
-                            <button type="button" class="btn btn-dark btn-sm" id="tambahTermin">
+                            <button type="button" class="btn btn-dark btn-sm" {{$disabled}} id="tambahTermin">
                                 <i class="fas fa-plus me-1"></i> Tambah
                             </button>
                         </th>

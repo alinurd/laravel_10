@@ -192,16 +192,12 @@
 @endif
 @empty
 @endforelse
-        @if(isset($costum) && $costum->isNotEmpty()) 
-          @if($currentRoute=='documenctferifyreview')
-            @include('components.form.costum.documenctferifyreview')
-            @elseif($currentRoute=='documenctferify')
-            @include('components.form.costum.documenctferify')
-            @else
-            @include('components.form.costum.index')
-        @endif
-        
-        @endif
+        @if(View::exists('components.form.costum.' . $costum['page']))
+    @include('components.form.costum.' . $costum['page'])
+@else
+    <p class="text-danger">Template tidak ditemukan: {{ $costum['page'] }}</p>
+@endif
+
 
       </div>
     </div>
