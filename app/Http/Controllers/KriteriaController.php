@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\Kriterium;
 use App\Models\MenuItem;
+use App\Models\SubKriteria;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -103,6 +105,7 @@ class KriteriaController extends _Controller
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['sessionOK'] = session('success');
         // $data['ses'] = ['success'=>session('success'),'failed'=>session('failed')];
+        
         return view('pages.index', $data);
     }
 
@@ -111,7 +114,12 @@ class KriteriaController extends _Controller
         $data = $this->_SETCORE;
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
-        $data['mode'] = 'add';
+        $data['mode'] = 'add'; ;
+        $data['costum'] =[
+            'data'=>false,
+            'page'=>'subKategori',
+         ];
+
         return view('pages.index', $data);
     }
 
@@ -124,6 +132,12 @@ class KriteriaController extends _Controller
         $data['id'] = $id;
         $data['field'] = $this->modelMaster::find($id);
         $data['mode'] = 'show';
+        $data['costum'] =[
+            'data'=>$this->getCombo("App\Models\SubKriteria", ['where' => ['field' => 'kriteria_id', 'where' => $id]]),
+            'page'=>'subKategori',
+         ];
+ 
+
         return view('pages.index', $data);
     }
 
@@ -137,40 +151,113 @@ class KriteriaController extends _Controller
         $data['id'] = $id;
         $data['field'] = $this->modelMaster::find($id);
         $data['mode'] = 'edit';
+  $data['costum'] =[
+            'data'=>$this->getCombo("App\Models\SubKriteria", ['where' => ['field' => 'kriteria_id', 'where' => $id]]),
+            'page'=>'subKategori',
+         ];
         return view('pages.index', $data);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
+      public function store(CRUDService $CRUDService, CRUDRequest $request)
+{ 
+    $arrSubKriteria = [];
+  
+    $rawSub = $request->input('SubKriteria', []);
+    $namaList  = $rawSub["nama"] ?? [];
+    $ketList   = $rawSub["ket"] ?? [];
+    $nilaiList = $rawSub["nilai"] ?? [];
 
-    public function store(CRUDService $CRUDService, CRUDRequest $request)
-    {
-        $rules = [];
-        foreach ($this->setFrom as $field) {
-            if ($field['show']) {
-                $fieldName = $field['field'];
-                $rules[$fieldName] = $field['rules'];
-            }
+    foreach ($namaList as $i => $val) {
+        $arrSubKriteria[] = [
+            'nama'  => $val,
+            'ket'   => $ketList[$i] ?? null,
+            'nilai' => $nilaiList[$i] ?? null,
+        ];
+    }  
+    $record = Kriterium::create([
+        'kode'    => $request->kode,
+        'nama'    => $request->nama,
+        'atribut' => $request->atribut,
+        'bobot'   => $request->bobot,
+        'status'  => 1,
+    ]);
+
+    // Ambil ID Kriteria
+    $kriteriaId = $record->id ?? null;
+
+    // Simpan data SubKriteria
+    if ($kriteriaId && !empty($arrSubKriteria)) {
+        foreach ($arrSubKriteria as $item) {
+            SubKriteria::create([
+                'kriteria_id' => $kriteriaId,
+                'nama'        => $item['nama'],
+                'ket'         => $item['ket'],
+                'nilai'       => $item['nilai'],
+            ]);
         }
-        $request->setRules($rules);
-        return $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
     }
 
+return redirect()->route('kriterium.edit', $kriteriaId)->with('success', 'Data Created successfully!');
+}
+public function update(CRUDRequest $request, string $id, CRUDService $CRUDService)
+{
+    // Ambil data Kriteria yang ingin diupdate
+    $kriteria = Kriterium::findOrFail($id);
 
+    // Ambil dan siapkan data SubKriteria dari request
+    $arrSubKriteria = []; 
+    $rawSub = $request->input('SubKriteria', []);
+    $idList     = $rawSub['id']    ?? [];
+    $namaList   = $rawSub['nama']  ?? [];
+    $ketList    = $rawSub['ket']   ?? [];
+    $nilaiList  = $rawSub['nilai'] ?? [];
 
-    public function update(CRUDRequest $request, string $id, CRUDService $CRUDService)
-    {
-        $rules = [];
-        foreach ($this->setFrom as $field) {
-            if ($field['show']) {
-                $fieldName = $field['field'];
-                $rules[$fieldName] = $field['rules'];
-            }
-        }
-        $request->setRules($rules);
-        return $CRUDService->update($id, $request, $this->modelMaster, $this->setFrom, $this->modulName);
+    foreach ($namaList as $i => $val) {
+        $arrSubKriteria[] = [
+            'id'     => $idList[$i]   ?? null,
+            'nama'   => $val,
+            'ket'    => $ketList[$i]  ?? null,
+            'nilai'  => $nilaiList[$i] ?? null,
+        ];
     }
+
+    // Update data Kriteria
+    $kriteria->update([
+        'kode'    => $request->kode,
+        'nama'    => $request->nama,
+        'atribut' => $request->atribut,
+        'bobot'   => $request->bobot,
+        'status'  => $request->status ?? 1,
+    ]);
+
+    // Update atau Insert SubKriteria
+    foreach ($arrSubKriteria as $item) {
+        if (!empty($item['id'])) {
+            // Update berdasarkan ID
+            SubKriteria::where('id', $item['id'])
+                ->where('kriteria_id', $kriteria->id)
+                ->update([
+                    'nama'  => $item['nama'],
+                    'ket'   => $item['ket'],
+                    'nilai' => $item['nilai'],
+                ]);
+        } else {
+            // Insert baru
+            SubKriteria::create([
+                'kriteria_id' => $kriteria->id,
+                'nama'        => $item['nama'],
+                'ket'         => $item['ket'],
+                'nilai'       => $item['nilai'],
+            ]);
+        }
+    }
+
+    return redirect()->route('kriterium.edit', $id)
+        ->with('success', 'Data berhasil diperbarui!');
+}
+
+
+
 
     /**
      * Remove the specified resource from storage.

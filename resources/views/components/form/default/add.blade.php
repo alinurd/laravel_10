@@ -131,13 +131,12 @@
         @empty
         @endforelse
       </div>
-      @if(!empty($costum))
-      @if($costum[0] == 'chart')
-      @include('components.form.costum.chart')
-      @else
-      @include('components.form.costum.documenctferify')
-      @endif
-      @endif
+     @if(View::exists('components.form.costum.' . $costum['page']))
+    @include('components.form.costum.' . $costum['page'])
+@else
+    <p class="text-danger">Template tidak ditemukan: {{ $costum['page'] }}</p>
+@endif
+
 
 
 

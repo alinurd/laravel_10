@@ -26,7 +26,7 @@
                 <x-dashboard.ActionHeader currentRoute="{{$currentRoute}}" />
             </div>
         </div>
-    </div>
+    </div>  
 
     <!-- end cardheader -->
     <!-- Hoverable Rows -->

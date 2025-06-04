@@ -117,6 +117,7 @@ class SubKriterium extends _Controller
         $data['list'] = array_merge($this->setFrom);
         $data['field'] = $this->getCombo($this->modelMaster, $this->list);
         $data['mode'] = 'add';
+        $data['costum'] = $this->getCombo("App\Models\Combo", ['where' => ['field' => 'categori', 'where' => 'docferify']]);
         return view('pages.index', $data);
     }
 
