@@ -22,6 +22,10 @@ class Kriterium extends Model
         
     ];
 
+   public function getSubKriteria()
+{
+    return $this->hasMany(SubKriteria::class, 'kriteria_id');
+}
     public static function getCountData()
     {
         return self::where('status', 1)->count();

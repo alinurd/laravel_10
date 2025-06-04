@@ -34,14 +34,11 @@
                                     <label class="form-label fw-semibold text-muted">{{ $a['nama'] }}</label>
                                     <select name="nilai[{{ $a['id'] }}][{{ $k['id'] }}]" class="form-select border-2" required>
                                         <option value="">-- Pilih Nilai --</option>
-                                        @if ($k['atribut'] == 2)
-                                            <option value="1">Mudah (1)</option>
-                                            <option value="2">Sedang (2)</option>
-                                            <option value="3">Sulit (3)</option>
-                                        @else
-                                            <option value="1">Murah (1)</option>
-                                            <option value="2">Sedang (2)</option>
-                                            <option value="3">Mahal (3)</option>
+                                        @if ($k['get_sub_kriteria'])
+                                                                @foreach ($k['get_sub_kriteria'] as $s)
+                                                                 <option value="{{$s['nilai']}}">{{$s['ket']}} ({{$s['nilai']}})</option>
+                                                                @endforeach
+                                        
                                         @endif
                                     </select>
                                 </div>

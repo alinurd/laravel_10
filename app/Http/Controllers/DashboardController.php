@@ -51,7 +51,7 @@ class DashboardController extends Controller
 public function showForm()
 {
     $alternatif = Chanel::where('status',1)->get()->toArray();
-    $kriteria = Kriterium::where('status',1)->get()->toArray();
+$kriteria = Kriterium::with('getSubKriteria')->where('status', 1)->get()->toArray();
 
     return view('pages.dashboard.saw.landing.index', compact('alternatif', 'kriteria'));
 }
@@ -73,7 +73,7 @@ public function prosesForm(Request $request)
     }
     DB::table('jawaban')->insert($jawaban); 
     $alternatif = Chanel::all()->toArray();
-    $kriteria = Kriterium::all()->map(function ($k) {
+    $kriteria = Kriterium::whit('getSubKirteria')->all()->map(function ($k) {
         $k['bobot_normalisasi'] = $k->bobot / Kriterium::sum('bobot');
         return $k;
     })->toArray();
