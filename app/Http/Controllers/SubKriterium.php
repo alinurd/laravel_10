@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CRUDRequest;
+use App\Models\Kriterium;
 use App\Models\MenuItem;
 use App\Services\CRUDService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 class SubKriterium extends _Controller
@@ -19,30 +21,31 @@ class SubKriterium extends _Controller
     {
         $this->modulName = "subKriterium";
         $this->modelMaster = "App\Models\Icon";
-        $option = [
+          
+        
+                $cboKriterium = $this->_cbo(Kriterium::class, ['id', DB::raw("CONCAT(kode, ' - ', nama) AS data")], true,); 
+
+
+        $sts = [
             ['id' => 1, 'value' => 'Active'],
             ['id' => 2, 'value' => 'Non Acive'],
         ];
 
-       $this->list = [
-            
-            [
+        $this->list = [
+
+             [
                 'field' => 'kriteria_id',
                 'type' => 'select',
-                'filter' => false,
-                'position' => false,
+                'filter' => true,
+                'position' => 'center',
+                'showList' => true,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-),
-                'option' => [
-                    [
-                        'id' => 1,
-                        'value' => 'kriteria'
-                    ]]
+                'where' => null,
+                'option' => $cboKriterium,
+                'multiple' => false,
             ],
+ 
             [
                 'field' => 'nama',
                 'type' => 'text',
@@ -50,10 +53,10 @@ class SubKriterium extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'keterangan',
@@ -62,10 +65,10 @@ class SubKriterium extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
             [
                 'field' => 'nilai',
@@ -74,23 +77,23 @@ class SubKriterium extends _Controller
                 'position' => false,
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
+                'rules' => array(
+                    0 => 'required',
+                    1 => 'string',
+                )
             ],
-            [
+           [
                 'field' => 'status',
-                'type' => 'text',
-                'filter' => false,
-                'position' => false,
+                'type' => 'radio',
+                'filter' => true, 
+
+                'position' => 'center',
                 'show' => true,
                 'required' => true,
-                'rules' => array (
-  0 => 'required',
-  1 => 'string',
-)
-            ]
+                'where' => null,
+                'option' => $sts,
+                'multiple' => false,
+            ],
         ];
 
         $this->setFrom = $this->_SETDATALIST(['list' => $this->list], $this->modulName);
@@ -146,32 +149,31 @@ class SubKriterium extends _Controller
      * Update the specified resource in storage.
      */
 
-     public function store(CRUDService $CRUDService, CRUDRequest $request)
-     {
-         $rules = [];
-         foreach ($this->setFrom as $field) {
-            if($field['show']){
+    public function store(CRUDService $CRUDService, CRUDRequest $request)
+    {
+        $rules = [];
+        foreach ($this->setFrom as $field) {
+            if ($field['show']) {
                 $fieldName = $field['field'];
                 $rules[$fieldName] = $field['rules'];
             }
-             
-         }     
-         $request->setRules($rules);
+        }
+        $request->setRules($rules);
         return $CRUDService->create($request, $this->modelMaster, $this->setFrom, $this->modulName);
-     }
-     
-     
+    }
+
+
 
     public function update(CRUDRequest $request, string $id, CRUDService $CRUDService)
     {
         $rules = [];
-         foreach ($this->setFrom as $field) {
-            if($field['show']){
+        foreach ($this->setFrom as $field) {
+            if ($field['show']) {
                 $fieldName = $field['field'];
                 $rules[$fieldName] = $field['rules'];
             }
-         }     
-         $request->setRules($rules);
+        }
+        $request->setRules($rules);
         return $CRUDService->update($id, $request, $this->modelMaster, $this->setFrom, $this->modulName);
     }
 
