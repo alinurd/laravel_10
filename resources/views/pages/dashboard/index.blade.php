@@ -50,8 +50,7 @@
                         'rumus' => $rumus,
                     ];
                 }
-            }
-            
+            } 
 
             $hasilSkor = [];
 

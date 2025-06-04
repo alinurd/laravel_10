@@ -25,51 +25,15 @@ class DashboardController extends Controller
           // Ambil APP_NAME dari config
           $appName = config('app.name'); // Pastikan APP_NAME diset di config/app.php atau di .env
            $data['kriteria']['count'] = Kriterium::getCountData();
-           $kriteria = Kriterium::where('status', 1)->get(); 
+           $kriteria = Kriterium::all(); 
             $data['kriteria']['data'] = $this->getNormalisasiBobot($kriteria);  
 
           $data['chanel'] = Chanel::where('status',1)->get(); 
           $data['jawaban']=Jawaban::all(); 
-          if ($appName === 'Keuangan') {
-              $charts = Chart::with('details')
-                  ->where('status', 1)
-                  ->get();
-      
-              return view('pages.dashboard.chartDinamis', ['charts' => $charts]);
-          } else {
-              $year = request()->get('year', null);  
-              $data['year'] = $year;
-      
-              $data['totalNilaiProduct'] = DocFerifyHeader::selectRaw("SUM(REPLACE(REPLACE(nilai, '.', ''), ',', '.')) as total")
-                  ->when($year, function($query) use ($year) {
-                      return $query->whereYear('created_at', $year);
-                  })
-                  ->value('total');
-           
-              $data['totalSerti'] = DocFerifyDetail::when($year, function($query) use ($year) {
-                      return $query->whereYear('created_at', $year);
-                  })->count(); 
-      
-              $data['totalReject'] = DocFerifyDetail::where('review', 3)
-                  ->when($year, function($query) use ($year) {
-                      return $query->whereYear('created_at', $year);
-                  })->count(); 
-      
-              $data['totalApprv'] = DocFerifyDetail::where('review', 1)
-                  ->when($year, function($query) use ($year) {
-                      return $query->whereYear('created_at', $year);
-                  })->count();
-      
-              $data['totalReview'] = DocFerifyDetail::where('review', 0)
-                  ->when($year, function($query) use ($year) {
-                      return $query->whereYear('created_at', $year);
-                  })->count();
-           
-              $data['chartBar'] = $chartBar->build();
-              $data['chartLine'] = $chartLine->build();
+
       
               return view('pages.dashboard.index', $data);
-          }
+          
       }
       
      function getNormalisasiBobot($kriteria)
@@ -117,6 +81,21 @@ public function prosesForm(Request $request)
     $hasil = SawModel::hitungRanking($alternatif, $kriteria, $jawaban);
 
     return redirect()->back()->with('hasil', $hasil);
+}
+
+public function hasil()
+{
+     $alternatif = Chanel::all()->toArray();
+    $kriteria = Kriterium::all()->map(function ($k) {
+        $k['bobot_normalisasi'] = $k->bobot / Kriterium::sum('bobot');
+        return $k;
+    })->toArray();
+    
+    $jawaban = Jawaban::all()->toArray();
+
+    $hasil = SawModel::hitungRanking($alternatif, $kriteria, $jawaban);
+
+    return view('saw.hasil', compact('hasil', 'kriteria'));
 }
 
       /**

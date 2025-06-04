@@ -78,6 +78,7 @@ Route::post('/menus/update-order', [MenuController::class, 'updateOrder']);
 Route::post('/menus/update-status', [MenuController::class, 'updateStatus'])->name('menus.updateStatus');
 Route::get('/saw/form', [DashboardController::class, 'showForm'])->name('saw.form');
 Route::post('/saw/proses', [DashboardController::class, 'prosesForm'])->name('saw.proses');
+Route::get('/saw/hasil', [DashboardController::class, 'hasil'])->name('saw.hasil');
 // routes/web.php
 Route::post('/saw/proses', [DashboardController::class, 'prosesForm'])->name('saw.proses');
  
