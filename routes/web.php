@@ -34,6 +34,7 @@ use App\Http\Controllers\UserManagementController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\bankController;
 use App\Http\Controllers\kategoriController;
+use App\Http\Controllers\SubKriterium;
 use Illuminate\Support\Facades\Route;
 
 
@@ -84,6 +85,8 @@ Route::post('/saw/proses', [DashboardController::class, 'prosesForm'])->name('sa
  
 
 Route::group(['middleware' => ['web', 'auth', 'verified']], function () {
+    Route::resource('subKriterium', SubKriterium::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
+
     Route::resource('kriterium', KriteriaController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
 
     Route::resource('chanel', ChanelController::class)->only(['index', 'store', 'update', 'destroy', 'create', 'edit', 'print', 'show']);
