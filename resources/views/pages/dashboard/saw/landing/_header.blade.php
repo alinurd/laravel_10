@@ -12,10 +12,27 @@
                 <button class="btn btn-light btn-sm" data-bs-toggle="modal" data-bs-target="#formulaModal">
                     <i class="fas fa-square-root-variable me-1"></i> Rumus
                 </button>
-                <a href="http://127.0.0.1:8000/login" class="btn btn-light btn-sm">
+                
+                <a hhref="{{ route('login') }}" class="btn btn-light btn-sm">
                     <i class="fas fa-square-root-variable me-1"></i> Login
                 </a>
+                <button class="btn btn-primary" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop">Toggle top offcanvas</button>
+
             </div>
         </div>
     </div>
+    <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+  <div class="offcanvas-header">
+    <h5 id="offcanvasTopLabel">Offcanvas top</h5>
+    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+  </div>
+  <div class="offcanvas-body">
+    ...
+  </div>
 </div>
+</div>
+
+
+Offcanvas
+
+munculkan di bawah

@@ -1,4 +1,4 @@
-@extends('components.layouts.auth.app')
+@extends('components.layouts.sawLanding')
 
 @section('title', 'SAW Method - Penilaian Alternatif')
 

@@ -29,6 +29,11 @@
 
   <div class="auth-page-wrapper">
 
+    <style>
+         .InfoPopup{
+    z-index: 9999;
+  }
+    </style>
     <!-- auth page content -->
     <div class="auth-page-content">
         <!-- content -->
@@ -45,7 +50,7 @@
   </div>
   <!-- end auth-page-wrapper -->
 
-  <!-- JAVASCRIPT -->
+  {{-- <!-- JAVASCRIPT --> --}}
   <script src="{{ asset('assets/libs/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
   <script src="{{ asset('assets/libs/simplebar/simplebar.min.js') }}"></script>
   <script src="{{ asset('assets/libs/node-waves/waves.min.js') }}"></script>
